@@ -2,3 +2,12 @@
 ./src/dojox
 ./src/dijit
 ./src/util
+src/dijit
+
+src/dojo
+
+src/dojox
+
+src/util
+
+src/tests/bootstrap
