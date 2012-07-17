@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
-
+//TODO: getting a memory error in Chrome browser when hovering over objects multiple times
 define([ 
 	"dojo/_base/declare", 
 	"dojo/query", 
@@ -31,7 +31,6 @@ define([
 	"dojo/NodeList-dom", 
 	"dojo/domReady!" 
 ], function (declare, query, lang, on, domClass, domConstruct, domAttr, html, nodeData, Tooltip) {
-	var dismiss = '[data-dismiss="alert"]';
 	var Popover = declare([Tooltip],{
 		constructor: function(element, options){
 			options = lang.mixin({
@@ -41,7 +40,8 @@ define([
 			}, (options || {}));
 			this.init('popover', element, options);
 		},
-		setContent: function(tip){
+		setContent: function(){
+			var tip = this.tip();
 			var title = this.getTitle();
 			var content = this.getContent();
 			html.set(query('.popover-title', tip)[0], title);

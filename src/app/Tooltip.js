@@ -90,7 +90,7 @@ define([
 			var self = nodeData.get(selfNode, this.type);
 			if(!self.options.delay || !self.options.delay.show){ return self.show(); }
 
-			clearTimeout(this.timeout);
+			if(this.timeout){ clearTimeout(this.timeout); }
 			self.hoverState = 'in';
 
 			this.timeout = setTimeout(function(){
@@ -115,7 +115,7 @@ define([
 			var tip, inside, pos, actualWidth, actualHeight, placement, tp;
 			if(this.hasContent() && this.enabled){
 				tip = this.tip();
-				this.setContent(tip);
+				this.setContent();
 				if(this.options.animation){
 					domClass.add(tip, 'fade');
 				}
@@ -147,8 +147,8 @@ define([
 						tp = {top: (pos.top + pos.height / 2 - actualHeight / 2)+"px", left: (pos.left + pos.width)+"px"};
 					break;
 				}
-				var dms = domStyle.set(tip, tp);
-				var dca = domClass.add(tip, (new Array(placement, 'in')).join(" "));
+				domStyle.set(tip, tp);
+				domClass.add(tip, (new Array(placement, 'in')).join(" "));
 			}
 		},
 		hide: function(){
@@ -158,6 +158,7 @@ define([
 			function _removeWithAnimation(){
 				var timeout = setTimeout(function () {
 					_this.hideEvent.remove();
+					console.debug(_this);
 				}, 500);
 
 				_this.hideEvent = on.once(tip, trans.end, function(){
@@ -165,7 +166,8 @@ define([
 					domConstruct.destroy(tip);
 				});
 			}
-			trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : domConstruct.destroy(tip);
+			//trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : domConstruct.destroy(tip);
+			domConstruct.destroy(tip);
 		},
 		isHTML: function(text){
 			// html string detection logic adapted from jQuery
@@ -175,7 +177,8 @@ define([
 			  		&& text.length >= 3 )
 				|| /^(?:[^<]*<[\w\W]+>[^>]*$)/.exec(text);
 		},
-		setContent: function(tip){
+		setContent: function(){
+			var tip = this.tip();
 			var title = this.getTitle();
 			html.set(query('.tooltip-inner', tip)[0], title);
 			domClass.remove(tip, 'fade in top bottom left right');
