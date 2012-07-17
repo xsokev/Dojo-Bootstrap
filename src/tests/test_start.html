@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dojo Bootstrap - Modal Test</title>
+    <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
+         the build system to combine & minify it. -->
+    <link rel="stylesheet" href="../app/resources/app.css">
+</head>
+<body class="claro">
+    <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1"
+            src="../dojo/dojo.js"></script>
+    <div class="container">
+
+	</div>
+
+	<script type="text/javascript" charset="utf-8" defer>
+	require({
+	    baseUrl: '',
+	    packages: [
+	        { name: 'dojo', location: '../dojo' },
+	        { name: 'app', location: '../app' }
+	    ],
+	    cache: {}
+	}, [ 'app/Modal' ], function(){
+		var $ = dojo.query;
+		$("a").on("click", function(e){ e.preventDefault(); return false; });
+	});
+	</script>
+</body>
+</html>

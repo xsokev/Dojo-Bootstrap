@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dojo Bootstrap - Tab Test</title>
+    <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
+         the build system to combine & minify it. -->
+    <link rel="stylesheet" href="../app/resources/app.css">
+</head>
+<body class="claro">
+    <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1"
+            src="../dojo/dojo.js"></script>
+    <div class="container">
+		    <!-- Tabs
+		    ================================================== -->
+		    <section id="tabs">
+		      <div class="page-header">
+		        <h1>Togglable tabs <small>bootstrap-tab.js</small></h1>
+		      </div>
+		      <div class="row">
+		        <div class="span3 columns">
+		          <p>This plugin adds quick, dynamic tab and pill functionality for transitioning through local content.</p>
+		          <a href="assets/js/bootstrap-tab.js" target="_blank" class="btn">Download file</a>
+		        </div>
+		        <div class="span9 columns">
+		          <h2>Example tabs</h2>
+		          <p>Click the tabs below to toggle between hidden panes, even via dropdown menus.</p>
+		          <ul id="myTab" class="nav nav-tabs">
+		            <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+		            <li><a href="#profile" data-toggle="tab">Profile</a></li>
+		            <li class="dropdown">
+		              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+		              <ul class="dropdown-menu">
+		                <li><a href="#dropdown1" data-toggle="tab">@fat</a></li>
+		                <li><a href="#dropdown2" data-toggle="tab">@mdo</a></li>
+		              </ul>
+		            </li>
+		          </ul>
+		          <div id="myTabContent" class="tab-content">
+		            <div class="tab-pane fade in active" id="home">
+		              <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+		            </div>
+		            <div class="tab-pane fade" id="profile">
+		              <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+		            </div>
+		            <div class="tab-pane fade" id="dropdown1">
+		              <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+		            </div>
+		            <div class="tab-pane fade" id="dropdown2">
+		              <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+		            </div>
+		          </div>
+		          <hr>
+		          <h2>Using bootstrap-tab.js</h2>
+		          <p>Enable tabbable tabs via javascript (each tab needs to be activated individually):</p>
+		          <pre class="prettyprint linenums">
+		$('#myTab a').click(function (e) {
+		  e.preventDefault();
+		  $(this).tab('show');
+		})</pre>
+		          <p>You can activate individual tabs in several ways:</p>
+		<pre class="prettyprint linenums">
+		$('#myTab a[href="#profile"]').tab('show'); // Select tab by name
+		$('#myTab a:first').tab('show'); // Select first tab
+		$('#myTab a:last').tab('show'); // Select last tab
+		$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
+		</pre>
+		          <h3>Markup</h3>
+		          <p>You can activate a tab or pill navigation without writing any javascript by simply specifying <code>data-toggle="tab"</code> or <code>data-toggle="pill"</code> on an element. Adding the <code>nav</code> and <code>nav-tabs</code> classes to the tab <code>ul</code> will apply the bootstrap tab styling.</p>
+		<pre class="prettyprint linenums">
+		&lt;ul class="nav nav-tabs"&gt;
+		  &lt;li&gt;&lt;a href="#home" data-toggle="tab"&gt;Home&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#profile" data-toggle="tab"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#messages" data-toggle="tab"&gt;Messages&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#settings" data-toggle="tab"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;</pre>
+		          <h3>Methods</h3>
+		          <h4>$().tab</h4>
+		          <p>
+		            Activates a tab element and content container. Tab should have either a <code>data-target</code> or an <code>href</code> targeting a container node in the DOM.
+		          </p>
+		<pre class="prettyprint linenums">
+		&lt;ul class="nav nav-tabs" id="myTab"&gt;
+		  &lt;li class="active"&gt;&lt;a href="#home"&gt;Home&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#profile"&gt;Profile&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#messages"&gt;Messages&lt;/a&gt;&lt;/li&gt;
+		  &lt;li&gt;&lt;a href="#settings"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+
+		&lt;div class="tab-content"&gt;
+		  &lt;div class="tab-pane active" id="home"&gt;...&lt;/div&gt;
+		  &lt;div class="tab-pane" id="profile"&gt;...&lt;/div&gt;
+		  &lt;div class="tab-pane" id="messages"&gt;...&lt;/div&gt;
+		  &lt;div class="tab-pane" id="settings"&gt;...&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;script&gt;
+		  $(function () {
+		    $('#myTab a:last').tab('show');
+		  })
+		&lt;/script&gt;</pre>
+		          <h3>Events</h3>
+		          <table class="table table-bordered table-striped">
+		            <thead>
+		             <tr>
+		               <th style="width: 150px;">Event</th>
+		               <th>Description</th>
+		             </tr>
+		            </thead>
+		            <tbody>
+		             <tr>
+		               <td>show</td>
+		               <td>This event fires on tab show, but before the new tab has been shown. Use <code>event.target</code> and <code>event.relatedTarget</code> to target the active tab and the previous active tab (if available) respectively.</td>
+		            </tr>
+		            <tr>
+		               <td>shown</td>
+		               <td>This event fires on tab show after a tab has been shown. Use <code>event.target</code> and <code>event.relatedTarget</code> to target the active tab and the previous active tab (if available) respectively.</td>
+		             </tr>
+		            </tbody>
+		          </table>
+
+		          <pre class="prettyprint linenums">
+		$('a[data-toggle="tab"]').on('shown', function (e) {
+		  e.target // activated tab
+		  e.relatedTarget // previous tab
+		})</pre>
+		       </div>
+		      </div>
+		    </section>
+		
+			<!-- Nav, Tabs, & Pills
+			================================================== -->
+			<section id="navs">
+			  <div class="page-header">
+			    <h1>Nav, tabs, and pills <small>Highly customizable list-style navigation</small></h1>
+			  </div>
+
+			  <h2>Lightweight defaults <small>Same markup, different classes</small></h2>
+			  <div class="row">
+			    <div class="span4">
+			      <h3>Powerful base class</h3>
+			      <p>All nav components here&mdash;tabs, pills, and lists&mdash;<strong>share the same base markup and styles</strong> through the <code>.nav</code> class.</p>
+			      <h3>When to use</h3>
+			      <p>Tabs and pills are great for sections of content or navigating between pages of related content.</p>
+			      <h3>Component alignment</h3>
+			      <p>To align nav links, use the <code>.pull-left</code> or <code>.pull-right</code> utility classes. Both classes will add a CSS float in the specified direction.</p>
+			    </div>
+			    <div class="span4">
+			      <h3>Basic tabs</h3>
+			      <p>Take a regular <code>&lt;ul&gt;</code> of links and add <code>.nav-tabs</code>:</p>
+			      <ul class="nav nav-tabs">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Profile</a></li>
+			        <li><a href="#">Messages</a></li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-tabs"&gt;
+			  &lt;li class="active"&gt;
+			    &lt;a href="#"&gt;Home&lt;/a&gt;
+			  &lt;/li&gt;
+			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h3>Basic pills</h3>
+			      <p>Take that same HTML, but use <code>.nav-pills</code> instead:</p>
+			      <ul id="np1" class="nav nav-pills">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Profile</a></li>
+			        <li><a href="#">Messages</a></li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-pills"&gt;
+			  &lt;li class="active"&gt;
+			    &lt;a href="#"&gt;Home&lt;/a&gt;
+			  &lt;/li&gt;
+			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+			  &lt;li&gt;&lt;a href="#"&gt;...&lt;/a&gt;&lt;/li&gt;
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			  </div>
+
+			  <h2>Stackable <small>Make tabs or pills vertical</small></h2>
+			  <div class="row">
+			    <div class="span4">
+			      <h3>How to stack 'em</h3>
+			      <p>As tabs and pills are horizontal by default, just add a second class, <code>.nav-stacked</code>, to make them appear vertically stacked.</p>
+			    </div>
+			    <div class="span4">
+			      <h3>Stacked tabs</h3>
+			      <ul class="nav nav-tabs nav-stacked">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Profile</a></li>
+			        <li><a href="#">Messages</a></li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-tabs nav-stacked"&gt;
+			  ...
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h3>Stacked pills</h3>
+			      <ul class="nav nav-pills nav-stacked">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Profile</a></li>
+			        <li><a href="#">Messages</a></li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-pills nav-stacked"&gt;
+			  ...
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			  </div>
+
+			  <h2>Dropdowns <small>For advanced nav components</small></h2>
+			  <div class="row">
+			    <div class="span4">
+			      <h3>Rich menus made easy</h3>
+			      <p>Dropdown menus in Bootstrap tabs and pills are super easy and require only a little extra HTML and a lightweight jQuery plugin.</p>
+			      <p>Head over to the Javascript page to read the docs on <a href="./javascript.html#tabs">initializing dropdowns</a> in Bootstrap.</p>
+			    </div>
+			    <div class="span4">
+			      <h3>Tabs with dropdowns</h3>
+			      <ul class="nav nav-tabs">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Help</a></li>
+			        <li class="dropdown">
+			          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="#">Action</a></li>
+			            <li><a href="#">Another action</a></li>
+			            <li><a href="#">Something else here</a></li>
+			            <li class="divider"></li>
+			            <li><a href="#">Separated link</a></li>
+			          </ul>
+			        </li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-tabs"&gt;
+			  &lt;li class="dropdown"&gt;
+			    &lt;a class="dropdown-toggle"
+			       data-toggle="dropdown"
+			       href="#"&gt;
+			        Dropdown
+			        &lt;b class="caret"&gt;&lt;/b&gt;
+			      &lt;/a&gt;
+			    &lt;ul class="dropdown-menu"&gt;
+			      &lt;!-- links --&gt;
+			    &lt;/ul&gt;
+			  &lt;/li&gt;
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h3>Pills with dropdowns</h3>
+			      <ul class="nav nav-pills">
+			        <li class="active"><a href="#">Home</a></li>
+			        <li><a href="#">Help</a></li>
+			        <li class="dropdown">
+			          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="#">Action</a></li>
+			            <li><a href="#">Another action</a></li>
+			            <li><a href="#">Something else here</a></li>
+			            <li class="divider"></li>
+			            <li><a href="#">Separated link</a></li>
+			          </ul>
+			        </li>
+			      </ul>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-pills"&gt;
+			  &lt;li class="dropdown"&gt;
+			    &lt;a class="dropdown-toggle"
+			       data-toggle="dropdown"
+			       href="#"&gt;
+			        Dropdown
+			        &lt;b class="caret"&gt;&lt;/b&gt;
+			      &lt;/a&gt;
+			    &lt;ul class="dropdown-menu"&gt;
+			      &lt;!-- links --&gt;
+			    &lt;/ul&gt;
+			  &lt;/li&gt;
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			  </div>
+
+			  <h2>Nav lists <small>Build simple stacked navs, great for sidebars</small></h2>
+			  <div class="row">
+			    <div class="span4">
+			      <h3>Application-style navigation</h3>
+			      <p>Nav lists provide a simple and easy way to build groups of nav links with optional headers. They're best used in sidebars like the Finder in OS X.</p>
+			      <p>Structurally, they're built on the same core nav styles as tabs and pills, so usage and customization are straightforward.</p>
+			      <hr>
+			      <h4>With icons</h4>
+			      <p>Nav lists are also easy to equip with icons. Add the proper <code>&lt;i&gt;</code> tag with class and you're set.</p>
+			      <h4>Horizontal dividers</h4>
+			      <p>Add a horizontal divider by creating an empty list item with the class <code>.divider</code>, like so:</p>
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-list"&gt;
+			  ...
+			  &lt;li class="divider"&gt;&lt;/li&gt;
+			  ...
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h3>Example nav list</h3>
+			      <p>Take a list of links and add <code>class="nav nav-list"</code>:</p>
+			      <div class="well" style="padding: 8px 0;">
+			        <ul class="nav nav-list">
+			          <li class="nav-header">List header</li>
+			          <li class="active"><a href="#">Home</a></li>
+			          <li><a href="#">Library</a></li>
+			          <li><a href="#">Applications</a></li>
+			          <li class="nav-header">Another list header</li>
+			          <li><a href="#">Profile</a></li>
+			          <li><a href="#">Settings</a></li>
+			          <li class="divider"></li>
+			          <li><a href="#">Help</a></li>
+			        </ul>
+			      </div> <!-- /well -->
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-list"&gt;
+			  &lt;li class="nav-header"&gt;
+			    List header
+			  &lt;/li&gt;
+			  &lt;li class="active"&gt;
+			    &lt;a href="#"&gt;Home&lt;/a&gt;
+			  &lt;/li&gt;
+			  &lt;li&gt;
+			    &lt;a href="#"&gt;Library&lt;/a&gt;
+			  &lt;/li&gt;
+			  ...
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h3>Example with icons</h3>
+			      <p>Same example, but with <code>&lt;i&gt;</code> tags for icons.</p>
+			      <div class="well" style="padding: 8px 0;">
+			        <ul class="nav nav-list">
+			          <li class="nav-header">List header</li>
+			          <li class="active"><a href="#"><i class="icon-white icon-home"></i> Home</a></li>
+			          <li><a href="#"><i class="icon-book"></i> Library</a></li>
+			          <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+			          <li class="nav-header">Another list header</li>
+			          <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+			          <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+			          <li class="divider"></li>
+			          <li><a href="#"><i class="icon-flag"></i> Help</a></li>
+			        </ul>
+			      </div> <!-- /well -->
+			<pre class="prettyprint linenums">
+			&lt;ul class="nav nav-list"&gt;
+			  ...
+			  &lt;li&gt;
+			    &lt;a href="#"&gt;
+			      &lt;i class="icon-book"&gt;&lt;/i&gt;
+			      Library
+			    &lt;/a&gt;
+			  &lt;/li&gt;
+			  ...
+			&lt;/ul&gt;
+			</pre>
+			    </div>
+			  </div>
+
+
+			  <h2>Tabbable nav <small>Bring tabs to life via javascript</small></h2>
+			  <div class="row">
+			    <div class="span4">
+			      <h3>What's included</h3>
+			      <p>Bring your tabs to life with a simple plugin to toggle between content via tabs. Bootstrap integrates tabbable tabs in four styles: top (default), right, bottom, and left.</p>
+			      <p>Changing between them is easy and only requires changing very little markup.</p>
+			      <hr>
+			      <h4>Fade in tabs</h4>
+			      <p>To make tabs fade in, add <code>.fade</code> to each <code>.tab-pane</code>.</p>
+			      <hr>
+			      <h4>Requires jQuery plugin</h4>
+			      <p>All tabbable tabs are powered by our lightweight jQuery plugin. Read more about how to bring tabbable tabs to life <a href="./javascript.html#tabs">on the javascript docs page</a>.</p>
+			      <p><a class="btn" href="./javascript.html#tabs">Get the javascript &rarr;</a></p>
+			    </div>
+			    <div class="span8">
+			      <h3>Tabbable example</h3>
+			      <p>To make tabs tabbable, create a <code>.tab-pane</code> with unique ID for every tab and wrap them in <code>.tab-content</code>.</p>
+			      <div class="tabbable" style="margin-bottom: 18px;">
+			        <ul class="nav nav-tabs">
+			          <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
+			          <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+			          <li><a href="#tab3" data-toggle="tab">Section 3</a></li>
+			        </ul>
+			        <div class="tab-content" style="padding-bottom: 9px; border-bottom: 1px solid #ddd;">
+			          <div class="tab-pane active" id="tab1">
+			            <p>I'm in Section 1.</p>
+			          </div>
+			          <div class="tab-pane" id="tab2">
+			            <p>Howdy, I'm in Section 2.</p>
+			          </div>
+			          <div class="tab-pane" id="tab3">
+			            <p>What up girl, this is Section 3.</p>
+			          </div>
+			        </div>
+			      </div> <!-- /tabbable -->
+			      <p>For right or left aligned tabs, wrap the <code>.nav-tabs</code> and <code>.tab-content</code> in <code>.tabbable</code>.</p>
+
+			      <h3>Straightforward markup</h3>
+			      <p>Using tabbable tabs requires a wrapping div, a set of tabs, and a set of tabbable panes of content.</p>
+			<pre class="prettyprint linenums">
+			&lt;div class="tabbable"&gt; &lt;!-- Only required for left/right tabs --&gt;
+			  &lt;ul class="nav nav-tabs"&gt;
+			    &lt;li class="active"&gt;&lt;a href="#tab1" data-toggle="tab"&gt;Section 1&lt;/a&gt;&lt;/li&gt;
+			    &lt;li&gt;&lt;a href="#tab2" data-toggle="tab"&gt;Section 2&lt;/a&gt;&lt;/li&gt;
+			  &lt;/ul&gt;
+			  &lt;div class="tab-content"&gt;
+			    &lt;div class="tab-pane active" id="tab1"&gt;
+			      &lt;p&gt;I'm in Section 1.&lt;/p&gt;
+			    &lt;/div&gt;
+			    &lt;div class="tab-pane" id="tab2"&gt;
+			      &lt;p&gt;Howdy, I'm in Section 2.&lt;/p&gt;
+			    &lt;/div&gt;
+			  &lt;/div&gt;
+			&lt;/div&gt;
+			</pre>
+			    </div>
+			  </div>
+
+
+			  <h3>Tabbable in any direction</h3>
+			  <div class="row">
+			    <div class="span4">
+			      <h4>Tabs on the bottom</h4>
+			      <p>Flip the order of the HTML and add a class to put tabs on the bottom.</p>
+			      <div class="tabbable tabs-below">
+			        <div class="tab-content">
+			          <div class="tab-pane active" id="A">
+			            <p>I'm in Section A.</p>
+			          </div>
+			          <div class="tab-pane" id="B">
+			            <p>Howdy, I'm in Section B.</p>
+			          </div>
+			          <div class="tab-pane" id="C">
+			            <p>What up girl, this is Section C.</p>
+			          </div>
+			        </div>
+			        <ul class="nav nav-tabs">
+			          <li class="active"><a href="#A" data-toggle="tab">Section 1</a></li>
+			          <li><a href="#B" data-toggle="tab">Section 2</a></li>
+			          <li><a href="#C" data-toggle="tab">Section 3</a></li>
+			        </ul>
+			      </div> <!-- /tabbable -->
+			<pre class="prettyprint linenums" style="margin-top: 11px;">
+			&lt;div class="tabbable tabs-below"&gt;
+			  &lt;div class="tab-content"&gt;
+			    ...
+			  &lt;/div&gt;
+			  &lt;ul class="nav nav-tabs"&gt;
+			    ...
+			  &lt;/ul&gt;
+			&lt;/div&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h4>Tabs on the left</h4>
+			      <p>Swap the class to put tabs on the left.</p>
+			      <div class="tabbable tabs-left">
+			        <ul class="nav nav-tabs">
+			          <li class="active"><a href="#lA" data-toggle="tab">Section 1</a></li>
+			          <li><a href="#lB" data-toggle="tab">Section 2</a></li>
+			          <li><a href="#lC" data-toggle="tab">Section 3</a></li>
+			        </ul>
+			        <div class="tab-content">
+			          <div class="tab-pane active" id="lA">
+			            <p>I'm in Section A.</p>
+			          </div>
+			          <div class="tab-pane" id="lB">
+			            <p>Howdy, I'm in Section B.</p>
+			          </div>
+			          <div class="tab-pane" id="lC">
+			            <p>What up girl, this is Section C.</p>
+			          </div>
+			        </div>
+			      </div> <!-- /tabbable -->
+			<pre class="prettyprint linenums">
+			&lt;div class="tabbable tabs-left"&gt;
+			  &lt;ul class="nav nav-tabs"&gt;
+			    ...
+			  &lt;/ul&gt;
+			  &lt;div class="tab-content"&gt;
+			    ...
+			  &lt;/div&gt;
+			&lt;/div&gt;
+			</pre>
+			    </div>
+			    <div class="span4">
+			      <h4>Tabs on the right</h4>
+			      <p>Swap the class to put tabs on the right.</p>
+			      <div class="tabbable tabs-right">
+			        <ul class="nav nav-tabs">
+			          <li class="active"><a href="#rA" data-toggle="tab">Section 1</a></li>
+			          <li><a href="#rB" data-toggle="tab">Section 2</a></li>
+			          <li><a href="#rC" data-toggle="tab">Section 3</a></li>
+			        </ul>
+			        <div class="tab-content">
+			          <div class="tab-pane active" id="rA">
+			            <p>I'm in Section A.</p>
+			          </div>
+			          <div class="tab-pane" id="rB">
+			            <p>Howdy, I'm in Section B.</p>
+			          </div>
+			          <div class="tab-pane" id="rC">
+			            <p>What up girl, this is Section C.</p>
+			          </div>
+			        </div>
+			      </div> <!-- /tabbable -->
+			<pre class="prettyprint linenums">
+			&lt;div class="tabbable tabs-right"&gt;
+			  &lt;ul class="nav nav-tabs"&gt;
+			    ...
+			  &lt;/ul&gt;
+			  &lt;div class="tab-content"&gt;
+			    ...
+			  &lt;/div&gt;
+			&lt;/div&gt;
+			</pre>
+			    </div>
+			  </div>
+
+			</section>
+	</div>
+
+	<script type="text/javascript" charset="utf-8" defer>
+	require({
+	    baseUrl: '',
+	    packages: [
+	        { name: 'dojo', location: '../dojo' },
+	        { name: 'app', location: '../app' }
+	    ],
+	    cache: {}
+	}, [ 'app/Tab', 'app/Dropdown' ], function(){
+		dojo.query("a").on("click", function(e){ e.preventDefault(); return false; });
+		dojo.query('#np1 a').on("click", function(e){
+			e.preventDefault();
+			dojo.query(e.target).tab('show');
+		});
+		dojo.query('a[data-toggle="tab"]').on('shown', function (e) {
+			console.log("activated tab: %o", e.target);
+			console.log("previous tab: %o", e.relatedTarget);
+		})
+	});
+	</script>
+</body>
+</html>
