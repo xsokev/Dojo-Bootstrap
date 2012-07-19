@@ -2,17 +2,6 @@ define(['dojo/query', "dojo/_base/lang", "dojo/dom-attr", "dojo/_base/array", 'd
 function(query, lang, attr, array) {
 	return {
 		get: function(node, key, def){
-			//set data attributes
-			var elm = query(node)[0];
-			if(elm){
-				var _this = this;
-				var attrs = elm.attributes;
-				array.forEach(attrs, function(attr){
-					if(attr.name.indexOf("data-") >= 0){
-						_this.set(node, attr.name.substr(5), attr.value);
-					}
-				});
-			}
 			key = key || undefined;
 			def = def || undefined;
 			if(key != undefined){
@@ -28,6 +17,19 @@ function(query, lang, attr, array) {
 		set: function(node, key, value){
 			var data = query(node).data(key, value);
 			return value;
+		},
+		attr: function(node){
+			//set data attributes
+			var elm = query(node)[0];
+			if(elm){
+				var _this = this;
+				var attrs = elm.attributes;
+				array.forEach(attrs, function(attr){
+					if(attr.name.indexOf("data-") >= 0){
+						_this.set(node, attr.name.substr(5), attr.value);
+					}
+				});
+			}
 		}
 	};
 });

@@ -16,7 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
-//TODO: getting a memory error in Chrome browser when hovering over objects multiple times
 define([ 
 	"dojo/_base/declare", 
 	"dojo/query", 
@@ -26,17 +25,18 @@ define([
 	'dojo/dom-construct',
 	"dojo/dom-attr",
 	'dojo/html',
-	'./support/node-data',
+	'app/support/node-data',
 	'app/Tooltip',
 	"dojo/NodeList-dom", 
 	"dojo/domReady!" 
 ], function (declare, query, lang, on, domClass, domConstruct, domAttr, html, nodeData, Tooltip) {
-	var Popover = declare([Tooltip],{
+	var Popover = declare(Tooltip,{
+		"-chains-": { constructor: "manual" },
 		constructor: function(element, options){
 			options = lang.mixin({
-			  placement: 'right',
-			  content: '',
-			  template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+				placement: 'right',
+				content: '',
+				template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
 			}, (options || {}));
 			this.init('popover', element, options);
 		},
@@ -64,7 +64,8 @@ define([
 		popover: function(option){
 			return this.forEach(function(node){
 		        var options = (lang.isObject(option)) ? option : {};
-				var data = nodeData.get(node, 'popover', new Popover(node, options));
+				var data = nodeData.get(node, 'popover');
+				if(!data){ nodeData.set(node, 'popover', (data = new Popover(node, options))) }
 				if(lang.isString(option)){ 
 					data[option].call(data);
 				}

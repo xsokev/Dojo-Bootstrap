@@ -37,8 +37,8 @@ define([
 	"dojo/domReady!" 
 ], function (declare, query, lang, win, on, mouse, domClass, domAttr, domStyle, domGeom, domConstruct, html, trans, nodeData) {
 	var toggleSelector = '[data-toggle="tooltip"]';
-	var Tooltip = declare([],{
-		options: {
+	var Tooltip = declare("Tooltip", null ,{
+		defaultOptions: {
 			animation: true,
 			placement: 'top',
 			selector: false,
@@ -75,7 +75,7 @@ define([
 		},
 		getOptions: function(options){
 			options = lang.mixin({}, 
-				lang.mixin(this.options, 
+				lang.mixin(this.defaultOptions, 
 					lang.mixin(options, nodeData.get(this.domNode))));
 			if(options.delay && typeof options.delay == 'number'){
 				options.delay = {
@@ -86,29 +86,29 @@ define([
 			return options;
 		},
 		enter: function(e){
-			var selfNode = query(e.target)[this.type](this._options);
-			var self = nodeData.get(selfNode, this.type);
-			if(!self.options.delay || !self.options.delay.show){ return self.show(); }
-
+			var self = nodeData.get(e.target, this.type);
+			if(!self){ query(e.target)[this.type](this._options); self = nodeData.get(e.target, this.type); }
 			if(this.timeout){ clearTimeout(this.timeout); }
-			self.hoverState = 'in';
-
-			this.timeout = setTimeout(function(){
-				if(self.hoverState == 'in'){ self.show(); }
-			}, self.options.delay.show);
+			if(self){
+				if(!self.options.delay || !self.options.delay.show){ return self.show(); }
+				self.hoverState = 'in';
+				this.timeout = setTimeout(function(){
+					if(self.hoverState == 'in'){ self.show(); }
+				}, self.options.delay.show);
+			}
 			return this;
 		},
 		leave: function(e){
-			var selfNode = query(e.target)[this.type](this._options);
-			var self = nodeData.get(selfNode, this.type);
+			var self = nodeData.get(e.target, this.type);
+			if(!self){ query(e.target)[this.type](this._options); self = nodeData.get(e.target, this.type); }
 			if(this.timeout){ clearTimeout(this.timeout); }
-			if(!self.options.delay || !self.options.delay.hide){ return self.hide(); }
-
-			self.hoverState = 'out';
-			
-			this.timeout = setTimeout(function(){
-				if(self.hoverState == 'out'){ self.hide(); }
-			}, self.options.delay.hide);
+			if(self){
+				if(!self.options.delay || !self.options.delay.hide){ return self.hide(); }
+				self.hoverState = 'out';
+				this.timeout = setTimeout(function(){
+					if(self.hoverState == 'out'){ self.hide(); }
+				}, self.options.delay.hide);
+			}
 			return this;
 		},
 		show: function(){
@@ -153,12 +153,13 @@ define([
 		},
 		hide: function(){
 			var _this = this;
+//console.log(this);
 			var tip = this.tip();
 			domClass.remove(tip, 'in');
 			function _removeWithAnimation(){
 				var timeout = setTimeout(function () {
 					_this.hideEvent.remove();
-					console.debug(_this);
+					//console.debug(_this);
 				}, 500);
 
 				_this.hideEvent = on.once(tip, trans.end, function(){
@@ -166,8 +167,7 @@ define([
 					domConstruct.destroy(tip);
 				});
 			}
-			//trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : domConstruct.destroy(tip);
-			domConstruct.destroy(tip);
+			trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : domConstruct.destroy(tip);
 		},
 		isHTML: function(text){
 			// html string detection logic adapted from jQuery
@@ -230,7 +230,8 @@ define([
 		tooltip: function(option){
 			return this.forEach(function(node){
 		        var options = (lang.isObject(option)) ? option : {};
-				var data = nodeData.get(node, 'tooltip', new Tooltip(node, options));
+				var data = nodeData.get(node, 'tooltip');
+				if(!data){ nodeData.set(node, 'tooltip', (data = new Tooltip(node, options))) }
 				if(lang.isString(option)){ 
 					data[option].call(data);
 				}
