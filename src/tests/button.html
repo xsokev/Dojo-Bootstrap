@@ -5,7 +5,7 @@
     <title>Dojo Bootstrap</title>
     <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
          the build system to combine & minify it. -->
-    <link rel="stylesheet" href="../app/resources/app.css">
+    <link rel="stylesheet" href="../bootstrap/resources/app.css">
 </head>
 <body class="claro">
     <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1"
@@ -31,9 +31,7 @@
 		             <tr>
 		               <td>Stateful</td>
 		               <td>
-		                  <button id="fat-btn" data-loading-text="loading..." class="btn btn-primary">
-		                    Loading State
-		                  </button>
+		                  <button id="fat-btn" data-loading-text="loading info..." class="btn btn-primary">Loading State</button>
 		                </td>
 		             </tr>
 		             <tr>
@@ -194,10 +192,10 @@
 	    baseUrl: '',
 	    packages: [
 	        { name: 'dojo', location: '../dojo' },
-	        { name: 'app', location: '../app' }
+	        { name: 'bootstrap', location: '../bootstrap' }
 	    ],
 	    cache: {}
-	}, [ 'app/Button' ], function(button){
+	}, [ 'bootstrap/Button' ], function(button){
 		dojo.query("a").on("click", function(e){ e.preventDefault(); return false; })
 		var btn = dojo.query("#fat-btn");
 		btn.on("click", function () {

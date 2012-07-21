@@ -5,7 +5,7 @@
     <title>Dojo Bootstrap - Modal Test</title>
     <!-- Application-specific CSS should be stored in your application’s package to ensure portability and to allow
          the build system to combine & minify it. -->
-    <link rel="stylesheet" href="../app/resources/app.css">
+    <link rel="stylesheet" href="../bootstrap/resources/app.css">
 </head>
 <body class="claro">
     <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1"
@@ -19,10 +19,10 @@
 	    baseUrl: '',
 	    packages: [
 	        { name: 'dojo', location: '../dojo' },
-	        { name: 'app', location: '../app' }
+	        { name: 'bootstrap', location: '../bootstrap' }
 	    ],
 	    cache: {}
-	}, [ 'app/Modal' ], function(){
+	}, [ 'bootstrap/Modal' ], function(){
 		var $ = dojo.query;
 		$("a").on("click", function(e){ e.preventDefault(); return false; });
 	});
