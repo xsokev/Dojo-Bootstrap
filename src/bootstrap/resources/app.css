@@ -6,7 +6,7 @@
  * It is highly, highly recommended that you develop your CSS using LESS: http://lesscss.org.
  */
 
-@import '../../tests/bootstrap/docs/assets/css/bootstrap.css';
-@import '../../tests/bootstrap/docs/assets/css/bootstrap-responsive.css';
-@import '../../tests/bootstrap/docs/assets/css/docs.css';
-@import '../../tests/bootstrap/docs/assets/js/google-code-prettify/prettify.css';
+@import './bootstrap.css';
+@import './bootstrap-responsive.css';
+@import './docs.css';
+@import './prettify.css';
