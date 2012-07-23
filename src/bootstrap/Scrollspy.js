@@ -82,7 +82,6 @@ define([
 			var maxScroll = scrollHeight - domHeight;
 			var offsets = this.offsets;
 			var targets = this.targets;
-//console.log(offsets);
 			var activeTarget = this.activeTarget;
 			var i;
 	        if (scrollTop >= maxScroll){
