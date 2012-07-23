@@ -36,7 +36,6 @@ define([
 	var Alert = declare([],{
 		defaultOptions:{},
 		constructor: function(element, options){
-			this.options = lang.mixin(this.defaultOptions, (options || {}));
 			this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
 			this.domNode = element;
 	        on(this.domNode, on.selector(dismissSelector, 'click'), close);
@@ -78,13 +77,10 @@ define([
 		alert: function(option){
 	        var options = (lang.isObject(option)) ? option : {};
 			return this.forEach(function(node){
-				var alertNode = query(node);
-				var data = nodeData.get(alertNode[0], 'alert');
-				if(!data){ nodeData.set(alertNode[0], 'alert', (data = new Alert(alertNode[0], options))) }
 				var data = nodeData.get(node, 'alert');
 				if(!data){ nodeData.set(node, 'alert', (data = new Alert(node, options))) }
 				if(lang.isString(option) && option == "close"){ 
-					close.call(alertNode[0]);
+					close.call(node);
 				}
 			});
 		}
