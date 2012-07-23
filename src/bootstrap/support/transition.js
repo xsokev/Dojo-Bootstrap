@@ -1,3 +1,4 @@
+//TODO: Rewrite the transition helper to mimic the jquery bootstrap version which is a port of the same from modernizr
 define(['dojo/has', 'dojo/_base/sniff'],
 function(has) {
     var support_transition = (function(){
