@@ -153,13 +153,11 @@ define([
 		},
 		hide: function(){
 			var _this = this;
-//console.log(this);
 			var tip = this.tip();
 			domClass.remove(tip, 'in');
 			function _removeWithAnimation(){
 				var timeout = setTimeout(function () {
 					_this.hideEvent.remove();
-					//console.debug(_this);
 				}, 500);
 
 				_this.hideEvent = on.once(tip, trans.end, function(){
@@ -228,22 +226,18 @@ define([
 	
 	lang.extend(query.NodeList, {
 		tooltip: function(option){
-	        var options = (lang.isObject(option)) ? option : {};
+            var options = (lang.isObject(option)) ? option : {};
 			return this.forEach(function(node){
 				var data = nodeData.get(node, 'tooltip');
-				if(!data){ nodeData.set(node, 'tooltip', (data = new Tooltip(node, options))) }
+				if(!data){ nodeData.set(node, 'tooltip', (data = new Tooltip(node, options))); }
 				if(lang.isString(option)){ 
 					data[option].call(data);
 				}
 			});
 		}
 	});
-	//TODO: Implement automatic tooltips based on data-toggle attribute
-	/*
-    on(win.body(), on.selector(toggleSelector, 'click'), function(e){
-	    if(e){ e.preventDefault(); }
-		query(e.target).tab("show");
-	});
-	*/
-	return Tooltip;
+
+    query(toggleSelector).tooltip();
+
+    return Tooltip;
 });
