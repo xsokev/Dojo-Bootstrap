@@ -14,6 +14,7 @@ require({
 	'dojo/dom-geometry',
 	'bootstrap/Alert',
 	'bootstrap/Button',
+	'bootstrap/Collapse',
 	'bootstrap/Dropdown',
 	'bootstrap/Modal',
 	'bootstrap/Popover',
