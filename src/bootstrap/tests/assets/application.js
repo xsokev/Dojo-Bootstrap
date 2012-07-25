@@ -22,10 +22,12 @@ require({
 	'bootstrap/Tab',
 	'bootstrap/Tooltip'
 ], function(geom){
-	var q = dojo.query;
+    "use strict";
+
+    var q = dojo.query;
 	q("section [href^=#], .navbar [href^=#]").on("click", function(e){ e.preventDefault(); return false; });
 
-    window.prettyPrint && prettyPrint();	// make code pretty
+    window.prettyPrint && window.prettyPrint();	// make code pretty
 
 	var win = window,
 		nav = q('.subnav'),
