@@ -33,19 +33,20 @@ define([
 	'dojo/NodeList-traverse',
 	'dojo/domReady!'
 ], function (declare, query, lang, win, on, domClass, domAttr, trans, nodeData, string, domGeom, domStyle){
+    "use strict";
 	var collapseSelector = '[data-toggle=collapse]';
 	var Collapse = declare([], {
 		defaultOptions: {
 			toggle: true
 		},
 		constructor: function(element, options) {
-			this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
+            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
 			this.domNode = element;
             if (this.options.parent) {
                 this.parent = query(this.options.parent);
             }
             this.options.toggle && this.toggle();
-		},
+        },
 		dimension: function() {
 			return domClass.contains(this.domNode, 'width') ? 'width' : 'height';
 		},
@@ -56,7 +57,7 @@ define([
 
 			dimension = this.dimension();
 			scroll = string.toCamel(['scroll', dimension].join('-'));
-			actives = this.parent && query('> .accordion-group > .in', this.parent);
+			actives = this.parent && query('> .accordion-group > .in', this.parent[0]);
 
 			if(actives && actives.length){
 				hasData = nodeData.get(actives[0], 'collapse');
@@ -65,21 +66,22 @@ define([
 				hasData || nodeData.set(actives[0], 'collapse', null);
 			}
 
-			domStyle.set(this.domNode, dimension, 0);
+			domStyle.set(this.domNode, dimension, '0px');
 			this.transition('add', 'show', 'shown');
-			domStyle.set(this.domNode, dimension, this.domNode[scroll]);
+			domStyle.set(this.domNode, dimension, this.domNode[scroll]+'px');
 		},
 		hide: function() {
             if (this.transitioning) { return; }
             var dimension = this.dimension();
             this.reset(domStyle.get(this.domNode, dimension));
             this.transition('remove', 'hide', 'hidden');
-            domStyle.set(this.domNode, dimension, 0);
+            domStyle.set(this.domNode, dimension, '0px');
         },
 		reset: function(size) {
+            size = size ? parseFloat(size, 10)+'px' : 'auto';
             var dimension = this.dimension();
             domClass.remove(this.domNode, 'collapse');
-            domStyle.set(this.domNode, dimension, (size || 'auto'));
+            domStyle.set(this.domNode, dimension, size);
             this.domNode.offsetWidth;
             domClass[(size !== null ? 'add' : 'remove')](this.domNode, 'collapse');
             return this;
@@ -111,7 +113,7 @@ define([
 			return this.forEach(function(node) {
 				var data = nodeData.get(node, 'collapse');
 				if(!data){
-					nodeData.set(node, 'collapse', (data = new Collapse(node, options)))
+					nodeData.set(node, 'collapse', (data = new Collapse(node, options)));
 				}
 				if (lang.isString(option)) {
 					data[option].call(data);
@@ -121,13 +123,14 @@ define([
 	});
 
 	on(win.body(), on.selector(collapseSelector, 'click'), function(e){
-		var node = query(e.target)[0];
-		var href, target = domAttr.get(node, 'data-target')
-			|| e.preventDefault()
-			|| (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+        var node = query(e.target)[0];
+        nodeData.load(node);
+        var href, target = domAttr.get(node, 'data-target')
+            || e.preventDefault()
+            || (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
 		nodeData.load(target);
-		var option = nodeData.get(target, 'collapse') ? 'toggle' : nodeData.get(target);
-		query(target).collapse(option);
+		var option = nodeData.get(target, 'collapse') ? 'toggle' : nodeData.get(node);
+        query(target).collapse(option);
 	});
 	return Collapse;
 });
