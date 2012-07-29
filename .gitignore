@@ -37,3 +37,7 @@ src/tests/bootstrap
 .idea/jsLibraryMappings.xml
 
 .idea/jsLinters/jshint.xml
+
+.idea/codeStyleSettings.xml
+
+.idea/dictionaries/kev.xml
