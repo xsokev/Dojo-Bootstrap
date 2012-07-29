@@ -20,7 +20,8 @@ require({
 	'bootstrap/Popover',
 	'bootstrap/Scrollspy',
 	'bootstrap/Tab',
-	'bootstrap/Tooltip'
+	'bootstrap/Tooltip',
+    'bootstrap/Typeahead'
 ], function(geom){
     "use strict";
 
