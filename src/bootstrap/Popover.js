@@ -16,61 +16,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
-define([ 
-	"dojo/_base/declare", 
-	"dojo/query", 
-	"dojo/_base/lang", 
-	'dojo/on',
-	'dojo/dom-class',
-	'dojo/dom-construct',
-	"dojo/dom-attr",
-	'dojo/html',
-	'./support/node-data',
-	'./Tooltip',
-	"dojo/NodeList-dom", 
-	"dojo/domReady!" 
-], function (declare, query, lang, on, domClass, domConstruct, domAttr, html, nodeData, Tooltip) {
-	var Popover = declare(Tooltip,{
-		"-chains-": { constructor: "manual" },
-		constructor: function(element, options){
-			options = lang.mixin({
-				placement: 'right',
-				content: '',
-				template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
-			}, (options || {}));
-			this.init('popover', element, options);
-		},
-		setContent: function(){
-			var tip = this.tip();
-			var title = this.getTitle();
-			var content = this.getContent();
-			html.set(query('.popover-title', tip)[0], title);
-			html.set(query('.popover-content > *', tip)[0], content);
-			domClass.remove(tip, 'fade in top bottom left right');
-		},
-		hasContent: function(){
-			return this.getTitle() || this.getContent();
-		},
-		getContent: function(){
-			return domAttr.get(this.domNode, 'data-content')
-				|| (typeof this.options.content == 'function' ? this.options.content.call(this.domNode) : this.options.content);
-		},
-		tip: function(){
-			return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
-		}
-	});
-	
-	lang.extend(query.NodeList, {
-		popover: function(option){
-	        var options = (lang.isObject(option)) ? option : {};
-			return this.forEach(function(node){
-				var data = nodeData.get(node, 'popover');
-				if(!data){ nodeData.set(node, 'popover', (data = new Popover(node, options))) }
-				if(lang.isString(option)){ 
-					data[option].call(data);
-				}
-			});
-		}
-	});
-	return Popover;
+define([
+    "dojo/_base/declare",
+    "bootstrap/Support",
+    "dojo/query",
+    "dojo/_base/lang",
+    'dojo/on',
+    'dojo/dom-class',
+    'dojo/dom-construct',
+    "dojo/dom-attr",
+    'dojo/html',
+    './Tooltip',
+    "dojo/NodeList-dom",
+    "dojo/domReady!"
+], function (declare, support, query, lang, on, domClass, domConstruct, domAttr, html, Tooltip) {
+    "use strict";
+
+    var Popover = declare(Tooltip, {
+        "-chains-":{ constructor:"manual" },
+        constructor:function (element, options) {
+            options = lang.mixin({
+                placement:'right',
+                content:'',
+                template:'<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+            }, (options || {}));
+            this.init('popover', element, options);
+        },
+        setContent:function () {
+            var tip = this.tip();
+            var title = this.getTitle();
+            var content = this.getContent();
+            html.set(query('.popover-title', tip)[0], title);
+            html.set(query('.popover-content > *', tip)[0], content);
+            domClass.remove(tip, 'fade in top bottom left right');
+        },
+        hasContent:function () {
+            return this.getTitle() || this.getContent();
+        },
+        getContent:function () {
+            return domAttr.get(this.domNode, 'data-content') || (typeof this.options.content === 'function' ? this.options.content.call(this.domNode) : this.options.content);
+        },
+        tip:function () {
+            return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
+        }
+    });
+
+    lang.extend(query.NodeList, {
+        popover:function (option) {
+            var options = (lang.isObject(option)) ? option : {};
+            return this.forEach(function (node) {
+                var data = support.getData(node, 'popover');
+                if (!data) {
+                    support.setData(node, 'popover', (data = new Popover(node, options)));
+                }
+                if (lang.isString(option)) {
+                    data[option].call(data);
+                }
+            });
+        }
+    });
+    return Popover;
 });

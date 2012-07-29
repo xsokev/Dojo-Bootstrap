@@ -17,71 +17,79 @@
  * limitations under the License.
  * ========================================================== */
 
-define([ 
-	"dojo/_base/declare", 
-	"dojo/query", 
-	"dojo/_base/lang", 
-	'dojo/_base/window',
-	'dojo/on',
-	'dojo/dom-class',
-	"dojo/dom-attr",
-	'./support/node-data',
-	"dojo/NodeList-dom", 
-	'dojo/NodeList-traverse',
-	"dojo/domReady!" 
-], function (declare, query, lang, win, on, domClass, domAttr, nodeData) {
-	var toggleSelector = '[data-toggle^=button]';
-	var toggleRadioSelector = '[data-toggle="buttons-radio"]';
-	var Button = declare([],{
-		defaultOptions: {
-		    "loading-text": 'loading...'
-		},
-		constructor: function(element, options){
-			this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-			this.domNode = element;
-		},
-		setState: function(state){
-		    var d = 'disabled';
-			nodeData.load(this.domNode);
-			var resetdata = nodeData.get(this.domNode, 'reset-text', lang.trim((this.domNode.tag=="INPUT") ? this.domNode.val : this.domNode.innerHTML));
-		    state = state + '-text';
-			var data = nodeData.get(this.domNode, state);
-			this.domNode[(this.domNode.tag=="INPUT") ? "val" : "innerHTML"] = data || this.options[state];
+define([
+    "bootstrap/Support",
+    "dojo/_base/declare",
+    "dojo/query",
+    "dojo/_base/lang",
+    'dojo/_base/window',
+    'dojo/on',
+    'dojo/dom-class',
+    "dojo/dom-attr",
+    "dojo/NodeList-dom",
+    'dojo/NodeList-traverse',
+    "dojo/domReady!"
+], function (support, declare, query, lang, win, on, domClass, domAttr) {
+    "use strict";
 
-			setTimeout(lang.hitch(this, function(){
-				if(state == 'loading-text'){
-					domClass.add(this.domNode, d);
-					domAttr.set(this.domNode, d, d);
-				} else {
-					domClass.remove(this.domNode, d);
-					domAttr.remove(this.domNode, d);
-				}
-			}), 0);
-		},
-		toggle: function(){
-			var $parent = query(this.domNode).parents(toggleRadioSelector);
-			if($parent.length){
-				query('.active', $parent[0]).removeClass('active');
-			}
-			domClass.toggle(this.domNode, 'active');
-		}
-	});
-	
-	lang.extend(query.NodeList, {
-		button: function(option){
-	        var options = (lang.isObject(option)) ? option : {};
-			return this.forEach(function(node){
-				var data = nodeData.get(node, 'button');
-				if(!data){ nodeData.set(node, 'button', (data = new Button(node, options))) }
-				if(lang.isString(option) && option=='toggle'){ data.toggle(); }
-				else if(option){ data.setState(option); }
-			});
-		}
-	});
-	    
-    on(win.body(), on.selector(toggleSelector, '.btn:click'), function(e){
-		query(e.target).button('toggle');
-	});
+    var toggleSelector = '[data-toggle^=button]';
+    var toggleRadioSelector = '[data-toggle="buttons-radio"]';
+    var Button = declare([], {
+        defaultOptions:{
+            "loading-text":'loading...'
+        },
+        constructor:function (element, options) {
+            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
+            this.domNode = element;
+        },
+        setState:function (state) {
+            var _this = this;
+            var d = 'disabled';
+            support.getData(this.domNode, 'reset-text', lang.trim((this.domNode.tag === "INPUT") ? this.domNode.val : this.domNode.innerHTML));
+            state = state + '-text';
+            var data = support.getData(this.domNode, state);
+            this.domNode[(this.domNode.tag === "INPUT") ? "val" : "innerHTML"] = data || this.options[state];
 
-	return Button;
+            setTimeout(function () {
+                if (state === 'loading-text') {
+                    domClass.add(_this.domNode, d);
+                    domAttr.set(_this.domNode, d, d);
+                } else {
+                    domClass.remove(_this.domNode, d);
+                    domAttr.remove(_this.domNode, d);
+                }
+            }, 0);
+        },
+        toggle:function () {
+            var $parent = query(this.domNode).parents(toggleRadioSelector);
+            if ($parent.length) {
+                query('.active', $parent[0]).removeClass('active');
+            }
+            domClass.toggle(this.domNode, 'active');
+        }
+    });
+
+    lang.extend(query.NodeList, {
+        button:function (option) {
+            var options = (lang.isObject(option)) ? option : {};
+            return this.forEach(function (node) {
+                var data = support.getData(node, 'button');
+                if (!data) {
+                    support.setData(node, 'button', (data = new Button(node, options)));
+                }
+                if (lang.isString(option) && option === 'toggle') {
+                    data.toggle();
+                }
+                else if (option) {
+                    data.setState(option);
+                }
+            });
+        }
+    });
+
+    on(win.body(), on.selector(toggleSelector, '.btn:click'), function (e) {
+        query(e.target).button('toggle');
+    });
+
+    return Button;
 });
