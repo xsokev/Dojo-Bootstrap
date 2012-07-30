@@ -13,23 +13,29 @@ Quick Start
 First clone the repository using `git clone --recursive`.
 
 Add a script tag that links to your base dojo.js file.
-<script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1" src="PATH_TO_SCRIPTS/dojo/dojo.js"></script>
+<pre>
+&lt;script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1" src="PATH_TO_SCRIPTS/dojo/dojo.js"></script>
+</pre>
 At the bottom of your page, add the following code:
-require({
-    packages: [
-        { name: 'dojo', location: 'PATH_TO_SCRIPTS/dojo' },
-        { name: 'bootstrap', location: 'PATH_TO_SCRIPTS/bootstrap' }
-    ]
-}, [ 
-	'bootstrap/Button',
-	'dojo/domReady!'
-], function(){
 
-});
+<pre>
+	require({  
+	    packages: [  
+	        { name: 'dojo', location: 'PATH_TO_SCRIPTS/dojo' },  
+	        { name: 'bootstrap', location: 'PATH_TO_SCRIPTS/bootstrap' }  
+	    ]  
+	}, [   
+		'bootstrap/Button',  
+		'dojo/domReady!'  
+	], function(){  
+	  
+	});  
+</pre>
 
 You can also place this code in a separate script (recommended) that serves as the main entry script for your page.
-<script src="PATH_TO_SCRIPTS/application.js" type="text/javascript"></script>
-
+<pre>
+&lt;script src="PATH_TO_SCRIPTS/application.js" type="text/javascript"></script>
+</pre>
 
 Useful resources
 ----------------
