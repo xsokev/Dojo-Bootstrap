@@ -42,6 +42,7 @@ Useful resources
 
 * [Dojo Reference Guide (latest release version)](http://dojotoolkit.org/reference-guide/)
 * [Dojo Reference Guide (Dojo trunk)](http://livedocs.dojotoolkit.org/)
+* [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
 
 License
 -------
