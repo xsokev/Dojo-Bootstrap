@@ -70,7 +70,7 @@ function (query, lang, attr, array, json) {
             if(key !== undefined && lang.isString(key)){
                 var data = query(node).data(key);
                 if (data && data[0] === undefined) {
-                    data = attr.get(node, 'data-'+key);
+                    if(query(node)[0]){ data = attr.get(query(node)[0], 'data-'+key); }
                     if (data !== undefined){ data = _attrValue(data); }
                     if (data === undefined && def !== undefined){
                         data = this.setData(node, key, def);
