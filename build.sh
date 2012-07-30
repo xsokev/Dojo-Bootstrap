@@ -15,13 +15,13 @@ TOOLSDIR="$SRCDIR/util/buildscripts"
 DISTDIR="$BASEDIR/dist"
 
 # Module ID of the main application package loader configuration
-LOADERMID="app/run"
+LOADERMID="bootstrap/run"
 
 # Main application package loader configuration
 LOADERCONF="$SRCDIR/$LOADERMID.js"
 
 # Main application package build configuration
-PROFILE="$SRCDIR/app/app.profile.js"
+PROFILE="$SRCDIR/bootstrap/app.profile.js"
 
 # Configuration over. Main application start up!
 
@@ -56,7 +56,7 @@ cat "$SRCDIR/index.html" | tr '\n' ' ' | \
 perl -pe "
   s/<\!--.*?-->//g;                          # Strip comments
   s/isDebug: *1/deps:['$LOADERMID']/;        # Remove isDebug, add deps
-  s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script app/run
+  s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script bootstrap/run
   s/\s+/ /g;                                 # Collapse white-space" > "$DISTDIR/index.html"
 
 echo "Build complete"

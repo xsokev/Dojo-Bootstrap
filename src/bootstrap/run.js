@@ -21,8 +21,6 @@ require({
         // If you are registering a package that has an identical name and location, you can just pass a string
         // instead, and it will configure it using that string for both the "name" and "location" properties. Handy!
         'dojo',
-        'dijit',
-        'dojox',
         'bootstrap'
     ],
 
@@ -31,5 +29,5 @@ require({
     // the loader will think that code for app/main has not been loaded yet and will try to fetch it again, resulting in
     // a needless extra HTTP request.
     cache:{}
-// Require 'bootstrap'. This loads the main application file, app/main.js.
-}, [ 'bootstrap' ]);
+// Require 'bootstrap'. This loads the main application file, bootstrap/main.js.
+}, [ 'bootstrap/tests/assets/application' ]);
