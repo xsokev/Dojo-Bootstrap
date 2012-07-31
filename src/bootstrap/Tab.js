@@ -69,7 +69,6 @@ define([
             }
         },
         activate:function (element, container, callback) {
-            console.log(element);
             var active = query('> .active', container)[0];
             var transition = callback && support.trans && domClass.contains(active, 'fade');
 
