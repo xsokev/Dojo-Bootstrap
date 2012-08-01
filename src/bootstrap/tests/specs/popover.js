@@ -17,12 +17,12 @@ define([
         "should be defined on NodeList object":{
             setUp:function () { this.n = domConstruct.place(popoverHtml, document.body); },
             runTest:function () { doh.t(q(this.n).popover); },
-            tearDown:function () { domConstruct.destroy(this.n); }
+            tearDown:function () { document.body.removeChild(this.n); }
         },
         "should return element":{
             setUp:function () { this.n = domConstruct.place(popoverHtml, document.body); },
             runTest:function () { doh.is(this.n, q(this.n).popover()[0]); },
-            tearDown:function () { domConstruct.destroy(this.n); }
+            tearDown:function () { document.body.removeChild(this.n); }
         },
         "should render popover element":{
             setUp:function () {
@@ -35,7 +35,7 @@ define([
                 q(this.n).popover('hide');
                 doh.is(0, q('.popover').length);
             },
-            tearDown:function () { domConstruct.destroy(this.n); }
+            tearDown:function () { document.body.removeChild(this.n); }
         },
         "should store popover instance in popover data object":{
             setUp:function () { this.n = domConstruct.place(popoverHtml, document.body); },
@@ -43,7 +43,7 @@ define([
                 q(this.n).popover();
                 doh.t(support.getData(this.n, 'popover'));
             },
-            tearDown:function () { domConstruct.destroy(this.n); }
+            tearDown:function () { document.body.removeChild(this.n); }
         },
         "should get title and content from options":{
             setUp:function () {
