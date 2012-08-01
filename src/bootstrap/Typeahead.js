@@ -158,7 +158,7 @@ define([
                 on(this.domNode, 'keydown', lang.hitch(this, 'keypress'));
             }
             on(this.menuNode, 'click', lang.hitch(this, 'click'));
-            on(this.menuNode, 'mouseenter', lang.hitch(this, 'mouseenter'));
+            on(this.menuNode, on.selector('li', 'mouseover'), lang.hitch(this, 'mouseenter'));
         },
         keyup: function (e) {
             switch(e.keyCode) {
@@ -195,13 +195,11 @@ define([
                 break;
 
                 case 38: // up arrow
-                    if (e.type !== 'keydown') { break; }
                     e.preventDefault();
                     this.prev();
                 break;
 
                 case 40: // down arrow
-                    if (e.type !== 'keydown') { break; }
                     e.preventDefault();
                     this.next();
                 break;
@@ -219,8 +217,9 @@ define([
             this.select();
         },
         mouseenter: function (e) {
+            var li = query(e.target).closest('li');
             query('.active', this.menuNode).removeClass('active');
-            query(e.currentTarget).addClass('active');
+            li.addClass('active');
         }
     });
 
