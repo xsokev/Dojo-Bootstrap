@@ -1,8 +1,7 @@
 /* ==========================================================
  * Typeahead.js v0.0.1
- * http://twitter.github.com/bootstrap/javascript.html#alerts
  * ==========================================================
- * Copyright 2012 Twitter, Inc.
+ * Copyright 2012 xsokev
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
-//FIX: selector not working. input on focus not firing
 define([
     "dojo/_base/declare",
     "dojo/_base/sniff",
