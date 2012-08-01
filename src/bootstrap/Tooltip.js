@@ -60,8 +60,8 @@ define([
             this.enabled = true;
 
             if (this.options.trigger !== 'manual') {
-                eventIn = this.options.trigger === 'hover' ? mouse.enter : 'focus';
-                eventOut = this.options.trigger === 'hover' ? mouse.leave : 'blur';
+                eventIn = this.options.trigger === 'hover' ? mouse.enter : 'focusin';
+                eventOut = this.options.trigger === 'hover' ? mouse.leave : 'focusout';
                 if (this.options.selector) {
                     eventIn = on.selector(this.options.selector, eventIn);
                     eventOut = on.selector(this.options.selector, eventOut);
