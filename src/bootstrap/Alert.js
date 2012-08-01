@@ -44,6 +44,7 @@ define([
     });
 
     function close(e) {
+        var transition = support.trans && domClass.contains(_this.domNode, 'fade');
         var _this = this;
         var selector = domAttr.get(_this, 'data-target');
         if (!selector) {
@@ -61,11 +62,7 @@ define([
 
         on.emit(targetNode[0], 'close', {bubbles:true, cancelable:true});
         domClass.remove(targetNode[0], 'in');
-        if (domClass.contains(targetNode[0], 'fade')) {
-            on(targetNode[0], support.trans.end, _remove);
-        } else {
-            _remove();
-        }
+        transition ? on(targetNode[0], support.trans.end, _remove) : _remove();
         function _remove() {
             on.emit(targetNode[0], 'closed', {bubbles:true, cancelable:true});
             domConstruct.destroy(targetNode[0]);

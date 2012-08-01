@@ -113,10 +113,10 @@ define([
             }
             _hideModal.call(_this);
         }, 500);
-        _this.hideEvent = on.once(_this.domNode, support.trans.end, function () {
+        _this.hideEvent = support.trans ? on.once(_this.domNode, support.trans.end, function () {
             clearTimeout(timeout);
             _hideModal.call(_this);
-        });
+        }) : null;
     }
 
     function _hideModal() {
