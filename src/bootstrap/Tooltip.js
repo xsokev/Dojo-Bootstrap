@@ -181,11 +181,15 @@ define([
 
                 _this.hideEvent = on.once(tip, support.trans.end, function () {
                     clearTimeout(timeout);
-                    domConstruct.destroy(tip);
+                    _destroyTip();
                 });
             }
+            function _destroyTip() {
+                domConstruct.destroy(tip);
+                _this.tipNode = null;
+            }
 
-            support.trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : domConstruct.destroy(tip);
+            support.trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : _destroyTip();
         },
         isHTML:function (text) {
             // html string detection logic adapted from jQuery
@@ -194,7 +198,7 @@ define([
         setContent:function () {
             var tip = this.tip();
             var title = this.getTitle();
-            html.set(query('.tooltip-inner', tip)[0], title);
+            if(query('.tooltip-inner', tip)[0]){ html.set(query('.tooltip-inner', tip)[0], title); }
             domClass.remove(tip, 'fade in top bottom left right');
         },
         hasContent:function () {

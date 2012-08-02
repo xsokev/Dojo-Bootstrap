@@ -45,8 +45,8 @@ define([
             var tip = this.tip();
             var title = this.getTitle();
             var content = this.getContent();
-            html.set(query('.popover-title', tip)[0], title);
-            html.set(query('.popover-content > *', tip)[0], content);
+            if (query('.popover-title', tip)[0]) { html.set(query('.popover-title', tip)[0], title); }
+            if (query('.popover-content > *', tip)[0]) { html.set(query('.popover-content > *', tip)[0], content); }
             domClass.remove(tip, 'fade in top bottom left right');
         },
         hasContent:function () {
