@@ -1,4 +1,4 @@
-define(["dojo/_base/lang"], function (lang) {
+define(["../../dist/dojo/_base/lang"], function (lang) {
     var functions = {};
     functions.alwaysTrue = function () {
         return true;

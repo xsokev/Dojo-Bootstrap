@@ -1,8 +1,8 @@
 define([
     "doh",
-    "dojo/on",
-    "dojo/_base/sniff",
-    "dojo/dom-construct",
+    "../../dist/dojo/on",
+    "../../../public/dojo/_base/sniff",
+    "../../../../public/dojo/dom-construct",
     "dojo/dom-class",
     "bootstrap/Support",
     "bootstrap/Typeahead"

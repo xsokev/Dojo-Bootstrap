@@ -1,8 +1,8 @@
 define([
     "doh",
-    "dojo/on",
-    "dojo/dom-construct",
-    "bootstrap/Tab"
+    "../../dist/dojo/on",
+    "../../../public/dojo/dom-construct",
+    "../../../../public/bootstrap/Tab"
 ], function (doh, on, domConstruct) {
     "use strict";
     var q = dojo.query;

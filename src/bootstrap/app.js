@@ -3,15 +3,16 @@
 // ++++++++++++++++++++++++++++++++++++++++++
 
 require({
-    baseUrl: '',
+    baseUrl:'.',
     selectorEngine: 'acme',
     packages: [
-        { name: 'dojo', location: '../../dojo' },
-        { name: 'bootstrap', location: '../' }
+        { name: 'dojo', location: './dojo' },
+        { name: 'bootstrap', location: './bootstrap' },
+        { name: 'js', location: './js' }
     ],
     cache: {}
 }, [ 
-	'dojo/dom-geometry',
+	'../../public/dojo/dom-geometry',
 	'bootstrap/Alert',
 	'bootstrap/Button',
 	'bootstrap/Collapse',

@@ -1,8 +1,8 @@
 define([
     "doh",
-    "dojo/on",
-    "dojo/dom-construct",
-    "dojo/dom-class",
+    "../../dist/dojo/on",
+    "../../../public/dojo/dom-construct",
+    "../../../../public/dojo/dom-class",
     "dojo/dom-attr",
     "bootstrap/Support",
     "bootstrap/Popover"

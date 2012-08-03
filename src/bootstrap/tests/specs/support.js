@@ -1,8 +1,8 @@
 define([
     "doh",
-    "bootstrap/support",
-    "dojo/dom-construct",
-    "dojo/dom-attr",
+    "../../dist/bootstrap/Support",
+    "../../../public/dojo/dom-construct",
+    "../../../../public/dojo/dom-attr",
     "dojo/NodeList-data"
 ], function (doh, support, domConstruct, domAttr) {
     "use strict";

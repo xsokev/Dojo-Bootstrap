@@ -1,26 +1,20 @@
 {
-    "name":"app",
+    "name":"dojo-bootstrap",
     "version":"1.0",
-    "main":"main",
+    "main":"app",
     "dependencies":{
         "dojo":"current",
-        "dijit":"current",
-        "dojox":"current",
         "util":"current"
     },
-    "description":"Dojo Boilerplate Example Application. A quick-start application that demonstrates basic usage of the Dojo Toolkit. This package.json file is a CommonJS Packages/1.0 manifest, with a special “dojoBuild” property to point to the build file for this package. (This is more useful for library packages than the main application package.)",
+    "description":"Implementation of the Twitter Bootstrap using the Dojo Toolkit.",
     "licenses":[
         {
-            "type":"AFLv2.1",
-            "url":"http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L43"
-        },
-        {
-            "type":"BSD",
-            "url":"http://trac.dojotoolkit.org/browser/dojo/trunk/LICENSE#L13"
+            "type":"Apache License",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0"
         }
     ],
-    "bugs":"https://github.com/csnover/dojo-boilerplate/issues",
-    "keywords":["JavaScript", "Dojo", "Boilerplate", "Example", "Howto"],
-    "homepage":"https://github.com/csnover/dojo-boilerplate",
+    "bugs":"https://github.com/xsokev/Dojo-Bootstrap/issues",
+    "keywords":["JavaScript", "Dojo", "Twitter Bootstrap"],
+    "homepage":"https://github.com/xsokev/Dojo-Bootstrap",
     "dojoBuild":"app.profile.js"
 }
