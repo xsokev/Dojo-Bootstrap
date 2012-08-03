@@ -2,17 +2,8 @@
 // IT'S ALL JUST JUNK FOR OUR DOCS!
 // ++++++++++++++++++++++++++++++++++++++++++
 
-require({
-    baseUrl:'.',
-    selectorEngine: 'acme',
-    packages: [
-        { name: 'dojo', location: './dojo' },
-        { name: 'bootstrap', location: './bootstrap' },
-        { name: 'js', location: './js' }
-    ],
-    cache: {}
-}, [ 
-	'../../public/dojo/dom-geometry',
+require([
+	'dojo/dom-geometry',
 	'bootstrap/Alert',
 	'bootstrap/Button',
 	'bootstrap/Collapse',
@@ -22,7 +13,8 @@ require({
 	'bootstrap/Scrollspy',
 	'bootstrap/Tab',
 	'bootstrap/Tooltip',
-    'bootstrap/Typeahead'
+    'bootstrap/Typeahead',
+    'dojo/domReady!'
 ], function(geom){
     "use strict";
 

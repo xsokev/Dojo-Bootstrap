@@ -52,9 +52,7 @@ define([
         show:function (e) {
             var _this = this;
             on.emit(this.domNode, 'show', {bubbles:false, cancelable:false});
-            if (this.isShown && e.defaultPrevented) {
-                return;
-            }
+            if (this.isShown && e.defaultPrevented) { return; }
             domClass.add(win.body(), 'modal-open');
             this.isShown = true;
 
@@ -66,18 +64,22 @@ define([
                 }
                 domStyle.set(_this.domNode, 'display', 'block');
                 if (transition) {
-                    _this.domNode.offsetWidth;
+                    _this.domNode.offsetWidth = _this.domNode.offsetWidth;
                 }
                 domClass.add(_this.domNode, 'in');
-                transition ? on.once(_this.domNode, support.trans.end, function () {
+                if (transition) {
+                    on.once(_this.domNode, support.trans.end, function () {
+                        on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
+                    });
+                } else {
                     on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
-                }) : on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
+                }
             });
         },
         hide:function (e) {
             var _this = this;
             on.emit(this.domNode, 'hide', {bubbles:false, cancelable:false});
-            e && e.preventDefault();
+            if (e) { e.preventDefault(); }
             if (!this.isShown && e.defaultPrevented) {
                 return;
             }
@@ -136,7 +138,7 @@ define([
                 on(_this.backdropNode, 'click', lang.hitch(_this, 'hide'));
             }
             if (doAnimate) {
-                _this.backdropNode.offsetWidth;
+                _this.backdropNode.offsetWidth = _this.backdropNode.offsetWidth;
             }
             domClass.add(_this.backdropNode, 'in');
             if (doAnimate) {

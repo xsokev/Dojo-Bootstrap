@@ -38,13 +38,12 @@ define([
         constructor:function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
-            on(this.domNode, on.selector(dismissSelector, 'click'), close);
+            on(this.domNode, on.selector(dismissSelector, 'click'), lang.hitch(this, close));
         }
     });
 
     function close(e) {
         var _this = this;
-        var transition = support.trans && domClass.contains(_this.domNode, 'fade');
         var selector = domAttr.get(_this, 'data-target');
         if (!selector) {
             selector = domAttr.get(_this, "href");
@@ -61,11 +60,13 @@ define([
 
         on.emit(targetNode[0], 'close', {bubbles:true, cancelable:true});
         domClass.remove(targetNode[0], 'in');
-        transition ? on(targetNode[0], support.trans.end, _remove) : _remove();
+
         function _remove() {
             on.emit(targetNode[0], 'closed', {bubbles:true, cancelable:true});
             domConstruct.destroy(targetNode[0]);
         }
+        var transition = support.trans && domClass.contains(targetNode[0], 'fade');
+        transition ? on(targetNode[0], support.trans.end, _remove) : _remove();
 
         e && e.preventDefault();
         return false;

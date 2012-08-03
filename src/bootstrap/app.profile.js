@@ -1,15 +1,23 @@
 var profile = (function () {
     "use strict";
-    function copyOnly(mid) {
-        return mid in {
-
+    var testResourceRe = /^bootstrap\/tests\//;
+    function copyOnly(filename, mid) {
+        var list = {
+            "bootstrap/app.profile":1,
+            "bootstrap/package.json":1
+            //"bootstrap/run":1, "bootstrap/main":1
         };
+        return (mid in list) ||
+            (/^bootstrap\/assets\//.test(mid) && !/\.css$/.test(filename)) ||
+            /(png|jpg|jpeg|gif|tiff|ico)$/.test(filename) ||
+            /built\-i18n\-test\/152\-build/.test(mid);
     }
     return {
+        copyright: '/* Copyright xsokev. 2012 */',
         // basePath is relative to the directory containing this profile file; in this case, it is being set to the
         // src/ directory, which is the same place as the baseUrl directory in the loader configuration. (If you change
         // this, you will also need to update app.js).
-        basePath:'.',
+        basePath:'../',
 
         // Builds a new release.
         action:'release',
@@ -20,7 +28,7 @@ var profile = (function () {
         // Excludes tests, demos, and original template files from being included in the built version.
         mini:true,
 
-        // Uses Closure Compiler as the JavaScript minifier. This can also be set to "shrinksafe" to use ShrinkSafe.
+        // Uses Closure Compiler (closure) as the JavaScript minifier. This can also be set to "shrinksafe" to use ShrinkSafe.
         // Note that you will probably get some “errors” with CC; these are generally safe to ignore, and will be
         // fixed in a later version of Dojo. This defaults to "" (no compression) if not provided.
         optimize:'closure',
@@ -39,6 +47,7 @@ var profile = (function () {
         // are not supporting IE7 and earlier.)
         selectorEngine:'acme',
 
+        insertAbsMids:0,
         // Builds can be split into multiple different JavaScript files called “layers”. This allows applications to
         // defer loading large sections of code until they are actually required while still allowing multiple modules to
         // be compiled into a single file.
@@ -49,15 +58,16 @@ var profile = (function () {
             'dojo/dojo':{
                 // Including the loader (dojo/dojo) and dojo/domReady modules because we don’t want to have to make
                 // extra HTTP requests for such tiny files.
-                include:[ 'dojo/dojo', 'dojo/domReady' ],
+                include:[
+                    'dojo/dojo',
+                    'bootstrap/main', 'bootstrap/run' ],
                 // By default, the build system will try to include dojo/main in the built dojo/dojo layer, which adds a
                 // bunch of stuff we don’t want or need. We want the initial script load to be as small and quick as
                 // possible, so we configure it as a custom, bootable base.
                 boot:true,
                 customBase:true
             },
-            'js/app':{ boot:true, customBase:true, include:['app.js'] },
-            'js/bootstrap':{
+            'bootstrap/bootstrap':{
                 include:[
                     'bootstrap/Alert',
                     'bootstrap/Button',
@@ -78,19 +88,17 @@ var profile = (function () {
         // Keep in mind that dead code removal only happens in minifiers that support it! Currently, ShrinkSafe does not
         // support dead code removal; Closure Compiler and UglifyJS do.
         staticHasFeatures:{
+            'dojo-amd-factory-scan':0,
             // The trace & log APIs are used for debugging the loader, so we don’t need them in the build
             'dojo-trace-api':0,
             'dojo-log-api':0,
-
+            'dojo-firebug':0,
             // This causes normally private loader data to be exposed for debugging, so we don’t need that either
             'dojo-publish-privates':0,
-
             // We’re fully async, so get rid of the legacy loader
             'dojo-sync-loader':0,
-
             // dojo-xhr-factory relies on dojo-sync-loader
             'dojo-xhr-factory':0,
-
             // We aren’t loading tests in production
             'dojo-test-sniff':0
         },
@@ -100,24 +108,17 @@ var profile = (function () {
         resourceTags:{
             // Files that contain test code.
             test:function (filename, mid) {
-                return false;
+                return testResourceRe.test(mid);
             },
 
             // Files that should be copied as-is without being modified by the build system.
             copyOnly:function (filename, mid) {
-                return copyOnly(mid);
+                return copyOnly(filename, mid);
             },
 
             // Files that are AMD modules.
             amd:function (filename, mid) {
                 return (/\.js$/).test(filename);
-            },
-
-            // Files that should not be copied when the “mini” compiler flag is set to true.
-            miniExclude:function (filename, mid) {
-                return mid in {
-                    'app/profile':1
-                };
             }
         }
     };

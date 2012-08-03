@@ -1,7 +1,7 @@
 {
     "name":"dojo-bootstrap",
     "version":"1.0",
-    "main":"app",
+    "main":"main",
     "dependencies":{
         "dojo":"current",
         "util":"current"
