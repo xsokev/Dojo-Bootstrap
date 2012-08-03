@@ -1,8 +1,13 @@
-define([
+require({
+    packages: [
+        { name: 'dojo', location: '../dojo' },
+        { name: 'bootstrap', location: '../bootstrap' }
+    ]
+},[
     "doh",
-    "../../dist/dojo/on",
-    "../../../public/dojo/dom-construct",
-    "../../../../public/dojo/dom-class",
+    "dojo/on",
+    "dojo/dom-construct",
+    "dojo/dom-class",
     "bootstrap/Button"
 ], function (doh, on, domConstruct, domClass) {
     "use strict";

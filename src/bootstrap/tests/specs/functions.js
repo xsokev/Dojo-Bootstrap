@@ -1,4 +1,14 @@
-define(["../../dist/dojo/_base/lang"], function (lang) {
+require({
+    packages: [
+        { name: 'dojo', location: '../dojo' },
+        { name: 'bootstrap', location: '../bootstrap' }
+    ]
+},[
+    "doh",
+    "dojo/lang"
+], function (lang) {
+    "use strict";
+
     var functions = {};
     functions.alwaysTrue = function () {
         return true;

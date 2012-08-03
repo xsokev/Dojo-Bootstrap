@@ -1,8 +1,13 @@
-define([
+require({
+    packages: [
+        { name: 'dojo', location: '../dojo' },
+        { name: 'bootstrap', location: '../bootstrap' }
+    ]
+},[
     "doh",
-    "../../dist/dojo/on",
-    "../../../public/dojo/_base/sniff",
-    "../../../../public/dojo/dom-construct",
+    "dojo/on",
+    "dojo/_base/sniff",
+    "dojo/dom-construct",
     "dojo/dom-class",
     "bootstrap/Support",
     "bootstrap/Typeahead"

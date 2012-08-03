@@ -1,9 +1,13 @@
-define([
+require({
+    packages: [
+        { name: 'dojo', location: '../dojo' },
+        { name: 'bootstrap', location: '../bootstrap' }
+    ]
+},[
     "doh",
-    "../../dist/bootstrap/Support",
-    "../../../public/dojo/dom-construct",
-    "../../../../public/dojo/dom-attr",
-    "dojo/NodeList-data"
+    "bootstrap/Support",
+    "dojo/dom-construct",
+    "dojo/dom-attr"
 ], function (doh, support, domConstruct, domAttr) {
     "use strict";
     var q = dojo.query;

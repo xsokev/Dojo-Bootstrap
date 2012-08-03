@@ -1,8 +1,13 @@
-define([
+require({
+    packages: [
+        { name: 'dojo', location: '../dojo' },
+        { name: 'bootstrap', location: '../bootstrap' }
+    ]
+},[
     "doh",
-    "../../dist/dojo/on",
-    "../../../public/dojo/dom-construct",
-    "../../../../public/dojo/dom-class",
+    "dojo/on",
+    "dojo/dom-construct",
+    "dojo/dom-class",
     "bootstrap/Alert"
 ], function (doh, on, domConstruct, domClass) {
     "use strict";
@@ -20,10 +25,10 @@ define([
             setUp:function () {
                 this.n = domConstruct.place(alertHTML, document.body);
                 q(this.n).alert();
-                on.emit(dojo.query('.close', this.n)[0], "click", { bubbles:true, cancelable:true });
+                on.emit(q('.close', this.n)[0], "click", { bubbles:true, cancelable:true });
             },
             runTest:function () {
-                doh.f(domClass.contains(this.n, 'in'));
+                doh.t(domClass.contains(this.n, 'in'));
             },
             tearDown:function(){
                 domConstruct.destroy(this.n);
@@ -37,7 +42,7 @@ define([
             },
             runTest:function () {
                 doh.t(q('.alert-message', document.body).length);
-                on.emit(dojo.query('.close', this.n)[0], "click", { bubbles:true, cancelable:true });
+                on.emit(q('.close', this.n)[0], "click", { bubbles:true, cancelable:true });
                 doh.f(q('.alert-message', document.body).length);
             }
         }
