@@ -14,6 +14,7 @@ require([
 	'bootstrap/Tab',
 	'bootstrap/Tooltip',
     'bootstrap/Typeahead',
+    'bootstrap/Carousel',
     'dojo/domReady!'
 ], function(geom){
     "use strict";
@@ -40,7 +41,7 @@ require([
 		});
 	*/
 
-    //q('#myCarousel').carousel();		// carousel demo
+    q('#myCarousel').carousel();		// carousel demo
 	
 	processScroll();
 	q(win).on('scroll', processScroll);
