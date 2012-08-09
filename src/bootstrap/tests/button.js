@@ -8,7 +8,7 @@ require({
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-class",
-    "../Button"
+    "bootstrap/Button"
 ], function (doh, on, domConstruct, domClass) {
     "use strict";
     var q = dojo.query;

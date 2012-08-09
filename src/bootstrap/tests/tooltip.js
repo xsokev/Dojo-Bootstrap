@@ -9,7 +9,7 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "../Tooltip"
+    "bootstrap/Tooltip"
 ], function (doh, on, domConstruct, domClass, domAttr, Tooltip) {
     "use strict";
     var q = dojo.query;

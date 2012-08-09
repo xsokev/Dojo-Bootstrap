@@ -9,7 +9,7 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "../Dropdown"
+    "bootstrap/Dropdown"
 ], function (doh, on, domConstruct, domClass, domAttr) {
     "use strict";
     var q = dojo.query;
