@@ -9,7 +9,7 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "bootstrap/Support",
+    "../Support",
     "bootstrap/Popover"
 ], function (doh, on, domConstruct, domClass, domAttr, support) {
     "use strict";

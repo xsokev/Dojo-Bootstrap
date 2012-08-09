@@ -8,7 +8,7 @@ require({
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-class",
-    "bootstrap/Tab"
+    "../Tab"
 ], function (doh, on, domConstruct) {
     "use strict";
     var q = dojo.query;

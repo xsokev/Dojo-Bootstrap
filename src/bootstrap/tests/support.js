@@ -5,7 +5,7 @@ require({
     ]
 },[
     "doh",
-    "bootstrap/Support",
+    "../Support",
     "dojo/dom-construct",
     "dojo/dom-attr"
 ], function (doh, support, domConstruct, domAttr) {

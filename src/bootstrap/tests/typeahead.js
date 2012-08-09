@@ -9,7 +9,7 @@ require({
     "dojo/_base/sniff",
     "dojo/dom-construct",
     "dojo/dom-class",
-    "bootstrap/Support",
+    "../Support",
     "bootstrap/Typeahead"
 ], function (doh, on, sniff, domConstruct, domClass, support) {
     "use strict";

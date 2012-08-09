@@ -8,7 +8,7 @@ require({
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-attr",
-    "bootstrap/Scrollspy"
+    "../Scrollspy"
 ], function (doh, on, domConstruct, domAttr) {
     "use strict";
     var q = dojo.query;
