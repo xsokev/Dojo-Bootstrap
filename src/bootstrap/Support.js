@@ -26,6 +26,20 @@ define([
 function (query, lang, attr, array, json) {
     "use strict";
 
+    lang.extend(query.NodeList, {
+        show:function () {
+            return this.forEach(function (node) {
+                node.style.display = 'block';
+            });
+        },
+        hide:function () {
+            return this.forEach(function (node) {
+                node.style.display = 'none';
+            });
+        }
+    });
+
+
     var _transition = (function () {
         var transitionEnd = (function () {
             var el = document.createElement('bootstrap');
@@ -95,6 +109,9 @@ function (query, lang, attr, array, json) {
         setData: function(node, key, value){
             var data = query(node).data(key, value);
             return value;
+        },
+        removeData: function(node, key){
+            return query(node).removeData(key);
         },
         toCamel: function(str){
             return str.replace(/(\-[a-z])/g, function($1){ return $1.toUpperCase().replace('-',''); });
