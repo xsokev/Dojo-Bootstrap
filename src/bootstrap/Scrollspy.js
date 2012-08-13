@@ -27,11 +27,10 @@ define([
     'dojo/dom-construct',
     'dojo/dom-attr',
     'dojo/dom-geometry',
-    'dojo/dom-style',
     'dojo/NodeList-dom',
     'dojo/NodeList-traverse',
     'dojo/domReady!'
-], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr, domGeom, domStyle) {
+], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr, domGeom) {
     "use strict";
 
     var spySelector = '[data-spy="scroll"]';
