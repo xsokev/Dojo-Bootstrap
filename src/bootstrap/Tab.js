@@ -77,7 +77,7 @@ define([
                 domClass.add(element, 'active');
 
                 if (transition) {
-                    element.offsetWidth;
+                    element.offsetWidth = element.offsetWidth;
                     domClass.add(element, 'in');
                 } else {
                     domClass.remove(element, 'fade');
@@ -89,7 +89,7 @@ define([
                 if (callback) { callback(); }
             }
 
-            transition ? on.once(active, support.trans.end, next) : next();
+            if (transition) { on.once(active, support.trans.end, next); } else { next(); }
             domClass.remove(active, 'in');
         }
     });

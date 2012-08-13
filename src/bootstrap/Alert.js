@@ -56,7 +56,7 @@ define([
             targetNode = domClass.contains(query(_this)[0], 'alert') ? query(_this) : query(_this).parent();
         }
 
-        e && e.stopPropagation();
+        if (e) { e.stopPropagation(); }
 
         on.emit(targetNode[0], 'close', {bubbles:true, cancelable:true});
         domClass.remove(targetNode[0], 'in');
@@ -66,9 +66,8 @@ define([
             domConstruct.destroy(targetNode[0]);
         }
         var transition = support.trans && domClass.contains(targetNode[0], 'fade');
-        transition ? on(targetNode[0], support.trans.end, _remove) : _remove();
-
-        e && e.preventDefault();
+        if (transition) { on(targetNode[0], support.trans.end, _remove); } else { _remove(); }
+        if (e) { e.preventDefault(); }
         return false;
     }
 
