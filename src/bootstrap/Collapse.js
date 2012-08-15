@@ -85,7 +85,7 @@ define([
             var dimension = this.dimension();
             domClass.remove(this.domNode, 'collapse');
             domStyle.set(this.domNode, dimension, size);
-            this.domNode.offsetWidth = this.domNode.offsetWidth;
+            this.domNode.offsetWidth;
             domClass[(size !== null ? 'add' : 'remove')](this.domNode, 'collapse');
             return this;
         },

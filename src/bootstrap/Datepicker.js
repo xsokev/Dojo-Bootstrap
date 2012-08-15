@@ -288,7 +288,8 @@ define([
                 }
                 prevMonth.setDate(prevMonth.getDate()+1);
             }
-            query('.datepicker-days tbody', this.picker)[0].innerHTML = html.join('');
+            domConstruct.empty(query('.datepicker-days tbody', this.picker)[0]);
+            domConstruct.place(html.join(' '), query('.datepicker-days tbody', this.picker)[0]);
 
             var months = query('.datepicker-months', this.picker);
             query('th.switch', months[0])[0].innerHTML = year;
