@@ -59,8 +59,25 @@ var profile = (function () {
                 // Including the loader (dojo/dojo) and dojo/domReady modules because we don’t want to have to make
                 // extra HTTP requests for such tiny files.
                 include:[
-                    'dojo/dojo',
-                    'bootstrap/main', 'bootstrap/run' ],
+                    "dojo/_base/declare",
+                    "dojo/_base/lang",
+                    'dojo/_base/window',
+                    "dojo/_base/sniff",
+                    "dojo/_base/array",
+                    "dojo/_base/json",
+                    "dojo/query",
+                    'dojo/on',
+                    'dojo/mouse',
+                    'dojo/html',
+                    'dojo/dom-class',
+                    'dojo/dom-construct',
+                    "dojo/dom-attr",
+                    "dojo/dom-geometry",
+                    "dojo/dom-style",
+                    "dojo/NodeList-dom",
+                    'dojo/NodeList-traverse',
+                    "dojo/NodeList-data"
+                ],
                 // By default, the build system will try to include dojo/main in the built dojo/dojo layer, which adds a
                 // bunch of stuff we don’t want or need. We want the initial script load to be as small and quick as
                 // possible, so we configure it as a custom, bootable base.
