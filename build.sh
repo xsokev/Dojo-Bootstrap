@@ -52,11 +52,11 @@ cd "$BASEDIR"
 LOADERMID=${LOADERMID//\//\\\/}
 
 # Copy & minify index.html to dist
-cat "$SRCDIR/index.html" | tr -s '\n' | \
-perl -pe "
-  s/<\!--.*?-->//g;                          # Strip comments
-  s/isDebug: *1/deps:['$LOADERMID']/;        # Remove isDebug, add deps
-  s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script bootstrap/run
+# cat "$SRCDIR/index.html" | tr -s '\n' | \
+#perl -pe "
+#  s/<\!--.*?-->//g;                          # Strip comments
+#  s/isDebug: *1/deps:['$LOADERMID']/;        # Remove isDebug, add deps
+#  s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script bootstrap/run
 #  s/\s+/ /g;                                 # Collapse white-space" > "$DISTDIR/index.html"
 
 echo "Build complete"
