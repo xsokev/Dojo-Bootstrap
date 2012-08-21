@@ -18,6 +18,7 @@
 define([
     "dojo/_base/declare",
     "bootstrap/Support",
+    'bootstrap/Tooltip',
     "dojo/query",
     "dojo/_base/lang",
     'dojo/on',
@@ -25,7 +26,6 @@ define([
     'dojo/dom-construct',
     "dojo/dom-attr",
     'dojo/html',
-    './Tooltip',
     "dojo/NodeList-dom",
     "dojo/domReady!"
 ], function (declare, support, query, lang, on, domClass, domConstruct, domAttr, html, Tooltip) {
