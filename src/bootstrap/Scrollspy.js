@@ -94,7 +94,9 @@ define([
                 return activeTarget !== (i = targets[targets.length - 1]) && this.activate(i);
             }
             for (i = offsets.length; i--;) {
-                activeTarget !== targets[i] && scrollTop >= offsets[i] && (!offsets[i + 1] || scrollTop <= offsets[i + 1]) && this.activate(targets[i]);
+                if (activeTarget !== targets[i] && scrollTop >= offsets[i] && (!offsets[i + 1] || scrollTop <= offsets[i + 1])) {
+                    this.activate(targets[i]);
+                }
             }
         },
         activate:function (target) {
@@ -115,7 +117,7 @@ define([
             return this.forEach(function (node) {
                 var data = support.getData(node, 'scrollspy');
                 if (!data) {
-                    support.setData(node, 'scrollspy', (data = new Scrollspy(node, options)))
+                    support.setData(node, 'scrollspy', (data = new Scrollspy(node, options)));
                 }
                 if (lang.isString(option)) {
                     data[option].call(data);
