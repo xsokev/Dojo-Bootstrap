@@ -347,7 +347,8 @@ define([
                             month = support.getData(target[0], 'month');
                             this.viewDate.setMonth(month);
                         } else {
-                            year = parseInt(target[0].innerText, 10) || 0;
+                            var yearText = target[0].innerText || target[0].textContent;
+                            year = parseInt(yearText, 10) || 0;
                             this.viewDate.setFullYear(year);
                         }
                         this.showMode(-1);
@@ -355,7 +356,8 @@ define([
                         break;
                     case 'td':
                         if (domClass.contains(target[0], 'day')){
-                            day = parseInt(target[0].innerText, 10) || 1;
+                            var dayText = target[0].innerText || target[0].textContent;
+                            day = parseInt(dayText, 10) || 1;
                             month = this.viewDate.getMonth();
                             if (domClass.contains(target[0], 'old')) {
                                 month -= 1;
