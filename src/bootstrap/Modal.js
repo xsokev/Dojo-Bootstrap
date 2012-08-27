@@ -64,7 +64,7 @@ define([
                 }
                 domStyle.set(_this.domNode, 'display', 'block');
                 if (transition) {
-                    _this.domNode.offsetWidth = _this.domNode.offsetWidth;
+                    _this.domNode.offsetWidth;
                 }
                 domClass.add(_this.domNode, 'in');
                 if (transition) {
@@ -138,7 +138,7 @@ define([
                 on(_this.backdropNode, 'click', lang.hitch(_this, 'hide'));
             }
             if (doAnimate) {
-                _this.backdropNode.offsetWidth = _this.backdropNode.offsetWidth;
+                _this.backdropNode.offsetWidth;
             }
             domClass.add(_this.backdropNode, 'in');
             if (doAnimate) {

@@ -77,7 +77,7 @@ define([
                 domClass.add(element, 'active');
 
                 if (transition) {
-                    element.offsetWidth = element.offsetWidth;
+                    element.offsetWidth;
                     domClass.add(element, 'in');
                 } else {
                     domClass.remove(element, 'fade');

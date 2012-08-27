@@ -107,7 +107,7 @@ define([
                 on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false });
                 //if (e && e.defaultPrevented) { return; }
                 domClass.add(next[0], type);
-                next[0].offsetWidth = next[0].offsetWidth;
+                next[0].offsetWidth;
 
                 domClass.add(active[0], direction);
                 domClass.add(next[0], direction);
