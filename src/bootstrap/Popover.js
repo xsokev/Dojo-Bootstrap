@@ -28,7 +28,7 @@ define([
     'dojo/html',
     "dojo/NodeList-dom",
     "dojo/domReady!"
-], function (declare, support, query, lang, on, domClass, domConstruct, domAttr, html, Tooltip) {
+], function (declare, support, Tooltip, query, lang, on, domClass, domConstruct, domAttr, html) {
     "use strict";
 
     var Popover = declare(Tooltip, {
