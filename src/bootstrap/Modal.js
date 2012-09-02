@@ -27,7 +27,7 @@ define([
     "dojo/dom-construct",
     "dojo/dom-attr",
     "dojo/dom-style",
-    "dojo/Request",
+    "dojo/request",
     "dojo/NodeList-dom",
     "dojo/NodeList-traverse",
     "dojo/NodeList-manipulate",
