@@ -35,8 +35,8 @@ define([
 ], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr, domStyle, request) {
     "use strict";
 
-    var toggleSelector = '[data-toggle="modal"]';
-    var dismissSelector = '[data-dismiss="modal"]';
+    var toggleSelector = '[data-toggle=modal]';
+    var dismissSelector = '[data-dismiss=modal]';
     var Modal = declare([], {
         defaultOptions:{
             backdrop:true,
