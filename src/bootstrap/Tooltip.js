@@ -62,8 +62,8 @@ define([
             this.enabled = true;
 
             if (this.options.trigger === 'click') {
-                query(this.domNode).parents('.modal').on('hidden', function(){
-                    _this.hide();
+                query(this.domNode).parents('.modal').on('hide', function(){
+                    _this.hide(false);
                 });
                 if (this.options.selector) {
                     this.eventActivate = on(this.domNode, on.selector(this.options.selector, 'click'), lang.hitch(this, 'toggle'));
@@ -184,8 +184,9 @@ define([
                 domClass.add(tip, (new Array(placement, 'in')).join(" "));
             }
         },
-        hide:function () {
+        hide:function (animate) {
             var _this = this;
+            animate = animate || true;
             var tip = this.tip();
             domClass.remove(tip, 'in');
             function _removeWithAnimation() {
@@ -203,7 +204,7 @@ define([
                 _this.tipNode = null;
             }
 
-            if (support.trans && domClass.contains(tip, 'fade')) {
+            if (support.trans && domClass.contains(tip, 'fade') && animate) {
                 _removeWithAnimation();
             } else {
                 _destroyTip();
