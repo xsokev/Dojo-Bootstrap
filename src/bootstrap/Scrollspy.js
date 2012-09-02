@@ -1,5 +1,5 @@
 /* ==========================================================
- * Scrollspy.js v0.0.1
+ * Scrollspy.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -33,7 +33,7 @@ define([
 ], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr, domGeom) {
     "use strict";
 
-    var spySelector = '[data-spy="scroll"]';
+    var spySelector = '[data-spy=scroll]';
     var Scrollspy = declare([], {
         defaultOptions:{
             offset:10
@@ -61,12 +61,12 @@ define([
             var container_offset = domGeom.position(this.element, false).y;
             query(this.selector, win.body()).map(function (node) {
                 var href = support.getData(node, 'target') || domAttr.get(node, 'href');
-                var target = /^#\w/.test(href) && query(href)[0];
+                var target = /^#\w/.test(href) && query(href);
                 var pos;
-                if (target) {
-                    pos = domGeom.position(target, false);
+                if (target[0]) {
+                    pos = domGeom.position(target[0], false);
                 }
-                return (target && href.length && [ pos.y - container_offset, href ] ) || false;
+                return (target && target.length && [ pos.y - container_offset, href ] ) || null;
             })
             .filter(function (item) {
                 return item;
@@ -104,7 +104,7 @@ define([
             query(this.selector).parent('.active').removeClass('active');
             var selector = this.selector + '[data-target="' + target + '"],' + this.selector + '[href="' + target + '"]';
             var active = query(selector).parent('li').addClass('active');
-            if (active.parent('.dropdown-menu')) {
+            if (active.parent('.dropdown-menu').length) {
                 active = active.closest('li.dropdown').addClass('active');
             }
             on.emit(active, 'activate', {bubbles:false, cancelable:false});

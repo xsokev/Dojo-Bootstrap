@@ -31,6 +31,7 @@ define([
     'dojo/dom-construct',
     'dojo/html',
     "dojo/NodeList-dom",
+    'dojo/NodeList-manipulate',
     'dojo/NodeList-traverse',
     "dojo/domReady!"
 ], function (support, declare, query, lang, win, on, mouse, domClass, domAttr, domStyle, domGeom, domConstruct, html) {
@@ -45,7 +46,8 @@ define([
             template:'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
             trigger:'hover',
             title:'',
-            delay:0
+            delay:0,
+            html: true
         },
         constructor:function (element, options) {
             this.init('tooltip', element, options);
@@ -58,20 +60,28 @@ define([
             this.options = this.getOptions(options);
             this.enabled = true;
 
-            if (this.options.trigger !== 'manual') {
+            if (this.options.trigger === 'click') {
+                if (this.options.selector) {
+                    this.eventActivate = on(this.domNode, on.selector(this.options.selector, 'click'), lang.hitch(this, 'toggle'));
+                } else {
+                    this.eventActivate = on(this.domNode, 'click', lang.hitch(this, 'toggle'));
+                }
+            } else if (this.options.trigger !== 'manual') {
                 eventIn = this.options.trigger === 'hover' ? mouse.enter : 'focusin';
                 eventOut = this.options.trigger === 'hover' ? mouse.leave : 'focusout';
                 if (this.options.selector) {
                     eventIn = on.selector(this.options.selector, eventIn);
                     eventOut = on.selector(this.options.selector, eventOut);
                 }
-                on(this.domNode, eventIn, lang.hitch(this, 'enter'));
-                on(this.domNode, eventOut, lang.hitch(this, 'leave'));
+                this.eventActivate = on(this.domNode, eventIn, lang.hitch(this, 'enter'));
+                this.eventDeactivate = on(this.domNode, eventOut, lang.hitch(this, 'leave'));
             }
 
-            this.options.selector ?
-                (this._options = lang.mixin({}, lang.mixin(lang.clone(this.options), { trigger:'manual', selector:'' }))) :
+            if (this.options.selector) {
+                (this._options = lang.mixin({}, lang.mixin(lang.clone(this.options), { trigger:'manual', selector:'' })));
+            } else {
                 this.fixTitle();
+            }
         },
         getOptions:function (options) {
             options = lang.mixin({},
@@ -189,16 +199,17 @@ define([
                 _this.tipNode = null;
             }
 
-            support.trans && domClass.contains(tip, 'fade') ? _removeWithAnimation() : _destroyTip();
-        },
-        isHTML:function (text) {
-            // html string detection logic adapted from jQuery
-            return typeof text !== 'string' || ( text.charAt(0) === "<" && text.charAt(text.length - 1) === ">" && text.length >= 3 ) || /^(?:[^<]*<[\w\W]+>[^>]*$)/.exec(text);
+            if (support.trans && domClass.contains(tip, 'fade')) {
+                _removeWithAnimation();
+            } else {
+                _destroyTip();
+            }
+            return this;
         },
         setContent:function () {
             var tip = this.tip();
             var title = this.getTitle();
-            if(query('.tooltip-inner', tip)[0]){ html.set(query('.tooltip-inner', tip)[0], title); }
+            query('.tooltip-inner', tip)[this.options.html ? 'html' : 'text'](title);
             domClass.remove(tip, 'fade in top bottom left right');
         },
         hasContent:function () {
@@ -240,6 +251,12 @@ define([
         },
         toggle:function () {
             this[domClass.contains(this.tip(), 'in') ? 'hide' : 'show']();
+        },
+        destroy: function() {
+            this.hide();
+            if (this.eventActivate) { this.eventActivate.remove(); }
+            if (this.eventDeactivate) { this.eventDeactivate.remove(); }
+            support.removeData(this.domNode, 'tooltip');
         }
     });
 

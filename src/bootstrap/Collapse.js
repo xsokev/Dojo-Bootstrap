@@ -1,5 +1,5 @@
 /* ==========================================================
- * Collapse.js v0.0.1
+ * Collapse.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -64,12 +64,12 @@ define([
                     return;
                 }
                 actives.collapse('hide');
-                hasData || support.setData(actives[0], 'collapse', null);
+                if (!hasData) { support.setData(actives[0], 'collapse', null); }
             }
 
             domStyle.set(this.domNode, dimension, '0px');
             this.transition('add', 'show', 'shown');
-            domStyle.set(this.domNode, dimension, this.domNode[scroll] + 'px');
+            if (support.trans) { domStyle.set(this.domNode, dimension, this.domNode[scroll] + 'px'); }
         },
         hide:function () {
             if (this.transitioning) {
@@ -105,8 +105,11 @@ define([
 
             domClass[method](this.domNode, 'in');
 
-            support.trans && domClass.contains(this.domNode, 'collapse') ?
-                on.once(_this.domNode, support.trans.end, _complete) : _complete();
+            if (support.trans && domClass.contains(this.domNode, 'collapse')) {
+                on.once(_this.domNode, support.trans.end, _complete);
+            } else {
+                _complete();
+            }
         },
         toggle:function () {
             this[domClass.contains(this.domNode, 'in') ? 'hide' : 'show']();
@@ -114,7 +117,7 @@ define([
     });
     lang.extend(query.NodeList, {
         collapse:function (option) {
-            var options = (lang.isObject(option)) ? option : {};
+            var options = (lang.isObject(option)) ? option : false;
             return this.forEach(function (node) {
                 var data = support.getData(node, 'collapse');
                 if (!data) {
@@ -131,6 +134,7 @@ define([
         var node = query(e.target)[0];
         var href, target = domAttr.get(node, 'data-target') || e.preventDefault() || (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
         var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
+        domClass[domClass.contains(query(target)[0], 'in') ? 'add' : 'remove'](node, 'collapsed');
         query(target).collapse(option);
     });
     return Collapse;

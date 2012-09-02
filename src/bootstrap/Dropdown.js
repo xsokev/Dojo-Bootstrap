@@ -1,5 +1,5 @@
 /* ==========================================================
- * Dropdown.js v0.0.1
+ * Dropdown.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -31,7 +31,7 @@ define([
 ], function (support, declare, query, lang, win, on, domClass, domAttr) {
     "use strict";
 
-    var toggleSelector = '[data-toggle="dropdown"]';
+    var toggleSelector = '[data-toggle=dropdown]';
     var Dropdown = declare([], {
         defaultOptions:{},
         constructor:function (element, options) {
@@ -43,38 +43,70 @@ define([
             if (el) {
                 domAttr.set(el[0], "data-toggle", "dropdown");
             }
+        },
+        toggle: function(e){
+            if (domClass.contains(this, "disabled") || domAttr.get(this, "disabled")) {
+                return false;
+            }
+            var targetNode = _getParent(this)[0];
+            if (targetNode) {
+                var isActive = domClass.contains(targetNode, 'open');
+                clearMenus();
+                if (!isActive) {
+                    domClass.toggle(targetNode, 'open');
+                    this.focus();
+                }
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        },
+        keydown: function(e) {
+            if (!/(38|40|27)/.test(e.keyCode)) { return; }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (domClass.contains(this, "disabled") || domAttr.get(this, "disabled")) {
+                return false;
+            }
+            var targetNode = _getParent(this)[0];
+            if (targetNode) {
+                var isActive = domClass.contains(targetNode, 'open');
+                if (!isActive || (isActive && e.keyCode === 27)) {
+                    return on.emit(targetNode, 'click', { bubbles:true, cancelable:true });
+                }
+            }
+            var items = query('[role=menu] li:not(.divider) a', targetNode);
+            if (!items.length) { return; }
+            var index = items.indexOf(document.activeElement);
+
+            if (e.keyCode === 38 && index > 0) { index--; }
+            if (e.keyCode === 40 && index < items.length - 1) { index++; }
+            if (index < 0) { index = 0; }
+
+            if (items[index]) {
+                items[index].focus();
+            }
         }
     });
 
-    function toggle(e) {
-        var _this = this;
-        if (domClass.contains(_this, "disabled") || domAttr.get(_this, "disabled")) {
-            return false;
-        }
-        var selector = domAttr.get(_this, 'data-target');
-        if (!selector) {
-            selector = domAttr.get(_this, "href");
-            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
-        }
-        var targetNode = query(_this).parent()[0];
-        if (selector && selector !== '#' && selector !== '') {
-            targetNode = query(selector).parent()[0];
-        }
-        if (targetNode) {
-            var isActive = domClass.contains(targetNode, 'open');
-            clearMenus();
-            if (!isActive) {
-                domClass.toggle(targetNode, 'open');
-            }
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
+    function clearMenus() {
+        _getParent(query(toggleSelector)).removeClass('open');
     }
 
-    function clearMenus() {
-        query(toggleSelector).parent().removeClass('open');
+    function _getParent(node){
+        var selector = domAttr.get(node, 'data-target');
+        if (!selector) {
+            selector = domAttr.get(node, "href");
+            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
+        }
+        var parentNode = query(node).parent();
+        if (selector && selector !== '#' && selector !== '') {
+            parentNode = query(selector).parent();
+        }
+        return parentNode;
     }
 
     lang.extend(query.NodeList, {
@@ -91,11 +123,15 @@ define([
             });
         }
     });
-    query('html').on('click', clearMenus);
-    on(win.body(), on.selector(toggleSelector, 'click'), toggle);
-    on(win.body(), on.selector('.dropdown form', 'click'), function (e) {
+    query('html').on('click, touchstart', clearMenus);
+    on(win.body(), on.selector(toggleSelector, 'click, touchstart'), Dropdown.prototype.toggle);
+    //TODO: this is causing the dropdown still visible when the user clicks it. This behaviour doesn't seem ideal
+    /*
+    on(win.body(), on.selector('.dropdown', 'click, touchstart'), function (e) {
         e.stopPropagation();
     });
+    */
+    on(win.body(), on.selector(toggleSelector+', [role=menu]', 'keydown, touchstart'), Dropdown.prototype.keydown);
 
     return Dropdown;
 });

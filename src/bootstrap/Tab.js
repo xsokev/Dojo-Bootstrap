@@ -1,5 +1,5 @@
 /* ==========================================================
- * Tab.js v0.0.1
+ * Tab.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -30,7 +30,7 @@ define([
 ], function (declare, query, lang, win, on, domClass, domAttr, support) {
     "use strict";
 
-    var toggleSelector = '[data-toggle="tab"], [data-toggle="pill"]';
+    var toggleSelector = '[data-toggle=tab], [data-toggle=pill]';
     var Tab = declare([], {
         constructor:function (element) {
             this.domNode = element;

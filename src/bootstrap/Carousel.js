@@ -1,5 +1,5 @@
 /* ==========================================================
- * Carousel.js v0.0.1
+ * Carousel.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -58,11 +58,10 @@ define([
             return this;
         },
         to: function (pos) {
-            var active = query('.active', this.domNode),
+            var active = query('.item.active', this.domNode),
                 children = active.parent().children(),
-                activePos = children.index(active),
+                activePos = children.indexOf(active[0]),
                 _this = this;
-
             if (pos > (children.length - 1) || pos < 0) { return; }
             if (this.sliding) {
                 return on.once(_this.domNode, 'slid', function () {
@@ -76,6 +75,10 @@ define([
         },
         pause: function (e) {
             if (!e) { this.paused = true; }
+            if (query('.next, .prev', this.domNode).length && support.trans.end) {
+                on.emit(this.domNode, support.trans.end, { bubbles:true, cancelable:true });
+                this.cycle();
+            }
             clearInterval(this.interval);
             this.interval = null;
             return this;
@@ -89,7 +92,7 @@ define([
             return this.slide('prev');
         },
         slide: function (type, next) {
-            var active = query('.active', this.domNode),
+            var active = query('.item.active', this.domNode),
                 isCycling = this.interval,
                 direction = type === 'next' ? 'left' : 'right',
                 fallback = type === 'next' ? 'first' : 'last',
@@ -104,7 +107,7 @@ define([
             if (domClass.contains(next[0], 'active')) { return; }
 
             if (support.trans && domClass.contains(this.domNode, 'slide')) {
-                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false });
+                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false, relatedTarget: next[0] });
                 //if (e && e.defaultPrevented) { return; }
                 domClass.add(next[0], type);
                 next[0].offsetWidth;
@@ -121,7 +124,7 @@ define([
                     }, 0);
                 });
             } else {
-                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false });
+                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false, relatedTarget: next[0] });
                 domClass.remove(active[0], 'active');
                 domClass.add(next[0], 'active');
                 this.sliding = false;
@@ -138,9 +141,10 @@ define([
             var options = (lang.isObject(option)) ? option : {};
             return this.forEach(function (node) {
                 var data = support.getData(node, 'carousel');
+                var action = typeof option === 'string' ? option : options.slide;
                 if (!data) { support.setData(node, 'carousel', (data = new Carousel(node, options))); }
                 if (typeof option === 'number') { data.to(option); }
-                else if (typeof option === 'string' || (option = options.slide)) { data[option].call(data); }
+                else if (action) { data[action].call(data); }
             });
         }
     });

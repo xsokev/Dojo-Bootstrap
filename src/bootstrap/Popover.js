@@ -1,5 +1,5 @@
 /* ==========================================================
- * Popover.js v0.0.1
+ * Popover.js v1.1.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -27,6 +27,7 @@ define([
     "dojo/dom-attr",
     'dojo/html',
     "dojo/NodeList-dom",
+    "dojo/NodeList-manipulate",
     "dojo/domReady!"
 ], function (declare, support, Tooltip, query, lang, on, domClass, domConstruct, domAttr, html) {
     "use strict";
@@ -36,6 +37,7 @@ define([
         constructor:function (element, options) {
             options = lang.mixin({
                 placement:'right',
+                trigger: 'click',
                 content:'',
                 template:'<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
             }, (options || {}));
@@ -45,8 +47,8 @@ define([
             var tip = this.tip();
             var title = this.getTitle();
             var content = this.getContent();
-            if (query('.popover-title', tip)[0]) { html.set(query('.popover-title', tip)[0], title); }
-            if (query('.popover-content > *', tip)[0]) { html.set(query('.popover-content > *', tip)[0], content); }
+            query('.popover-title', tip)[this.options.html ? 'html' : 'text'](title);
+            query('.popover-content > *', tip)[this.options.html ? 'html' : 'text'](content);
             domClass.remove(tip, 'fade in top bottom left right');
         },
         hasContent:function () {
@@ -57,6 +59,12 @@ define([
         },
         tip:function () {
             return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
+        },
+        destroy: function() {
+            this.hide();
+            if (this.eventActivate) { this.eventActivate.remove(); }
+            if (this.eventDeactivate) { this.eventDeactivate.remove(); }
+            support.removeData(this.domNode, 'popover');
         }
     });
 
