@@ -37,7 +37,7 @@ define([
 ], function (support, declare, query, lang, win, on, mouse, domClass, domAttr, domStyle, domGeom, domConstruct, html) {
     "use strict";
 
-    var toggleSelector = '[data-toggle="tooltip"]';
+    var toggleSelector = '[data-toggle=tooltip]';
     var Tooltip = declare("Tooltip", null, {
         defaultOptions:{
             animation:true,
@@ -53,6 +53,7 @@ define([
             this.init('tooltip', element, options);
         },
         init:function (type, element, options) {
+            var _this = this;
             this.domNode = element;
 
             var eventIn, eventOut;
@@ -61,6 +62,9 @@ define([
             this.enabled = true;
 
             if (this.options.trigger === 'click') {
+                query(this.domNode).parents('.modal').on('hidden', function(){
+                    _this.hide();
+                });
                 if (this.options.selector) {
                     this.eventActivate = on(this.domNode, on.selector(this.options.selector, 'click'), lang.hitch(this, 'toggle'));
                 } else {
