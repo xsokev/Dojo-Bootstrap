@@ -186,8 +186,8 @@ define([
             e.stopPropagation();
         },
         keyup: function (e) {
-            switch(e.keyCode) {
             var code = e.charCode || e.keyCode;
+            switch(code) {
                 case 40: // down arrow
                 case 38: // up arrow
 
@@ -211,8 +211,8 @@ define([
             e.preventDefault();
         },
         keydown: function (e) {
-            this.suppressKeyPressRepeat = [40,38,9,13,27].indexOf(e.keyCode) < 0;
             var code = e.charCode || e.keyCode;
+            this.suppressKeyPressRepeat = array.indexOf([40,38,9,13,27], code) < 0;
             this.move(e);
         },
         keypress: function (e) {
