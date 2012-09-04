@@ -1,7 +1,7 @@
 Dojo-Bootstrap
 ==============
 
-An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using Dojo. It is a port of version 2.0.4.
+An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using Dojo. It is a port of version 2.1.0.
 
 This implementation allows you use the javascript components of Twitter Bootstrap without the need to include jQuery. It also takes advantage of AMD, allowing you to easily use in your page only the modules that you need and create a single deployable script for production.
 
