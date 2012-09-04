@@ -5,7 +5,7 @@ An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com
 
 This implementation allows you use the javascript components of Twitter Bootstrap without the need to include jQuery. It also takes advantage of AMD, allowing you to easily use in your page only the modules that you need and create a single deployable script for production.
 
-This project has been tested with [Dojo 1.7.3](http://dojotoolkit.org/download/) and [Dojo 1.8.0RC1](http://download.dojotoolkit.org/release-1.8.0rc1/).
+This project has been tested with [Dojo 1.8.0](http://dojotoolkit.org/download/).
 
 Quick Start
 -----------
