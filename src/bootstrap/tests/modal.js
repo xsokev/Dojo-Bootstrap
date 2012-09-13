@@ -37,76 +37,76 @@ require({
             tearDown:function () {
                 domConstruct.destroy(this.n);
             }
-        }//,
-//        "should insert into dom when show method is called": {
-//            setUp:function () {
-//                this.n = domConstruct.place(modalHtml, document.body);
-//            },
-//            runTest:function () {
-//                var d = new doh.Deferred();
-//                q(this.n).on('shown', d.getTestCallback(function () {
-//                    doh.t(q('#myModal').length);
-//                }));
-//                q(this.n).modal('show');
-//                return d;
-//            },
-//            tearDown:function () {
-//                domConstruct.destroy(this.n);
-//            }
-//        },
-//        "should fire show event": {
-//            setUp:function () {
-//                this.n = domConstruct.place(modalHtml, document.body);
-//            },
-//            runTest:function () {
-//                var d = new doh.Deferred();
-//                q(this.n).on('show', d.getTestCallback(function () {
-//                    doh.t(true);
-//                }));
-//                q(this.n).modal('show');
-//                return d;
-//            },
-//            tearDown:function () {
-//                domConstruct.destroy(this.n);
-//            }
-//        },
-//        "should not fire shown when default prevented": {
-//            setUp:function () {
-//                this.n = domConstruct.place(modalHtml, document.body);
-//            },
-//            runTest:function () {
-//                var d = new doh.Deferred();
-//                q(this.n).on('show', d.getTestCallback(function (e) {
-//                    e.preventDefault();
-//                    doh.t(true);
-//                }));
-//                //fix: shown event should not fire
-//                q(this.n).on('shown', function (e) {
-//                    //doh.f(true);
-//                });
-//                q(this.n).modal('show');
-//                return d;
-//            },
-//            tearDown:function () {
-//                domConstruct.destroy(this.n);
-//            }
-//        },
-//        "show modal using a toggle": {
-//            setUp:function () {
-//                this.modal = domConstruct.place(modalHtml, document.body);
-//                this.toggle = domConstruct.place(modalToggle, document.body);
-//            },
-//            runTest:function () {
-//                on.emit(this.toggle, "click", { bubbles:true, cancelable:true });
-//                doh.is("block", this.modal.style.display);
-//                //console.log(this.modal.style);
-//                on.emit(this.toggle, "click", { bubbles:true, cancelable:true });
-//                doh.is("none", this.modal.style.display);
-//            },
-//            tearDown:function () {
-//                domConstruct.destroy(this.modal);
-//                domConstruct.destroy(this.toggle);
-//            }
-//        }
+        },
+        "should insert into dom when show method is called": {
+            setUp:function () {
+                this.n = domConstruct.place(modalHtml, document.body);
+            },
+            runTest:function () {
+                var d = new doh.Deferred();
+                q(this.n).on('shown', d.getTestCallback(function () {
+                    doh.t(q('#myModal').length);
+                }));
+                q(this.n).modal('show');
+                return d;
+            },
+            tearDown:function () {
+                domConstruct.destroy(this.n);
+            }
+        },
+        "should fire show event": {
+            setUp:function () {
+                this.n = domConstruct.place(modalHtml, document.body);
+            },
+            runTest:function () {
+                var d = new doh.Deferred();
+                q(this.n).on('show', d.getTestCallback(function () {
+                    doh.t(true);
+                }));
+                q(this.n).modal('show');
+                return d;
+            },
+            tearDown:function () {
+                domConstruct.destroy(this.n);
+            }
+        },
+        "should not fire shown when default prevented": {
+            setUp:function () {
+                this.n = domConstruct.place(modalHtml, document.body);
+            },
+            runTest:function () {
+                var d = new doh.Deferred();
+                q(this.n).on('show', d.getTestCallback(function (e) {
+                    e.preventDefault();
+                    doh.t(true);
+                }));
+                //fix: shown event should not fire
+                q(this.n).on('shown', function (e) {
+                    //doh.f(true);
+                });
+                q(this.n).modal('show');
+                return d;
+            },
+            tearDown:function () {
+                domConstruct.destroy(this.n);
+            }
+        },
+        "show modal using a toggle": {
+            setUp:function () {
+                this.modal = domConstruct.place(modalHtml, document.body);
+                this.toggle = domConstruct.place(modalToggle, document.body);
+            },
+            runTest:function () {
+                on.emit(this.toggle, "click", { bubbles:true, cancelable:true });
+                doh.is("block", this.modal.style.display);
+                //console.log(this.modal.style);
+                on.emit(this.toggle, "click", { bubbles:true, cancelable:true });
+                doh.is("none", this.modal.style.display);
+            },
+            tearDown:function () {
+                domConstruct.destroy(this.modal);
+                domConstruct.destroy(this.toggle);
+            }
+        }
     });
 });
