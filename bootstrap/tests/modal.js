@@ -7,7 +7,7 @@ require({
     "doh",
     "dojo/on",
     "dojo/dom-construct",
-    "bootstrap/Modal"
+    "../Modal"
 ], function (doh, on, domConstruct) {
     "use strict";
     var q = dojo.query;

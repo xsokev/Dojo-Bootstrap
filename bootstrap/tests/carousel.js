@@ -9,7 +9,7 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "bootstrap/Carousel"
+    "../Carousel"
 ], function (doh, on, domConstruct, domClass, domAttr) {
     "use strict";
     var q = dojo.query;

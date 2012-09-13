@@ -6,4 +6,4 @@ require({
         { name: 'bootstrap', location: './bootstrap' }
     ],
     cache: {}
-}, [ 'bootstrap' ]);
+}, [ '.' ]);

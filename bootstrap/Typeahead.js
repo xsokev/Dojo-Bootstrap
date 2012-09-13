@@ -28,7 +28,7 @@ define([
     "dojo/dom-geometry",
     "dojo/dom-style",
     "dojo/_base/array",
-    "bootstrap/Support",
+    "Support",
     "dojo/NodeList-dom",
     "dojo/NodeList-traverse",
     "dojo/domReady!"

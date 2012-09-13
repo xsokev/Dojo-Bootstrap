@@ -8,7 +8,7 @@ require({
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-class",
-    "bootstrap/Collapse"
+    "../Collapse"
 ], function (doh, on, domConstruct, domClass) {
     "use strict";
 

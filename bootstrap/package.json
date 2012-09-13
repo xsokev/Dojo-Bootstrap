@@ -16,5 +16,5 @@
     "bugs":"https://github.com/xsokev/Dojo-Bootstrap/issues",
     "keywords":["JavaScript", "Dojo", "Twitter Bootstrap"],
     "homepage":"https://github.com/xsokev/Dojo-Bootstrap",
-    "dojoBuild":"app.profile.js"
+    "dojoBuild":"build/app.profile.js"
 }

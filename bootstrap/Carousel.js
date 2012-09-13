@@ -29,7 +29,7 @@ define([
     "dojo/dom-geometry",
     "dojo/dom-style",
     "dojo/_base/array",
-    "bootstrap/Support",
+    "Support",
     "dojo/domReady!"
 ], function (declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, mouse, domGeom, domStyle, array, support) {
     "use strict";

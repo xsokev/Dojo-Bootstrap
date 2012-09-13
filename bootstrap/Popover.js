@@ -17,8 +17,8 @@
  * ========================================================== */
 define([
     "dojo/_base/declare",
-    "bootstrap/Support",
-    'bootstrap/Tooltip',
+    "Support",
+    'Tooltip',
     "dojo/query",
     "dojo/_base/lang",
     'dojo/on',

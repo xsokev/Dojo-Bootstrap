@@ -10,7 +10,7 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "../Support",
-    "bootstrap/Typeahead"
+    "../Typeahead"
 ], function (doh, on, sniff, domConstruct, domClass, support) {
     "use strict";
     var q = dojo.query;

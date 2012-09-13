@@ -16,7 +16,7 @@
  * limitations under the License.
  * ========================================================== */
 define([
-    'bootstrap/Support',
+    'Support',
     'dojo/_base/declare',
     'dojo/query',
     'dojo/_base/lang',

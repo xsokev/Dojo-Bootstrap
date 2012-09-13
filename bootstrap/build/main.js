@@ -4,17 +4,17 @@
 
 require([
 	'dojo/dom-geometry',
-	'bootstrap/Alert',
-	'bootstrap/Button',
-	'bootstrap/Collapse',
-	'bootstrap/Dropdown',
-	'bootstrap/Modal',
-	'bootstrap/Popover',
-	'bootstrap/Scrollspy',
-	'bootstrap/Tab',
-	'bootstrap/Tooltip',
-    'bootstrap/Typeahead',
-    'bootstrap/Carousel',
+	'../bootstrap/Alert',
+	'../Button',
+	'Collapse',
+	'Dropdown',
+	'Modal',
+	'Popover',
+	'Scrollspy',
+	'Tab',
+	'Tooltip',
+    'Typeahead',
+    'Carousel',
     'dojo/domReady!'
 ], function(geom){
     "use strict";

@@ -9,8 +9,8 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "bootstrap/Support",
-    "bootstrap/Popover"
+    "../Support",
+    "../Popover"
 ], function (doh, on, domConstruct, domClass, domAttr, support) {
     "use strict";
     var q = dojo.query;
