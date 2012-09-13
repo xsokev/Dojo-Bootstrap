@@ -38,24 +38,6 @@ require({
                 doh.is(title, domAttr.get(this.t, 'data-original-title'));
             },
             tearDown:function () { domConstruct.destroy(this.t); }
-        },
-        "should detect if title string is html or text: foo":function () {
-            doh.f(Tooltip.prototype.isHTML('foo'));
-        },
-        "should detect if title string is html or text: <foo>":function () {
-            doh.t(Tooltip.prototype.isHTML('<foo>'));
-        },
-        "should detect if title string is html or text: <div>foo</div>":function () {
-            doh.t(Tooltip.prototype.isHTML('<div>foo</div>'));
-        },
-        "should detect if title string is html or text: aaa<div>foo</div>aaa":function () {
-            doh.t(Tooltip.prototype.isHTML('aaa<div>foo</div>aaa'));
-        },
-        "should detect if title string is html or text: document.createElement('div')":function () {
-            doh.t(Tooltip.prototype.isHTML(document.createElement('div')));
-        },
-        "should detect if title string is html or text: domConstruct.create('div')":function () {
-            doh.t(Tooltip.prototype.isHTML(domConstruct.create('div')));
         }
     });
 });
