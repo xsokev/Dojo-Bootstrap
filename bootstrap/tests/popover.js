@@ -9,8 +9,8 @@ require({
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "../Support",
-    "../Popover"
+    "bootstrap/Support",
+    "bootstrap/Popover"
 ], function (doh, on, domConstruct, domClass, domAttr, support) {
     "use strict";
     var q = dojo.query;
@@ -64,8 +64,8 @@ require({
             runTest:function () {
                 q(this.n).popover('show');
                 doh.is(1, q('.popover').length);
-                doh.is('@fat', q('.popover .popover-title')[0].innerText);
-                doh.is('loves writing tests （╯°□°）╯︵ ┻━┻', q('.popover .popover-content')[0].innerText);
+                doh.is('@fat', q('.popover .popover-title').text());
+                doh.is('loves writing tests （╯°□°）╯︵ ┻━┻', q('.popover .popover-content').text());
                 q(this.n).popover('hide');
                 doh.is(0, q('.popover').length);
             },
@@ -83,8 +83,8 @@ require({
             runTest:function () {
                 q(this.n).popover('show');
                 doh.is(1, q('.popover').length);
-                doh.is('@mdo', q('.popover .popover-title')[0].innerText);
-                doh.is('loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻', q('.popover .popover-content')[0].innerText);
+                doh.is('@mdo', q('.popover .popover-title').text());
+                doh.is('loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻', q('.popover .popover-content').text());
                 q(this.n).popover('hide');
                 doh.is(0, q('.popover').length);
             },
