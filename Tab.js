@@ -23,7 +23,7 @@ define([
     'dojo/on',
     'dojo/dom-class',
     "dojo/dom-attr",
-    "Support",
+    "./Support",
     "dojo/NodeList-dom",
     'dojo/NodeList-traverse',
     "dojo/domReady!"

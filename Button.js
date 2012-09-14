@@ -17,7 +17,7 @@
  * ========================================================== */
 
 define([
-    "Support",
+    "./Support",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/_base/lang",
