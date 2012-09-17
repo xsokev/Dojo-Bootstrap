@@ -30,6 +30,7 @@ define([
     "dojo/dom-style",
     "dojo/_base/array",
     "./Support",
+    "dojo/NodeList-traverse",
     "dojo/domReady!"
 ], function (declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, mouse, domGeom, domStyle, array, support) {
     "use strict";
