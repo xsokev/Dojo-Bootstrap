@@ -18,7 +18,7 @@
 define([
     "dojo/_base/declare",
     "./Support",
-    'Tooltip',
+    './Tooltip',
     "dojo/query",
     "dojo/_base/lang",
     'dojo/on',
