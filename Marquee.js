@@ -105,7 +105,6 @@ define([
 
     var Marquee = declare([], {
         defaultOptions:{
-            startOnLoad:true,
             blend:false
         },
         constructor:function (element, options) {
@@ -113,7 +112,6 @@ define([
             this.domNode = element;
             this.messages = [];
             domClass.add(this.domNode, "marquee");
-            this.load(this.options.messages, this.options.startOnLoad);
         },
         load:function (msgs, start) {
             this.empty();
