@@ -105,6 +105,7 @@ define([
 
     var Marquee = declare([], {
         defaultOptions:{
+            autostart:true,
             blend:false
         },
         constructor:function (element, options) {
@@ -112,11 +113,12 @@ define([
             this.domNode = element;
             this.messages = [];
             domClass.add(this.domNode, "marquee");
+            this.load(this.options.messages, this.options.autostart);
         },
         load:function (msgs, start) {
             this.empty();
             this.add(msgs);
-            on.emit(this.domNode, 'loaded', {bubbles:false, cancelable:false, currentIndex:this.current});
+            on.emit(this.domNode, 'loaded', {bubbles:false, cancelable:false});
             if (start && start === true) {
                 this.start(this.current);
             }
@@ -165,49 +167,49 @@ define([
             var _this = this;
             if (this.messages.length === 0 || this.running) {
                 return;
-            }
-            if (typeof s === 'number') {
-                this.clear();
-                this.current = s;
-                _show(this.messages[this.current]);
-            }
-            var msgOut = this.messages[this.current];
-            var animOut = _animation(msgOut);
-            var life = msgOut.options.life;
-            _this.lifeTime = window.setTimeout(function () {
-                _this.running = true;
-                function _performAnimIn() {
-                    _this.current = _getSeq(_this);
-                    on.emit(_this.domNode, 'before', {bubbles:false, cancelable:false, currentIndex:_this.current});
             } else if(this.messages.length === 1) {
                 _show(this.messages[0]);
                 on.emit(_this.domNode, 'changed', {bubbles:false, cancelable:false, currentIndex:0, currentMessage:this.messages[0]});
+            } else {
+                if (typeof s === 'number') {
+                    this.clear();
+                    this.current = s;
+                    _show(this.messages[this.current]);
+                }
+                var msgOut = this.messages[this.current];
+                var animOut = _animation(msgOut);
+                var life = msgOut.options.life;
+                _this.lifeTime = window.setTimeout(function () {
+                    _this.running = true;
+                    function _performAnimIn() {
+                        _this.current = _getSeq(_this);
+                        var msgIn = _this.messages[_this.current];
+                        var animIn = _animation(msgIn);
+                        on.emit(_this.domNode, 'before', {bubbles:false, cancelable:false, currentIndex:_this.current, currentMessage:msgIn});
+                        fx.animateProperty({
+                            node:msgIn.domNode,
+                            properties:animIn.trans_in,
+                            duration:(msgIn.options.duration * 1000),
+                            onEnd:function () {
+                                _this.running = false;
+                                on.emit(_this.domNode, 'changed', {bubbles:false, cancelable:false, currentIndex:_this.current, currentMessage:msgIn});
+                                _this.start();
+                            }
+                        }).play();
+                    }
 
-                    var msgIn = _this.messages[_this.current];
-                    var animIn = _animation(msgIn);
                     fx.animateProperty({
-                        node:msgIn.domNode,
-                        properties:animIn.trans_in,
-                        duration:(msgIn.options.duration * 1000),
+                        node:msgOut.domNode,
+                        properties:animOut.trans_out,
+                        duration:(msgOut.options.duration * 1000),
                         onEnd:function () {
-                            _this.running = false;
-                            on.emit(_this.domNode, 'changed', {bubbles:false, cancelable:false});
-                            _this.start();
+                            on.emit(_this.domNode, 'after', {bubbles:false, cancelable:false, currentIndex:_this.current, currentMessage:msgOut});
+                            return _this.options.blend || _performAnimIn();
                         }
                     }).play();
-                }
-
-                fx.animateProperty({
-                    node:msgOut.domNode,
-                    properties:animOut.trans_out,
-                    duration:(msgOut.options.duration * 1000),
-                    onEnd:function () {
-                        on.emit(_this.domNode, 'after', {bubbles:false, cancelable:false, currentIndex:_this.current});
-                        _this.options.blend || _performAnimIn();
-                    }
-                }).play();
-                _this.options.blend && _performAnimIn();
-            }, (life * 1000));
+                    return _this.options.blend && _performAnimIn();
+                }, (life * 1000));
+            }
         },
         stop:function (q) {
             this.running = false;
