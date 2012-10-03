@@ -179,6 +179,9 @@ define([
                 function _performAnimIn() {
                     _this.current = _getSeq(_this);
                     on.emit(_this.domNode, 'before', {bubbles:false, cancelable:false, currentIndex:_this.current});
+            } else if(this.messages.length === 1) {
+                _show(this.messages[0]);
+                on.emit(_this.domNode, 'changed', {bubbles:false, cancelable:false, currentIndex:0, currentMessage:this.messages[0]});
 
                     var msgIn = _this.messages[_this.current];
                     var animIn = _animation(msgIn);
