@@ -118,7 +118,7 @@ define([
         load:function (msgs, start) {
             this.empty();
             this.add(msgs);
-            on.emit(this.domNode, 'loaded', {bubbles:false, cancelable:false, currentIndex:_this.current});
+            on.emit(this.domNode, 'loaded', {bubbles:false, cancelable:false, currentIndex:this.current});
             if (start && start === true) {
                 this.start(this.current);
             }
@@ -219,28 +219,16 @@ define([
             on.emit(this.domNode, 'stop', {bubbles:false, cancelable:false});
         },
         next:function () {
-            if (this.running) {
-                return;
-            }
-            this.start(_getSeq(this));
+            return this.running || this.start(_getSeq(this));
         },
         previous:function () {
-            if (this.running) {
-                return;
-            }
-            this.start(_getSeq(this, true));
+            return this.running || this.start(_getSeq(this, true));
         },
         first:function () {
-            if (this.running) {
-                return;
-            }
-            this.start(0);
+            return this.running || this.start(0);
         },
         last:function () {
-            if (this.running) {
-                return;
-            }
-            this.start(this.messages.length - 1);
+            return this.running || this.start(this.messages.length - 1);
         }
     });
 
