@@ -1,15 +1,10 @@
-require({
-    packages: [
-        { name: 'dojo', location: '../dojo' },
-        { name: 'bootstrap', location: '../bootstrap' }
-    ]
-},[
+require({},[
     "doh",
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "../Carousel"
+    "bootstrap/Carousel"
 ], function (doh, on, domConstruct, domClass, domAttr) {
     "use strict";
     var q = dojo.query;
