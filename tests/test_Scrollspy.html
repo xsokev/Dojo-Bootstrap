@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Scrollspy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/docs.css">
+        <link rel="stylesheet" href="assets/responsive.css">
+        
+        <style>
+            .scroll-section {
+                height: 200px;
+                overflow: auto;
+                position: relative;
+            }
+            
+            section {
+                height: 10em;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="index.html">Tests</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>Dojo-Bootstrap/Scrollspy</h1>
+            </div>
+        </header>
+        
+        <div class="container">
+            <section>
+                <!-- navigation -->
+                <div id="my-navbar" class="navbar">
+                    <div class="navbar-inner">
+                        <ul class="nav">
+                            <li><a href="#aaa">aaa</a></li>
+                            <li><a href="#bbb">bbb</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">more <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#one">one</a></li>
+                                    <li><a href="#two">two</a></li>
+                                    <li><a href="#three">three</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- scrollable area -->
+                <div data-spy="scroll" data-target="#my-navbar" data-offset="0" class="scroll-section">
+                    <section id="aaa">
+                        <h1>aaa</h1>
+                    </section>
+
+                    <section id="bbb">
+                        <h1>bbb</h1>
+                    </section>
+
+                    <section id="one">
+                        <h1>one</h1>
+                    </section>
+
+                    <section id="two">
+                        <h1>two</h1>
+                    </section>
+
+                    <section id="three">
+                        <h1>three</h1>
+                    </section>
+                </div>
+            </section>
+        </div>
+        
+        <script type="text/javascript" src="assets/config.js"></script>
+        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        
+        <script>
+            require([
+                "bootstrap/Scrollspy",
+                "bootstrap/Dropdown",
+                "dojo/query",
+                "dojo/on"
+            ], function (
+                Scrollspy,
+                Dropdown,
+                query,
+                on
+            ) {
+                // todo: doesn't trigger - probably i'm doing something wrong but not sure what...
+                query('#my-navbar li').on('activate', function(ev){
+                    console.log('asdf');
+                });
+            });
+        </script>
+    </body>
+</html>
