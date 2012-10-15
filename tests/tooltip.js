@@ -1,9 +1,4 @@
-require({
-    packages: [
-        { name: 'dojo', location: '../dojo' },
-        { name: 'bootstrap', location: '../bootstrap' }
-    ]
-},[
+require({},[
     "doh",
     "dojo/on",
     "dojo/dom-construct",
