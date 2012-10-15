@@ -1,50 +1,63 @@
-Dojo-Bootstrap
-==============
+# Dojo-Bootstrap
 
-An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using Dojo. It is a port of version 2.1.0.
+An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using the [Dojo Toolkit](http://dojotoolkit.org). This project replaces the Twitter Bootstrap Javascript components with AMD-compatible Dojo modules. Tested with Dojo 1.8 and Twitter Bootstrap 2.1.
 
-This implementation allows you use the javascript components of Twitter Bootstrap without the need to include jQuery. It also takes advantage of AMD, allowing you to easily use in your page only the modules that you need and create a single deployable script for production.
+## Quick Start
 
-This project has been tested with [Dojo 1.8.0](http://dojotoolkit.org/download/).
++ `git clone git://github.com/xsokev/Dojo-Bootstrap.git`
++ `git submodule init`
++ `git submodule update`
++ Point your browser to test/index.html
 
-Quick Start
------------
+## Integration
 
-First clone the repository using `git clone --recursive`.
+See esamples in test/test_*.html
 
-Add a script tag that links to your base dojo.js file.
-<pre>
-&lt;script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1" src="PATH_TO_SCRIPTS/dojo/dojo.js"></script>
-</pre>
-At the bottom of your page, add the following code:
+### In Brief
 
-<pre>
-	require({  
-	    packages: [  
-	        { name: 'dojo', location: 'PATH_TO_SCRIPTS/dojo' },  
-	        { name: 'bootstrap', location: 'PATH_TO_SCRIPTS/bootstrap' }  
-	    ]  
-	}, [   
-		'bootstrap/Button',  
-		'dojo/domReady!'  
-	], function(){  
-	  
-	});  
-</pre>
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <title>Dojo-Bootstrap</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="path/to/bootstrap/styles.css">
+        </head>
+    
+        <body>
+            <button type="button" id="loading-button" class="btn btn-primary" data-loading-text="Loading...">Load</button>
+        
+            <script>
+                var dojoConfig = {
+                    async: 1,
+                    packages: [
+                        { name: "bootstrap", location: "path/to/Dojo-Bootstrap" }
+                    ]
+                };
+            </script>
+        
+            <script type="text/javascript" src="path/to/dojo/dojo/dojo.js"></script>
+    
+            <script>
+                require(["bootstrap/Button", "dojo/query"], function (Button, query) {
+                    query("#loading-button").on("click", function(e){
+                        query(e.target).button('loading');
+                        setTimeout(function(){
+                            query(e.target).button('reset');
+                        }, 2000);
+                    });
+                });
+            </script>
+        </body>
+    </html>
 
-You can also place this code in a separate script (recommended) that serves as the main entry script for your page.
-<pre>
-&lt;script src="PATH_TO_SCRIPTS/application.js" type="text/javascript"></script>
-</pre>
+## Useful resources
 
-Useful resources
-----------------
++ [Dojo-Bootstrap Website with examples for all the modules](http://dojobootstrap.com)
++ [Dojo Reference Guide (latest release version)](http://dojotoolkit.org/reference-guide/)
++ [Dojo Reference Guide (Dojo trunk)](http://livedocs.dojotoolkit.org/)
++ [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
 
-* [Dojo Reference Guide (latest release version)](http://dojotoolkit.org/reference-guide/)
-* [Dojo Reference Guide (Dojo trunk)](http://livedocs.dojotoolkit.org/)
-* [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
-
-License
--------
+## License
 
 Dojo Bootstrap is licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
