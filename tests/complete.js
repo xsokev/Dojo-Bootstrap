@@ -1,15 +1,17 @@
 require({
-    packages: [ { name: 'test', location: '../bootstrap/tests' } ]
+    packages: [
+        { name: 'bootstrap', location: '../../..' }
+    ]
 },[
-    'test/support',
-    'test/alert',
-    'test/button',
-    'test/dropdown',
-    'test/modal',
-    'test/popover',
-    'test/tab',
-    'test/tooltip',
-    'test/scrollspy',
-    'test/collapse',
-    'test/carousel'
+    'bootstrap/tests/support',
+    'bootstrap/tests/alert',
+    'bootstrap/tests/button',
+    'bootstrap/tests/dropdown',
+    'bootstrap/tests/modal',
+    'bootstrap/tests/popover',
+    'bootstrap/tests/tab',
+    'bootstrap/tests/tooltip',
+    'bootstrap/tests/scrollspy',
+    'bootstrap/tests/collapse',
+    'bootstrap/tests/carousel'
 ], {});

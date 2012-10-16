@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Modal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/docs.css">
+        <link rel="stylesheet" href="assets/responsive.css">
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="index.html">Tests</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>Dojo-Bootstrap/Modal</h1>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="row">
+                <section>
+                    <!-- modal -->
+                    <div id="my-modal" class="modal hide fade">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3>Header</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Body (Hit ESC to close)</p>
+                        </div>
+                        <div class="modal-footer">
+                            Footer
+                        </div>
+                    </div>
+                    
+                    <!-- opener -->
+                    <button id="my-opener" type="button" class="btn" data-toggle="button" >Open</button>
+                </section>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="assets/config.js"></script>
+        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        
+        <script>
+            require([
+                "bootstrap/Modal",
+                "dojo/query",
+                "dojo/on"
+            ], function (
+                Modal,
+                query,
+                on
+            ) {
+                on(query('#my-opener')[0], 'click', function (e) {
+                    query('#my-modal').modal({
+                        show: true,
+                        keyboard: true
+                    });
+                });
+                
+                query('#my-modal').on('show', function () {
+                    console.info('show');
+                });
+                
+                query('#my-modal').on('shown', function () {
+                    console.info('modal is now shown');
+                });
+                
+                query('#my-modal').on('hide', function () {
+                    console.info('hide');
+                });
+                
+                query('#my-modal').on('hidden', function () {
+                    console.info('modal is now hidden');
+                });
+            });
+        </script>
+    </body>
+</html>

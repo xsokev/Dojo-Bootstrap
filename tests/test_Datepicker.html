@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Datepicker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/docs.css">
+        <link rel="stylesheet" href="assets/responsive.css">
+        <link rel="stylesheet" href="../assets/datepicker.css">
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="index.html">Tests</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>Dojo-Bootstrap/Datepicker</h1>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="row">
+                <section>
+                    <div class="input-append date" id="my-datepicker" data-date="21-12-2012" data-date-format="dd-mm-yyyy">
+                        <input class="span2" size="16" type="text" value="21-12-2012">
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="assets/config.js"></script>
+        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        
+        <script>
+            require([
+                "bootstrap/Datepicker",
+                "dojo/query",
+                "dojo/on"
+            ], function (
+                Datepicker,
+                query,
+                on
+            ) {
+                query('#my-datepicker').datepicker({
+                    format: 'mm-dd-yyyy',
+                    weekStart: 1
+                });
+                
+                query('#my-datepicker').datepicker().on('show', function(ev){
+                    console.info('show');
+                });
+                
+                query('#my-datepicker').datepicker().on('hide', function(ev){
+                    console.info('hide');
+                });
+                
+                query('#my-datepicker').datepicker().on('changeDate', function(ev){
+                    console.info('New date is ' + ev.date);
+                });
+            });
+        </script>
+    </body>
+</html>

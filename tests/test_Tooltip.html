@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Tooltip</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/docs.css">
+        <link rel="stylesheet" href="assets/responsive.css">
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="index.html">Tests</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1>Dojo-Bootstrap/Tooltip</h1>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="row">
+                <section>
+                    <a href="#" rel="tooltip" data-placement="top" title="Tooltip on top">Top</a> -
+                    <a href="#" rel="tooltip" data-placement="right" title="Tooltip on right">Right</a> -
+                    <a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</a> -
+                    <a href="#" rel="tooltip" data-placement="left" title="Tooltip on left">Left</a>
+                </section>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="assets/config.js"></script>
+        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        
+        <script>
+            require([
+                "bootstrap/Tooltip",
+                "dojo/query",
+                "dojo/on"
+            ], function (
+                Tooltip,
+                query,
+                on
+            ) {
+                query('section').tooltip({
+                    selector: "a[rel=tooltip]"
+                });
+            });
+        </script>
+    </body>
+</html>

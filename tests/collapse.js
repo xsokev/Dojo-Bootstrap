@@ -1,14 +1,9 @@
-require({
-    packages: [
-        { name: 'dojo', location: '../dojo' },
-        { name: 'bootstrap', location: '../bootstrap' }
-    ]
-},[
+require({},[
     "doh",
     "dojo/on",
     "dojo/dom-construct",
     "dojo/dom-class",
-    "../Collapse"
+    "bootstrap/Collapse"
 ], function (doh, on, domConstruct, domClass) {
     "use strict";
 
@@ -16,9 +11,10 @@ require({
         "should be defined on NodeList object":function () {
             doh.t(dojo.query(document.body).collapse);
         },
+        /*
         "should return element":function () {
             doh.is(document.body, dojo.query(document.body).collapse()[0]);
-        },
+        },*/
         "should show a collapsed element":{
             setUp: function () {
                 this.n = domConstruct.place('<div class="collapse"></div>', document.body);
