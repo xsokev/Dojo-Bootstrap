@@ -31,17 +31,9 @@
         <div class="container">
             <div class="row">
                 <section>
-                    <!-- popover -->
-                    <div id="my-popover" class="popover top">
-                        <div class="arrow"></div>
-                        <h3 class="popover-title">Popover top</h3>
-                        <div class="popover-content">
-                            <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- opener -->
-                    <button id="my-opener" type="button" class="btn" data-toggle="button" >Pop</button>
+                    <button type="button" class="btn" data-toggle="button" rel="popover" 
+    					data-content="<p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>" 
+						data-title="Popover">Pop</button>
                 </section>
             </div>
         </div>
@@ -51,21 +43,15 @@
         
         <script>
             require([
-                "bootstrap/Tooltip",
-                "bootstrap/Popover",
                 "dojo/query",
-                "dojo/on"
+                "dojo/on",
+                "bootstrap/Button",
+                "bootstrap/Popover"
             ], function (
-                Tooltip,
-                Popover,
                 query,
                 on
             ) {
-                query('.popover').popover({});
-                
-                on(query('#my-opener')[0], 'click', function (e) {
-                    query('#my-popover').popover('show');
-                });
+                query('button[rel=popover]').popover();
             });
         </script>
     </body>
