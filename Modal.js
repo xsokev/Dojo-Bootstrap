@@ -221,6 +221,9 @@ define([
         if (target[0] !== undefined) {
             var href = domAttr.get(e.target, "href");
             var option = support.getData(target, 'modal') ? 'toggle' : lang.mixin({ remote: !/#/.test(href) && href}, lang.mixin(support.getData(target), support.getData(e.target)));
+            if (option === 'toggle') {
+              lang.mixin(support.getData(target, 'modal').options, support.getData(e.target));
+            }
             target.modal(option);
             on.once(target[0], 'hide', function () {
                 target[0].focus();
