@@ -125,8 +125,7 @@ define([
     });
     query('html').on('click, touchstart', clearMenus);
     on(win.body(), on.selector(toggleSelector, 'click, touchstart'), Dropdown.prototype.toggle);
-    //TODO: this is causing the dropdown still visible when the user clicks it. This behaviour doesn't seem ideal
-    on(win.body(), on.selector('.dropdown', 'click, touchstart'), function (e) {
+    on(win.body(), on.selector('.dropdown form', 'click, touchstart'), function (e) {
         e.stopPropagation();
     });
     on(win.body(), on.selector(toggleSelector+', [role=menu]', 'keydown, touchstart'), Dropdown.prototype.keydown);
