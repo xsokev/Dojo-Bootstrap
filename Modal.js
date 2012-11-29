@@ -45,11 +45,11 @@ define([
         },
         constructor:function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-            this.domNode = element;
+            var elm = this.domNode = element;
             on(this.domNode, on.selector(dismissSelector, 'click'), lang.hitch(this, this.hide));
             if (this.options.remote) {
                 request(this.options.remote).then(function(html){
-                    query('.modal-body', this.element).html(html);
+                    query('.modal-body', elm).html(html);
                 });
             }
         },
