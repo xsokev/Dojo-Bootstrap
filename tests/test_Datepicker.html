@@ -32,6 +32,7 @@
         <div class="container">
             <div class="row">
                 <section>
+                    <input class="span2" size="16" type="text" value="21-12-2012" id="mydate">
                     <div class="input-append date" id="my-datepicker" data-date="21-12-2012" data-date-format="dd-mm-yyyy">
                         <input class="span2" size="16" type="text" value="21-12-2012">
                         <span class="add-on"><i class="icon-th"></i></span>
@@ -53,6 +54,10 @@
                 query,
                 on
             ) {
+                query('#mydate').datepicker({
+                    format: 'mm-dd-yyyy'
+                });
+
                 query('#my-datepicker').datepicker({
                     format: 'mm-dd-yyyy',
                     weekStart: 1
