@@ -3,6 +3,7 @@ var dojoConfig = {
     cacheBust: 1,
     parseOnLoad: true,
     packages: [
-        { name: "bootstrap", location: "../../.." }
+        { name: "bootstrap", location: "../../.." },
+        { name: "dojo", location: "../dojo" }
     ]
 };
