@@ -87,7 +87,11 @@ define([
     });
 
     on(win.body(), on.selector(toggleSelector, '.btn:click'), function (e) {
-        query(e.target).button('toggle');
+        var btn = e.target;
+        if (!domClass.contains(btn, 'btn')){
+            btn = query(btn).closest('.btn');
+        }
+        query(btn).button('toggle');
     });
 
     return Button;
