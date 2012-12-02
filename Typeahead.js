@@ -246,10 +246,10 @@ define([
         }
     });
     on(document, on.selector(provideSelector, 'focusin'), function (e) {
-        var data = support.getData(e.target, 'typeahead');
+        var data = support.getData(this, 'typeahead');
         if(data){ return; }
         e.preventDefault();
-        query(e.target).typeahead(support.getData(e.target));
+        query(this).typeahead(support.getData(this));
     });
 
     return Typeahead;

@@ -77,8 +77,12 @@ define([
                     eventIn = on.selector(this.options.selector, eventIn);
                     eventOut = on.selector(this.options.selector, eventOut);
                 }
-                this.eventActivate = on(this.domNode, eventIn, lang.hitch(this, 'enter'));
-                this.eventDeactivate = on(this.domNode, eventOut, lang.hitch(this, 'leave'));
+                this.eventActivate = on(this.domNode, eventIn, function(e){
+                    _this.enter.call(_this, this);
+                });
+                this.eventDeactivate = on(this.domNode, eventOut, function(e){
+                    _this.leave.call(_this, this);
+                });
             }
 
             if (this.options.selector) {
@@ -99,11 +103,11 @@ define([
             }
             return options;
         },
-        enter:function (e) {
-            var self = support.getData(e.target, this.type);
+        enter:function (eventTarget) {
+            var self = support.getData(eventTarget, this.type);
             if (!self) {
-                query(e.target)[this.type](this._options);
-                self = support.getData(e.target, this.type);
+                query(eventTarget)[this.type](this._options);
+                self = support.getData(eventTarget, this.type);
             }
             if (this.timeout) {
                 clearTimeout(this.timeout);
@@ -121,11 +125,11 @@ define([
             }
             return this;
         },
-        leave:function (e) {
-            var self = support.getData(e.target, this.type);
+        leave:function (eventTarget) {
+            var self = support.getData(eventTarget, this.type);
             if (!self) {
-                query(e.target)[this.type](this._options);
-                self = support.getData(e.target, this.type);
+                query(eventTarget)[this.type](this._options);
+                self = support.getData(eventTarget, this.type);
             }
             if (this.timeout) {
                 clearTimeout(this.timeout);

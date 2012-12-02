@@ -193,7 +193,7 @@ define([
     function _enforceFocus() {
         var _this = this;
         _this.focusInEvent = on(document, on.selector('.modal', 'focusin'), function (e) {
-            if (_this.domNode !== e.target && !query(e.target, _this.domNode).length) {
+            if (_this.domNode !== this && !query(this, _this.domNode).length) {
                 _this.domNode.focus();
             }
         });
@@ -217,12 +217,12 @@ define([
         }
     });
     on(win.body(), on.selector(toggleSelector, 'click'), function (e) {
-        var target = query(_getTargetSelector(e.target));
+        var target = query(_getTargetSelector(this));
         if (target[0] !== undefined) {
-            var href = domAttr.get(e.target, "href");
-            var option = support.getData(target, 'modal') ? 'toggle' : lang.mixin({ remote: !/#/.test(href) && href}, lang.mixin(support.getData(target), support.getData(e.target)));
+            var href = domAttr.get(this, "href");
+            var option = support.getData(target, 'modal') ? 'toggle' : lang.mixin({ remote: !/#/.test(href) && href}, lang.mixin(support.getData(target), support.getData(this)));
             if (option === 'toggle') {
-              lang.mixin(support.getData(target, 'modal').options, support.getData(e.target));
+              lang.mixin(support.getData(target, 'modal').options, support.getData(this));
             }
             target.modal(option);
             on.once(target[0], 'hide', function () {

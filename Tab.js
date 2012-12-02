@@ -111,7 +111,7 @@ define([
         if (e) {
             e.preventDefault();
         }
-        query(e.target).tab("show");
+        query(this).tab("show");
     });
 
     return Tab;

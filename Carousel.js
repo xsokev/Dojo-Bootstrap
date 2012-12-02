@@ -150,10 +150,10 @@ define([
         }
     });
     on(document, on.selector(slideSelector, 'click'), function (e) {
-        var href, target = domAttr.get(e.target, 'data-target') || (href = domAttr.get(e.target, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+        var href, target = domAttr.get(this, 'data-target') || (href = domAttr.get(this, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
         var options = {};
         if(!support.getData(target, 'collapse')){
-            options = lang.mixin({}, lang.mixin(support.getData(target), support.getData(e.target)));
+            options = lang.mixin({}, lang.mixin(support.getData(target), support.getData(this)));
         }
         query(target).carousel(options);
         e.preventDefault();

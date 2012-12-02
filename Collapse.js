@@ -131,16 +131,16 @@ define([
     });
 
     on(win.body(), on.selector(collapseSelector, 'click'), function (e) {
-        var node = query(e.target)[0];
-		if (support.getData(node, 'toggle') != 'collapse') {
-			node = query(e.target).closest('[data-toggle=collapse]')[0];
+        var node = query(this)[0];
+		if (support.getData(node, 'toggle') !== 'collapse') {
+			node = query(this).closest('[data-toggle=collapse]')[0];
 		}
 		if (node) {
-	        var href, target = domAttr.get(node, 'data-target') || e.preventDefault() || (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+            var href, target = domAttr.get(node, 'data-target') || e.preventDefault() || (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
 			if (target) {
-		        var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
-		        domClass[domClass.contains(query(target)[0], 'in') ? 'add' : 'remove'](node, 'collapsed');
-		        query(target).collapse(option);
+                var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
+                domClass[domClass.contains(query(target)[0], 'in') ? 'add' : 'remove'](node, 'collapsed');
+                query(target).collapse(option);
 			}
 		}
     });
