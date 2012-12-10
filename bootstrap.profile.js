@@ -5,7 +5,8 @@ var profile = (function(){
         var list = {
             "bootstrap/.gitignore" : true
         };
-        return (mid in list);
+        return (mid in list) ||
+            /^bootstrap\/vendor\//.test(mid);
     };
 
     var test = function(filename, mid){

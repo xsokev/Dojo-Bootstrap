@@ -11,7 +11,7 @@ An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com
 
 ## Integration
 
-See esamples in test/test_*.html
+See examples in test/test_*.html
 
 ### In Brief
 
