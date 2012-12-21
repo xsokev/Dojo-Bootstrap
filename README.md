@@ -8,7 +8,7 @@ An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com
 + `git submodule init`
 + `git submodule update`
 + Point your browser to test/index.html
-+ Add dojo sdk under the vendor folder or add a symbolic link to the dojo sdk under the vendor folder
++ Add [dojo sdk](https://github.com/dojo) under the vendor folder or add a symbolic link to the dojo sdk under the vendor folder
 
 ## Integration
 
