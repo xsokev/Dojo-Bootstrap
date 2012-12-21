@@ -3,9 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Dojo-Bootstrap</title>
-        <link rel="stylesheet" href="assets/styles.css">
-        <link rel="stylesheet" href="assets/docs.css">
-        <link rel="stylesheet" href="assets/responsive.css">
+        <link rel="stylesheet" href="assets/tests.css">
     </head>
 
     <body>
@@ -13,51 +11,21 @@
             <div class="navbar-inner">
                 <div class="container">
                     <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="index.html">Tests</a></li>
-                        </ul>
+                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
                     </div>
                 </div>
             </div>
         </div>
-            
-        <header class="jumbotron subhead" id="overview">
-            <div class="container">
-                <h1>Dojo-Bootstrap</h1>
-            </div>
-        </header>
-        
         <div class="container">
-            <section>
-                <div class="page-header">
-                    <h1>Unit Tests</h1>
-                </div>
-                
-                <ul>
-                    <li><a href="runTests.html">Run</a></li>
-                </ul>
-            </section>
-            
-            <section>
-                <div class="page-header">
-                    <h1>Visual Inspection Tests</h1>
-                </div>
-                
-                <ul>
-                    <li><a href="test_Affix.html">Affix</a></li>
-                    <li><a href="test_Alert.html">Alert</a></li>
-                    <li><a href="test_Button.html">Button</a></li>
-                    <li><a href="test_Carousel.html">Carousel</a></li>
-                    <li><a href="test_Collapse.html">Collapse</a></li>
-                    <li><a href="test_Datepicker.html">Datepicker</a></li>
-                    <li><a href="test_Dropdown.html">Dropdown</a></li>
-                    <li><a href="test_Marquee.html">Marquee</a></li>
-                    <li><a href="test_Modal.html">Modal</a></li>
-                    <li><a href="test_Popover.html">Popover</a></li>
-                    <li><a href="test_Scrollspy.html">Scrollspy</a></li>
-                    <li><a href="test_Tooltip.html">Tooltip</a></li>
-                </ul>
-            </section>
+            <div class="row">
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8"><p>&nbsp;</p></section>
+            </div>
         </div>
+        <script src="assets/config.js"></script>
+        <script src="../vendor/dojo/dojo/dojo.js"></script>
+        <script>
+            require(["./assets/tests.js"]);
+        </script>
     </body>
 </html>

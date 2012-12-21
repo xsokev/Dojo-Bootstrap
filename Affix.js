@@ -43,19 +43,20 @@ define([
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
             on(win.global, 'scroll', lang.hitch(this, 'checkPosition'));
+            on(win.global, 'click',  lang.hitch(this, (function () { setTimeout(lang.hitch(this, 'checkPosition'), 1); })));
             this.checkPosition();
         },
         checkPosition: function() {
             if (domStyle.get(this.domNode, 'display') === 'none') { return; }
 
             var pos = domGeom.position(this.domNode, false),
-            	scrollHeight = win.doc.height,
-            	scrollTop = win.global.scrollY,
-            	offset = this.options.offset,
-            	reset = 'affix affix-top affix-bottom',
-            	affix,
-            	offsetTop, 
-				offsetBottom;
+                scrollHeight = win.doc.height,
+                scrollTop = win.global.scrollY,
+                offset = this.options.offset,
+                reset = 'affix affix-top affix-bottom',
+                affix,
+                offsetTop,
+                offsetBottom;
 
             if (typeof offset !== 'object') { 
 				offsetBottom = offsetTop = offset; 
@@ -65,7 +66,7 @@ define([
 				} else {
 					offsetTop = offset.top || 0;
 				}
-	            if (typeof offset.bottom === 'function') { 
+                if (typeof offset.bottom === 'function') {
 					offsetBottom = offset.bottom(); 
 				} else {
 					offsetBottom = offset.bottom || 0;

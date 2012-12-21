@@ -7,7 +7,7 @@ require({},[
     "use strict";
     var q = dojo.query;
 
-    var name = "John Doe";
+    var name = "John Horembala";
     var language = "Polish";
     //todo: add tests for string functions
     doh.register("bootstrap.support", {

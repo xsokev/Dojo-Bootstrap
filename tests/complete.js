@@ -1,4 +1,5 @@
 require({
+    cacheBust: true,
     packages: [
         { name: 'bootstrap', location: '../../..' }
     ]

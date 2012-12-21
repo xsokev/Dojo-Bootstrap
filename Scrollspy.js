@@ -45,11 +45,7 @@ define([
             this.scrollEvent = on(this.domNode, 'scroll', lang.hitch(this, 'process'));
             this.selector = this.options.target;
             if (!this.selector) {
-                this.selector = domAttr.get(element, "href");
-                this.selector = this.selector && this.selector.replace(/.*(?=#[^\s]*$)/, '');
-            }
-            if (!this.selector) {
-                this.selector = '';
+                this.selector = support.hrefValue(element);
             }
             this.selector += ' .nav li > a';
             this.refresh();

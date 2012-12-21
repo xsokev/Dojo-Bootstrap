@@ -39,7 +39,7 @@ define([
                 placement:'right',
                 trigger: 'click',
                 content:'',
-                template:'<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+                template:'<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>'
             }, (options || {}));
             this.init('popover', element, options);
         },
@@ -48,7 +48,7 @@ define([
             var title = this.getTitle();
             var content = this.getContent();
             query('.popover-title', tip)[this.options.html ? 'html' : 'text'](title);
-            query('.popover-content > *', tip)[this.options.html ? 'html' : 'text'](content);
+            query('.popover-content', tip)[this.options.html ? 'html' : 'text'](content);
             domClass.remove(tip, 'fade in top bottom left right');
         },
         hasContent:function () {

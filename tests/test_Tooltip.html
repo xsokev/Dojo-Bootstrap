@@ -4,33 +4,23 @@
         <meta charset="utf-8">
         <title>Dojo-Bootstrap/Tooltip</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/styles.css">
-        <link rel="stylesheet" href="assets/docs.css">
-        <link rel="stylesheet" href="assets/responsive.css">
+        <link rel="stylesheet" href="assets/tests.css">
     </head>
 
-    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
                     <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="index.html">Tests</a></li>
-                        </ul>
+                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
                     </div>
                 </div>
             </div>
         </div>
-            
-        <header class="jumbotron subhead" id="overview">
-            <div class="container">
-                <h1>Dojo-Bootstrap/Tooltip</h1>
-            </div>
-        </header>
-        
         <div class="container">
             <div class="row">
-                <section>
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8">
                     <a href="#" rel="tooltip" data-placement="top" title="Tooltip on top">Top</a> -
                     <a href="#" rel="tooltip" data-placement="right" title="Tooltip on right">Right</a> -
                     <a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</a> -
@@ -43,19 +33,13 @@
         <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
         
         <script>
-            require([
-                "bootstrap/Tooltip",
-                "dojo/query",
-                "dojo/on"
-            ], function (
-                Tooltip,
-                query,
-                on
-            ) {
-                query('section').tooltip({
-                    selector: "a[rel=tooltip]"
-                });
-            });
+            require(["dojo/query", "dojo/on", "bootstrap/Tooltip", "./assets/tests.js"],
+                function (query, on) {
+                    query('section').tooltip({
+                        selector: "a[rel=tooltip]"
+                    });
+                }
+            );
         </script>
     </body>
 </html>

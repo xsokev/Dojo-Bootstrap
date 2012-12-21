@@ -4,10 +4,8 @@
         <meta charset="utf-8">
         <title>Dojo-Bootstrap/Marquee</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/styles.css">
-        <link rel="stylesheet" href="assets/docs.css">
-        <link rel="stylesheet" href="assets/responsive.css">
-        
+        <link rel="stylesheet" href="assets/tests.css">
+
         <style>
             .marquee {
                 overflow: hidden;
@@ -47,28 +45,20 @@
         </style>
     </head>
 
-    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
                     <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="index.html">Tests</a></li>
-                        </ul>
+                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
                     </div>
                 </div>
             </div>
         </div>
-            
-        <header class="jumbotron subhead" id="overview">
-            <div class="container">
-                <h1>Dojo-Bootstrap/Marquee</h1>
-            </div>
-        </header>
-        
         <div class="container">
             <div class="row">
-                <section>
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8">
                     <div class="frame">
                         <div data-spy="marquee" class="marquee" id="polaroid" data-blend="true" data-life="5">
                             <div data-label="Bridge" data-caption="Nighttime display of the Memphis/Arkansas Bridge."><img src="assets/marquee-01.jpg"/></div>
@@ -88,21 +78,15 @@
         <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
         
         <script>
-            require([
-                "bootstrap/Marquee",
-                "dojo/query",
-                "dojo/on"
-            ], function (
-                Marquee,
-                query,
-                on
-            ) {
-                query('#polaroid').on('before', function(evt){
-                    var messageData = evt.currentMessage.options;
-                    query('.frame h3')[0].innerHTML = messageData.label;
-                    query('.frame p.caption')[0].innerHTML = messageData.caption;
-                });
-            });
+            require(["dojo/query", "dojo/on", "bootstrap/Marquee", "./assets/tests.js"],
+                function (query, on) {
+                    query('#polaroid').on('before', function(evt){
+                        var messageData = evt.currentMessage.options;
+                        query('.frame h3')[0].innerHTML = messageData.label;
+                        query('.frame p.caption')[0].innerHTML = messageData.caption;
+                    });
+                }
+            );
         </script>
     </body>
 </html>

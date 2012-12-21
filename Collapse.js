@@ -85,7 +85,7 @@ define([
             var dimension = this.dimension();
             domClass.remove(this.domNode, 'collapse');
             domStyle.set(this.domNode, dimension, size);
-            this.domNode.offsetWidth;
+            this._offsetWidth = this.domNode.offsetWidth;
             domClass[(size !== null ? 'add' : 'remove')](this.domNode, 'collapse');
             return this;
         },
@@ -131,12 +131,12 @@ define([
     });
 
     on(win.body(), on.selector(collapseSelector, 'click'), function (e) {
-        var node = query(this)[0];
+        var node = this;
 		if (support.getData(node, 'toggle') !== 'collapse') {
 			node = query(this).closest('[data-toggle=collapse]')[0];
 		}
 		if (node) {
-            var href, target = domAttr.get(node, 'data-target') || e.preventDefault() || (href = domAttr.get(node, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+            var target = domAttr.get(node, 'data-target') || e.preventDefault() || support.hrefValue(node);
 			if (target) {
                 var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
                 domClass[domClass.contains(query(target)[0], 'in') ? 'add' : 'remove'](node, 'collapsed');

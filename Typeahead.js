@@ -17,7 +17,6 @@
  * ========================================================== */
 define([
     "dojo/_base/declare",
-    "dojo/_base/sniff",
     "dojo/query",
     "dojo/_base/lang",
     "dojo/_base/window",
@@ -32,7 +31,7 @@ define([
     "dojo/NodeList-dom",
     "dojo/NodeList-traverse",
     "dojo/domReady!"
-], function (declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, domGeom, domStyle, array, support) {
+], function (declare, query, lang, win, on, domClass, domAttr, domConstruct, domGeom, domStyle, array, support) {
     "use strict";
 
     var provideSelector = '[data-provide="typeahead"]';
@@ -51,7 +50,7 @@ define([
             this.sorter = this.options.sorter || this.sorter;
             this.highlighter = this.options.highlighter || this.highlighter;
             this.updater = this.options.updater || this.updater;
-            this.menuNode = domConstruct.place(this.options.menu, document.body);
+            this.menuNode = domConstruct.toDom(this.options.menu);
             this.source = this.options.source;
             this.shown = false;
             this.listen();
@@ -67,6 +66,7 @@ define([
         },
         show: function () {
             var pos = domGeom.position(this.domNode, true);
+            domConstruct.place(this.menuNode, this.domNode, "after");
             domStyle.set(this.menuNode, {
                 top: (pos.y + this.domNode.offsetHeight)+'px',
                 left: pos.x+'px',
@@ -86,7 +86,7 @@ define([
             if (!this.query || this.query.length < this.options.minLength) {
                 return this.shown ? this.hide() : this;
             }
-            items = (typeof this.source === 'function') ? this.source(this.query, dojo.hitch(this, 'process')) : this.source;
+            items = (typeof this.source === 'function') ? this.source(this.query, lang.hitch(this, 'process')) : this.source;
             return items ? this.process(items) : this;
         },
         process: function (items) {
@@ -154,18 +154,19 @@ define([
         },
         listen: function () {
             on(this.domNode, 'blur', lang.hitch(this, 'blur'));
-            on(this.domNode, 'keypress', lang.hitch(this, 'keypress'));
-            on(this.domNode, 'keyup', lang.hitch(this, 'keyup'));
-            if(sniff('webkit') || sniff('ie')) {
+            on(this.domNode, 'keypress', lang.hitch(this, this.keypress));
+            on(this.domNode, 'keyup', lang.hitch(this, this.keyup));
+            if(support.eventSupported(this.domNode, "keydown")) {
                 on(this.domNode, 'keydown', lang.hitch(this, 'keydown'));
             }
             on(this.menuNode, 'click', lang.hitch(this, 'click'));
             on(this.menuNode, on.selector('li', 'mouseover'), lang.hitch(this, 'mouseenter'));
         },
         move: function (e) {
+            console.log(this.suppressKeyPressRepeat);
             if (!this.shown) { return; }
-
-            switch(e.keyCode) {
+            var code = e.charCode || e.keyCode;
+            switch(code) {
                 case 9: // tab
                 case 13: // enter
                 case 27: // escape
@@ -190,6 +191,9 @@ define([
             switch(code) {
                 case 40: // down arrow
                 case 38: // up arrow
+                case 16: // shift
+                case 17: // ctrl
+                case 18: // alt
 
                 break;
 
@@ -212,7 +216,7 @@ define([
         },
         keydown: function (e) {
             var code = e.charCode || e.keyCode;
-            this.suppressKeyPressRepeat = array.indexOf([40,38,9,13,27], code) < 0;
+            this.suppressKeyPressRepeat = array.indexOf([40,38,9,13,27], code) >= 0;
             this.move(e);
         },
         keypress: function (e) {

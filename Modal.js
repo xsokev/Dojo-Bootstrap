@@ -60,7 +60,6 @@ define([
             var _this = this;
             on.emit(this.domNode, 'show', {bubbles:false, cancelable:false});
             if (this.isShown && e.defaultPrevented) { return; }
-            domClass.add(win.body(), 'modal-open');
             this.isShown = true;
 
             _escape.call(this);
@@ -71,18 +70,19 @@ define([
                 }
                 domStyle.set(_this.domNode, 'display', 'block');
                 if (transition) {
-                    _this.domNode.offsetWidth;
+                    _this._offsetWidth = _this.domNode.offsetWidth;
                 }
                 domClass.add(_this.domNode, 'in');
                 domAttr.set(_this.domNode, 'aria-hidden', false);
-                _this.domNode.focus();
                 _enforceFocus.call(_this);
 
                 if (transition) {
                     on.once(_this.domNode, support.trans.end, function () {
+                        _this.domNode.focus();
                         on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
                     });
                 } else {
+                    _this.domNode.focus();
                     on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
                 }
             });
@@ -96,7 +96,6 @@ define([
             }
 
             this.isShown = false;
-            domClass.remove(win.body(), 'modal-open');
             _escape.call(this);
 
             if (this.focusInEvent) { this.focusInEvent.remove(); }
@@ -115,8 +114,7 @@ define([
     function _getTargetSelector(node) {
         var selector = domAttr.get(node, 'data-target');
         if (!selector) {
-            selector = domAttr.get(node, "href");
-            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
+            selector = support.hrefValue(node);
         }
         return (!selector) ? "" : selector;
     }
@@ -147,9 +145,9 @@ define([
         if (_this.isShown && _this.options.backdrop) {
             var doAnimate = support.trans && animate;
             _this.backdropNode = domConstruct.place('<div class="modal-backdrop ' + animate + '" />', win.body());
-            if (_this.options.backdrop !== 'static') {
-                on(_this.backdropNode, 'click', lang.hitch(_this, 'hide'));
-            }
+            on(_this.backdropNode, 'click', _this.options.backdrop !== 'static' ?
+                lang.hitch(_this.domNode, 'focus') :
+                lang.hitch(_this, 'hide'));
             if (doAnimate) {
                 _this.backdropNode.offsetWidth;
             }

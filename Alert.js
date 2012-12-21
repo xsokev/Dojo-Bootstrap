@@ -46,8 +46,7 @@ define([
         var _this = this;
         var selector = domAttr.get(_this, 'data-target');
         if (!selector) {
-            selector = domAttr.get(_this, "href");
-            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
+            selector = support.hrefValue(_this);
         }
         var targetNode;
         if (selector && selector !== '#' && selector !== '') {

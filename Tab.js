@@ -54,8 +54,7 @@ define([
 
             var selector = domAttr.get(this.domNode, 'data-target');
             if (!selector) {
-                selector = domAttr.get(this.domNode, "href");
-                selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
+                selector = support.hrefValue(this.domNode);
             }
             var target;
             if (selector && selector !== '#' && selector !== '') {
@@ -108,9 +107,7 @@ define([
         }
     });
     on(win.body(), on.selector(toggleSelector, 'click'), function (e) {
-        if (e) {
-            e.preventDefault();
-        }
+        if(e){ e.preventDefault(); }
         query(this).tab("show");
     });
 

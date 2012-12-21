@@ -54,8 +54,8 @@ define([
                 clearMenus();
                 if (!isActive) {
                     domClass.toggle(targetNode, 'open');
-                    this.focus();
                 }
+                this.focus();
             }
 
             e.preventDefault();
@@ -93,14 +93,15 @@ define([
     });
 
     function clearMenus() {
-        _getParent(query(toggleSelector)).removeClass('open');
+        query(toggleSelector).forEach(function(menu){
+            _getParent(menu).removeClass('open');
+        });
     }
 
     function _getParent(node){
         var selector = domAttr.get(node, 'data-target');
         if (!selector) {
-            selector = domAttr.get(node, "href");
-            selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '');
+            selector = support.hrefValue(node);
         }
         var parentNode = query(node).parent();
         if (selector && selector !== '#' && selector !== '') {
@@ -123,11 +124,10 @@ define([
             });
         }
     });
-    query('html').on('click, touchstart', clearMenus);
+    on(win.body(), 'click, touchstart', clearMenus);
     on(win.body(), on.selector(toggleSelector, 'click, touchstart'), Dropdown.prototype.toggle);
-    on(win.body(), on.selector('.dropdown form', 'click, touchstart'), function (e) {
-        e.stopPropagation();
-    });
+    on(win.body(), on.selector('.dropdown form', 'click, touchstart'), function (e) { e.stopPropagation(); });
+    on(win.body(), on.selector('.dropdown-menu', 'touchstart'), function (e) { e.stopPropagation(); });
     on(win.body(), on.selector(toggleSelector+', [role=menu]', 'keydown, touchstart'), Dropdown.prototype.keydown);
 
     return Dropdown;

@@ -149,8 +149,8 @@ define([
             });
         }
     });
-    on(document, on.selector(slideSelector, 'click'), function (e) {
-        var href, target = domAttr.get(this, 'data-target') || (href = domAttr.get(this, 'href')) && href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+    on(win.body(), on.selector(slideSelector, 'click'), function (e) {
+        var target = domAttr.get(this, 'data-target') || support.hrefValue(this);
         var options = {};
         if(!support.getData(target, 'collapse')){
             options = lang.mixin({}, lang.mixin(support.getData(target), support.getData(this)));

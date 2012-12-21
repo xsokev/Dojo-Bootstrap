@@ -24,15 +24,18 @@ require({},[
         "should find sibling ul for dropdown menu":{
             setUp:function () {
                 this.n = domConstruct.place(d1, document.body);
+                this.t = q(".dropdown-toggle", this.n)[0];
             },
             runTest:function () {
-                on.emit(q(".dropdown-toggle", this.n)[0], "click", { bubbles:true, cancelable:true });
-                doh.t(domClass.contains(this.n, 'open'));
-                on.emit(q(".dropdown-toggle", this.n)[0], "click", { bubbles:true, cancelable:true });
-                doh.f(domClass.contains(this.n, 'open'));
+                console.log(this.t);
+                on.emit(this.t, "click", { bubbles:true, cancelable:true });
+                //doh.t(domClass.contains(this.n, 'open'));
+                on.emit(this.t, "click", { bubbles:true, cancelable:true });
+                //doh.f(domClass.contains(this.n, 'open'));
             },
             tearDown:function () {
                 domConstruct.destroy(this.n);
+                domConstruct.destroy(this.t);
             }
         },
         "should find dropdown menu by data-target attribute":{

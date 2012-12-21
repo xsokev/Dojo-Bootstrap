@@ -162,7 +162,7 @@ define([
 
                 inside = /in/.test(placement);
 
-                domConstruct.place(tip, (inside ? this.domNode : win.body()), 'last');
+                domConstruct.place(tip, this.domNode, 'last');
                 domStyle.set(tip, {top:0, left:0, display:'block'});
 
                 pos = this.getPosition(inside);
@@ -185,7 +185,7 @@ define([
                         break;
                 }
                 domStyle.set(tip, tp);
-                domClass.add(tip, (new Array(placement, 'in')).join(" "));
+                domClass.add(tip, [placement, 'in'].join(" "));
             }
         },
         hide:function (animate) {

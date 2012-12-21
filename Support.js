@@ -21,9 +21,10 @@ define([
     "dojo/dom-attr",
     "dojo/_base/array",
     "dojo/_base/json",
+    "dojo/has",
     "dojo/NodeList-data"
 ],
-function (query, lang, attr, array, json) {
+function (query, lang, attr, array, json, has) {
     "use strict";
 
     lang.extend(query.NodeList, {
@@ -38,7 +39,6 @@ function (query, lang, attr, array, json) {
             });
         }
     });
-
 
     var _transition = (function () {
         var transitionEnd = (function () {
@@ -85,6 +85,39 @@ function (query, lang, attr, array, json) {
         }
     };
 
+    var TAGNAMES = {
+        'select': 'input', 'change': 'input',
+        'submit': 'form', 'reset': 'form',
+        'error': 'img', 'load': 'img', 'abort': 'img'
+    };
+
+    function isEventSupported( element, eventName ) {
+        element = element || document.createElement(TAGNAMES[eventName] || 'div');
+        eventName = 'on' + eventName;
+        // When using `setAttribute`, IE skips "unload", WebKit skips "unload" and "resize", whereas `in` "catches" those
+        var isSupported = eventName in element;
+
+        if ( !isSupported ) {
+            // If it has no `setAttribute` (i.e. doesn't implement Node interface), try generic element
+            if ( !element.setAttribute ) {
+                element = document.createElement('div');
+            }
+            if ( element.setAttribute && element.removeAttribute ) {
+                element.setAttribute(eventName, '');
+                isSupported = typeof element[eventName] === 'function';
+
+                // If property was created, "remove it" (by setting value to `undefined`)
+                if ( typeof element[eventName] !== 'undefined') {
+                    element[eventName] = undefined;
+                }
+                element.removeAttribute(eventName);
+            }
+        }
+
+        element = null;
+        return isSupported;
+    }
+
     return {
         trans: _transition,
         getData: function(node, key, def){
@@ -120,6 +153,14 @@ function (query, lang, attr, array, json) {
         },
         toUnderscore: function(str){
             return str.replace(/([A-Z])/g, function($1){ return "_"+$1.toLowerCase(); });
-        }
+        },
+        hrefValue: function(element){
+            var href = attr.get(element, 'href');
+            if(href !== null){
+                href = href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
+            }
+            return href || '';
+        },
+        eventSupported: isEventSupported
     };
 });
