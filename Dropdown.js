@@ -41,7 +41,16 @@ define([
                 el = query(element);
             }
             if (el) {
+                this.domNode = el[0];
                 domAttr.set(el[0], "data-toggle", "dropdown");
+            }
+        },
+        select: function(e){
+            e.stopPropagation();
+            var parentNode = _getParent(this)[0];
+            if (parentNode) {
+                var target = query(toggleSelector, parentNode);
+                on.emit(target[0], 'select', { bubbles:false, cancelable:false, selectedItem: query(e.target).closest('li') });
             }
         },
         toggle: function(e){
@@ -58,8 +67,10 @@ define([
                 this.focus();
             }
 
-            e.preventDefault();
-            e.stopPropagation();
+            if(e){
+                e.preventDefault();
+                e.stopPropagation();
+            }
             return false;
         },
         keydown: function(e) {
@@ -77,17 +88,18 @@ define([
                 if (!isActive || (isActive && e.keyCode === 27)) {
                     return on.emit(targetNode, 'click', { bubbles:true, cancelable:true });
                 }
-            }
-            var items = query('[role=menu] li:not(.divider) a', targetNode);
-            if (!items.length) { return; }
-            var index = items.indexOf(document.activeElement);
 
-            if (e.keyCode === 38 && index > 0) { index--; }
-            if (e.keyCode === 40 && index < items.length - 1) { index++; }
-            if (index < 0) { index = 0; }
+                var items = query('[role=menu] li:not(.divider) a', targetNode);
+                if (!items.length) { return; }
+                var index = items.indexOf(document.activeElement);
 
-            if (items[index]) {
-                items[index].focus();
+                if (e.keyCode === 38 && index > 0) { index--; }
+                if (e.keyCode === 40 && index < items.length - 1) { index++; }
+                if (index < 0) { index = 0; }
+
+                if (items[index]) {
+                    items[index].focus();
+                }
             }
         }
     });
@@ -118,16 +130,13 @@ define([
                 if (!data) {
                     support.setData(node, 'dropdown', (data = new Dropdown(node, options)));
                 }
-                if (lang.isString(option) && lang.exists(data[option])) {
-                    data[option].call(data);
-                }
             });
         }
     });
     on(win.body(), 'click, touchstart', clearMenus);
     on(win.body(), on.selector(toggleSelector, 'click, touchstart'), Dropdown.prototype.toggle);
     on(win.body(), on.selector('.dropdown form', 'click, touchstart'), function (e) { e.stopPropagation(); });
-    on(win.body(), on.selector('.dropdown-menu', 'touchstart'), function (e) { e.stopPropagation(); });
+    on(win.body(), on.selector('.dropdown-menu', 'click, touchstart'), Dropdown.prototype.select);
     on(win.body(), on.selector(toggleSelector+', [role=menu]', 'keydown, touchstart'), Dropdown.prototype.keydown);
 
     return Dropdown;
