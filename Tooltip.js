@@ -162,7 +162,7 @@ define([
 
                 inside = /in/.test(placement);
 
-                domConstruct.place(tip, this.domNode, 'last');
+                domConstruct.place(tip, this.domNode, 'after');
                 domStyle.set(tip, {top:0, left:0, display:'block'});
 
                 pos = this.getPosition(inside);
