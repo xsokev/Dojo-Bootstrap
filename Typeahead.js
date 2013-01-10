@@ -66,7 +66,7 @@ define([
         },
         show: function () {
             var pos = domGeom.position(this.domNode, true);
-            domConstruct.place(this.menuNode, this.domNode, "after");
+            domConstruct.place(this.menuNode, document.body);
             domStyle.set(this.menuNode, {
                 top: (pos.y + this.domNode.offsetHeight)+'px',
                 left: pos.x+'px',
@@ -163,7 +163,6 @@ define([
             on(this.menuNode, on.selector('li', 'mouseover'), lang.hitch(this, 'mouseenter'));
         },
         move: function (e) {
-            console.log(this.suppressKeyPressRepeat);
             if (!this.shown) { return; }
             var code = e.charCode || e.keyCode;
             switch(code) {
