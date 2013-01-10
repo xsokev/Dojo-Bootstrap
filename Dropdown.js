@@ -50,7 +50,7 @@ define([
             var parentNode = _getParent(this)[0];
             if (parentNode) {
                 var target = query(toggleSelector, parentNode);
-                on.emit(target[0], 'select', { bubbles:false, cancelable:false, selectedItem: query(e.target).closest('li') });
+                on.emit(target[0], 'select', { bubbles:true, cancelable:true, selectedItem: query(e.target).closest('li') });
             }
         },
         toggle: function(e){
