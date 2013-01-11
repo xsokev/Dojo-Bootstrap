@@ -65,11 +65,10 @@ define([
             return item;
         },
         show: function () {
-            var pos = domGeom.position(this.domNode, true);
             domConstruct.place(this.menuNode, document.body);
             domStyle.set(this.menuNode, {
-                top: (pos.y + this.domNode.offsetHeight)+'px',
-                left: pos.x+'px',
+                top: (this.domNode.offsetTop + this.domNode.offsetHeight)+'px',
+                left: this.domNode.offsetLeft +'px',
                 display: 'block'
             });
             this.shown = true;
