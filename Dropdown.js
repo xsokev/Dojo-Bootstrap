@@ -133,7 +133,7 @@ define([
             });
         }
     });
-    on(win.body(), 'click, touchstart', clearMenus);
+    on(win.doc, on.selector("body", 'click, touchstart'), clearMenus);
     on(win.body(), on.selector(toggleSelector, 'click, touchstart'), Dropdown.prototype.toggle);
     on(win.body(), on.selector('.dropdown form', 'click, touchstart'), function (e) { e.stopPropagation(); });
     on(win.body(), on.selector('.dropdown-menu', 'click, touchstart'), Dropdown.prototype.select);
