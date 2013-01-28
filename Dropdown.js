@@ -18,6 +18,7 @@
 
 define([
     './Support',
+    "dojo/_base/event",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/_base/lang",
@@ -28,7 +29,7 @@ define([
     "dojo/NodeList-dom",
     'dojo/NodeList-traverse',
     "dojo/domReady!"
-], function (support, declare, query, lang, win, on, domClass, domAttr) {
+], function (support, event, declare, query, lang, win, on, domClass, domAttr) {
     "use strict";
 
     var toggleSelector = '[data-toggle=dropdown]';
@@ -46,7 +47,6 @@ define([
             }
         },
         select: function(e){
-            e.stopPropagation();
             var parentNode = _getParent(this)[0];
             if (parentNode) {
                 var target = query(toggleSelector, parentNode);
@@ -68,16 +68,14 @@ define([
             }
 
             if(e){
-                e.preventDefault();
-                e.stopPropagation();
+                event.stop(e);
             }
             return false;
         },
         keydown: function(e) {
             if (!/(38|40|27)/.test(e.keyCode)) { return; }
 
-            e.preventDefault();
-            e.stopPropagation();
+            event.stop(e);
 
             if (domClass.contains(this, "disabled") || domAttr.get(this, "disabled")) {
                 return false;
