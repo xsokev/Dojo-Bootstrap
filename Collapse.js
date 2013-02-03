@@ -101,14 +101,13 @@ define([
             return this;
         },
         transition:function (method, startEvent, completeEvent) {
-            var _this = this,
-                _complete = function () {
-                    if (startEvent === 'show') {
-                        _this.reset();
-                    }
-                    _this.transitioning = 0;
-                    on.emit(_this.domNode, completeEvent, {bubbles:false, cancelable:false});
-                };
+            var _complete = lang.hitch(this, function () {
+                if (startEvent === 'show') {
+                    this.reset();
+                }
+                this.transitioning = 0;
+                on.emit(this.domNode, completeEvent, {bubbles:false, cancelable:false});
+            });
 
             on.emit(this.domNode, startEvent, {bubbles:false, cancelable:false});
 
@@ -117,7 +116,7 @@ define([
             domClass[method](this.domNode, 'in');
 
             if (support.trans && domClass.contains(this.domNode, 'collapse')) {
-                on.once(_this.domNode, support.trans.end, _complete);
+                on.once(this.domNode, support.trans.end, _complete);
             } else {
                 _complete();
             }
