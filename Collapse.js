@@ -53,6 +53,11 @@ define([
             if (this.transitioning) {
                 return;
             }
+            if(this.parent && this.options.target) {
+                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
+                    domClass.remove(el, 'collapsed');
+                });
+            }
 
             dimension = this.dimension();
             scroll = support.toCamel(['scroll', dimension].join('-'));
@@ -75,6 +80,12 @@ define([
             if (this.transitioning) {
                 return;
             }
+            if(this.parent && this.options.target) {
+                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
+                    domClass.add(el, 'collapsed');
+                });
+            }
+
             var dimension = this.dimension();
             this.reset(domStyle.get(this.domNode, dimension));
             this.transition('remove', 'hide', 'hidden');
@@ -90,14 +101,13 @@ define([
             return this;
         },
         transition:function (method, startEvent, completeEvent) {
-            var _this = this,
-                _complete = function () {
-                    if (startEvent === 'show') {
-                        _this.reset();
-                    }
-                    _this.transitioning = 0;
-                    on.emit(_this.domNode, completeEvent, {bubbles:false, cancelable:false});
-                };
+            var _complete = lang.hitch(this, function () {
+                if (startEvent === 'show') {
+                    this.reset();
+                }
+                this.transitioning = 0;
+                on.emit(this.domNode, completeEvent, {bubbles:false, cancelable:false});
+            });
 
             on.emit(this.domNode, startEvent, {bubbles:false, cancelable:false});
 
@@ -106,7 +116,7 @@ define([
             domClass[method](this.domNode, 'in');
 
             if (support.trans && domClass.contains(this.domNode, 'collapse')) {
-                on.once(_this.domNode, support.trans.end, _complete);
+                on.once(this.domNode, support.trans.end, _complete);
             } else {
                 _complete();
             }
@@ -132,17 +142,16 @@ define([
 
     on(win.body(), on.selector(collapseSelector, 'click'), function (e) {
         var node = this;
-		if (support.getData(node, 'toggle') !== 'collapse') {
-			node = query(this).closest('[data-toggle=collapse]')[0];
-		}
-		if (node) {
+        if (support.getData(node, 'toggle') !== 'collapse') {
+            node = query(this).closest('[data-toggle=collapse]')[0];
+        }
+        if (node) {
             var target = domAttr.get(node, 'data-target') || e.preventDefault() || support.hrefValue(node);
-			if (target) {
+            if (target) {
                 var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
-                domClass[domClass.contains(query(target)[0], 'in') ? 'add' : 'remove'](node, 'collapsed');
                 query(target).collapse(option);
-			}
-		}
+            }
+        }
     });
     return Collapse;
 });
