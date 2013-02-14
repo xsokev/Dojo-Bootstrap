@@ -20,7 +20,7 @@ define([
     "dojo/_base/lang",
     "dojo/dom-attr",
     "dojo/_base/array",
-    "dojo/_base/json",
+    "dojo/json",
     "dojo/has",
     "dojo/NodeList-data"
 ],
@@ -77,9 +77,9 @@ function (query, lang, attr, array, json, has) {
     var _attrValue = function(val){
         if (!val) { return; }
         if (val.indexOf('{') === 0 && val.indexOf('}') === val.length-1) {
-            return json.fromJson(val);
+            return json.parse(val);
         } else if (val.indexOf('[') === 0 && val.indexOf(']') === val.length-1) {
-            return json.fromJson(val);
+            return json.parse(val);
         } else {
             return val;
         }
