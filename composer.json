@@ -1,0 +1,10 @@
+{
+    "name": "xsokev/dojo-bootstrap",
+    "description": "Twitter bootstrap ported to dojo AMD modules",
+    "type": "zend-dojo",
+    "keywords": ["dojo", "bootstrap"],
+    "homepage": "http://github.com/xsokev/Dojo-Bootstrap",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
