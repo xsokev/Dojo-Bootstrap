@@ -50,6 +50,8 @@ define([
         // closed: [callback]
         //      This event is fired when the alert has been closed (will wait for css transitions to complete).
 
+        // templateString: String
+        //      template used to create new Alerts programmatically
         templateString:
             '<div class="alert fade in">' +
             '        <button data-dojo-attach-point="closeNode" class="close">&times;</button>' +
