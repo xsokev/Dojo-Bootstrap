@@ -67,7 +67,7 @@
                 "dojo/dom-construct",
                 "./assets/tests.js"
             ], function (query, on, parser, registry, Modal, ToolTip, PopOver, domConstruct) {
-                    var modal1, modal2;
+                    var modal1, modal2, remoteLoaded = false;
                     parser.parse().then(function(){
                         modal1 = registry.byId("modal1");
 
@@ -92,6 +92,7 @@
 
                         modal3 = registry.byId("modal3");
                         modal3.on('remote-loaded', function () {
+                            remoteLoaded = true;
                             var etiam = registry.byId("etiam");
                             if(!etiam){
                                 new PopOver({
@@ -111,7 +112,9 @@
                     });
                     query('#btn3').on('click', function(){
                         modal3 && modal3.show();
-                        modal3.set('remote', './assets/basic.html');
+                        if(!remoteLoaded){
+                            modal3.set('remote', './assets/basic.html');
+                        }
                     });
                     new ToolTip({
                         placement: "bottom", title: "Enter your username"
