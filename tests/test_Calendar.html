@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dojo-Bootstrap/Datepicker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/tests.css">
+    <link rel="stylesheet" href="../assets/calendar.css">
+    <style type="text/css">
+        #out { width: 200px; }
+    </style>
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="nav-collapse collapse">
+                <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <section class="sidebar span3"></section>
+        <section id="main" class="main span8">
+            <button class="btn" id="btn">Create</button>
+            <button id="btn1" class="btn">Today</button>
+            <button id="btn2" class="btn">5.5.2005</button>
+            <h4>Declarative</h4>
+            <div id="cal1" data-dojo-type="bootstrap/Calendar" data-dojo-props="date:'1/1/2013'"></div>
+            <h4>Programmatic</h4>
+            <div id="out"></div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="assets/config.js"></script>
+<script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+
+<script>
+    require([
+        "dojo/query",
+        "dojo/parser",
+        "dojo/dom-construct",
+        "bootstrap/Calendar",
+        "dijit/registry",
+        "dojo/date/locale",
+        "./assets/tests.js",
+        "dojo/domReady!"
+    ], function (query, parser, domConstruct, Calendar, registry, locale) {
+        var cal1, cal2;
+        parser.parse().then(function(){
+            cal1 = registry.byId("cal1");
+            cal1.on("changeDate", function(e){
+                console.log("Selected date: "+ e.date);
+            });
+        });
+        query("#btn1").on("click", function(){
+            cal1.set("date", new Date());
+        });
+        query("#btn2").on("click", function(){
+            cal1.set("date", "5.5.2005");
+            cal2.set("date", "5.5.2005");
+        });
+        query("#btn").on("click", function(){
+            cal2 = new Calendar({
+                format: "M.d.yyyy"
+            }, domConstruct.create("div", null, query("#out")[0]));
+            cal2.on("changeDate", function(e){
+                console.log("Selected date: "+ e.formattedDate);
+            });
+            cal2.startup();
+        });
+    });
+</script>
+</body>
+</html>

@@ -11,7 +11,8 @@ var profile = (function(){
 
     var test = function(filename, mid){
         var list = {
-            "bootstrap/tests"     : true
+            "bootstrap/tests"       : true,
+            "bootstrap/experimental": true
         };
         return (mid in list) ||
             testResourceRe.test(mid);

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="div1"></div>
+<script type="text/javascript" src="assets/config.js"></script>
+<script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+<script type="text/javascript">
+    //http://mootools.net/docs/core/Core/Core#Core:typeOf
+    require([
+        "bootstrap/_BootstrapWidget",
+        "dojo/_base/declare",
+        "dojo/domReady!"
+    ], function(_BootstrapWidget, declare){
+        var Widget = declare([_BootstrapWidget], {
+            name: "",
+            items: [],
+            length: function(){
+                return this.items.length;
+            },
+            named: function(){
+                return this.get("name");
+            }
+        });
+
+        var a = new Widget({
+            name: "AWidget",
+            items: [1,2,3,4,5]
+        });
+        console.log("A length: "+a.length());
+        var b = new Widget({
+            name: "BW"
+        });
+        console.log("B length: "+b.length());
+
+        console.log("Identity before name set");
+        console.log(a.named());
+        console.log(b.named());
+
+        b.set("name", "BWidget");
+        console.log("Identity after name set");
+        console.log(a.named());
+        console.log(b.named());
+
+        console.log("Length before set");
+        console.log("A length: "+a.length());
+        console.log("B length: "+b.length());
+
+        b.set("items", [1,2]);
+        console.log("Length after set");
+        console.log("A length: "+a.length());
+        console.log("B length: "+b.length());
+    });
+</script>
+</body>
+</html>

@@ -9,8 +9,9 @@
             section {
                 height: 50em;
             }
-            #affixnav { width: 100px; margin-top: 60px; background-color: #EEEEEE; }
+            #affixnav { width: 100px; margin-top: 50px; background-color: #EEEEEE; }
             #affixnav.top { margin-top: 0px; }
+            #affixnav.affix { margin-top: 0px; }
         </style>
     </head>
 
@@ -31,11 +32,13 @@
                     <div class="row-fluid">
                         <!-- navigation -->
                         <div class="span3">
-                            <ul id="affixnav" class="nav nav-list" data-spy="affix" data-offset-top="0">
-                                <li><a href="#a"><i class="icon-chevron-right"></i> A</a></li>
-                                <li><a href="#b"><i class="icon-chevron-right"></i> B</a></li>
-                                <li><a href="#c"><i class="icon-chevron-right"></i> C</a></li>
-                            </ul>
+                            <div id="affixnav" data-dojo-type="bootstrap/Affix" data-dojo-props="offset: 50">
+                                <ul class="nav nav-list">
+                                    <li><a href="#a"><i class="icon-chevron-right"></i> A</a></li>
+                                    <li><a href="#b"><i class="icon-chevron-right"></i> B</a></li>
+                                    <li><a href="#c"><i class="icon-chevron-right"></i> C</a></li>
+                                </ul>
+                            </div>
                         </div>
                         <!-- content -->
                         <div class="span9">
@@ -64,10 +67,27 @@
         </div>
 
         <script src="assets/config.js"></script>
-        <script src="../vendor/dojo/dojo/dojo.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         
         <script>
-            require(["bootstrap/Affix", "bootstrap/Scrollspy", "./assets/tests.js"]);
+            require([
+                "dojo/query",
+                "dojo/parser",
+                "bootstrap/ScrollSpy",
+                "bootstrap/Affix",
+                "./assets/tests.js"
+            ], function(query, parser, ScrollSpy){
+                parser.parse().then(function(){
+                    var scrollSpy = new ScrollSpy({
+                        target: '#affixnav',
+                        offset:'300'
+                    }, document.body);
+                    scrollSpy.on("activate", function(e){
+                        console.log(e.target);
+                        console.log(e.relatedTarget);
+                    });
+                });
+            });
         </script>
     </body>
 </html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dojo-Bootstrap Tab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/tests.css">
+    <style type="text/css">
+        #myTab {
+            margin-bottom: 0px;
+        }
+        .tab-content {
+            margin-top: 0px;
+            border: 1px solid #DDD;
+            border-top: 0px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <div class="nav-collapse collapse">
+                <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <section class="sidebar span3"></section>
+        <section id="main" class="main span8">
+            <button class="btn" id="btn1">Activate First</button>&nbsp;<button class="btn" id="btn2">Activate Last</button>
+            <div style="margin-top: 20px;">
+                <ul class="nav nav-tabs" id="myTab" data-dojo-type="bootstrap/Tab">
+                    <li class="active"><a href="#home">Home</a></li>
+                    <li><a href="#profile">Profile</a></li>
+                    <li><a href="#messages">Messages</a></li>
+                    <li><a href="#settings">Settings</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active fade in" id="home">
+                        <h4>Home</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros lacus, hendrerit sed
+                            sollicitudin id, iaculis id orci. Mauris eu tellus erat. Integer in ipsum turpis. Maecenas
+                            vel ligula at eros luctus lacinia posuere vitae tortor. Suspendisse aliquam elementum enim,
+                            a pretium diam pharetra sed. Nam luctus consectetur augue, at commodo orci aliquam non. Ut
+                            auctor nulla quis felis auctor nec pulvinar erat commodo. Suspendisse diam mi, tempus
+                            sagittis dictum vitae, bibendum et arcu. Vestibulum a tempus mauris. Pellentesque tincidunt
+                            faucibus odio ultricies malesuada. Praesent quis pretium lacus. Etiam vel dolor elit, ac
+                            sodales leo. Ut imperdiet magna non elit semper dignissim. Duis at arcu ut nibh tristique
+                            congue at nec orci. Phasellus dictum convallis lacus non sollicitudin.</p>
+                    </div>
+                    <div class="tab-pane fade" id="profile">
+                        <h4>Profile</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros lacus, hendrerit sed
+                            sollicitudin id, iaculis id orci. Mauris eu tellus erat. Integer in ipsum turpis. Maecenas
+                            vel ligula at eros luctus lacinia posuere vitae tortor. Suspendisse aliquam elementum enim,
+                            a pretium diam pharetra sed. Nam luctus consectetur augue, at commodo orci aliquam non. Ut
+                            auctor nulla quis felis auctor nec pulvinar erat commodo.</p>
+                    </div>
+                    <div class="tab-pane fade" id="messages">
+                        <h4>Message</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros lacus, hendrerit sed
+                            sollicitudin id, iaculis id orci. Mauris eu tellus erat. Integer in ipsum turpis. Maecenas
+                            vel ligula at eros luctus lacinia posuere vitae tortor. Suspendisse aliquam elementum enim,
+                            a pretium diam pharetra sed. Nam luctus consectetur augue, at commodo orci aliquam non. Ut
+                            auctor nulla quis felis auctor nec pulvinar erat commodo. Suspendisse diam mi, tempus
+                            sagittis dictum vitae, bibendum et arcu. Vestibulum a tempus mauris. Pellentesque tincidunt
+                            faucibus odio ultricies malesuada. Praesent quis pretium lacus.</p>
+                    </div>
+                    <div class="tab-pane" id="settings">
+                        <h4>Settings</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eros lacus, hendrerit sed
+                            sollicitudin id, iaculis id orci. Mauris eu tellus erat. Integer in ipsum turpis. Maecenas
+                            vel ligula at eros luctus lacinia posuere vitae tortor. Suspendisse aliquam elementum enim,
+                            a pretium diam pharetra sed. Nam luctus consectetur augue, at commodo orci aliquam non. Ut
+                            auctor nulla quis felis auctor nec pulvinar erat commodo. Suspendisse diam mi, tempus
+                            sagittis dictum vitae, bibendum et arcu.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script type="text/javascript" src="assets/config.js"></script>
+<script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+
+<script>
+    require([
+        "dojo/query",
+        "dojo/on",
+        "dojo/parser",
+        "dijit/registry",
+        "bootstrap/Tab",
+        "./assets/tests.js"
+    ], function(query, on, parser, registry, Tab){
+        var tab;
+        parser.parse().then(function(){
+            tab = registry.byId("myTab");
+            on(tab, "shown", function(evt){
+                console.log(evt.target.innerHTML);
+            });
+        });
+        query("#btn1").on("click", function(){
+            var first = query("#myTab > li > a")[0];
+            tab.show(first);
+        });
+        query("#btn2").on("click", function(){
+            var links = query("#myTab > li > a");
+            tab.show(links.length-1);
+        });
+    });
+</script>
+</body>
+</html>

@@ -5,6 +5,10 @@
         <title>Dojo-Bootstrap/Collapse</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/tests.css">
+        <style type="text/css">
+            #my-accordion { margin-top: 10px; }
+            #btn7 { margin: 0 5px; }
+        </style>
     </head>
 
     <body>
@@ -21,70 +25,95 @@
             <div class="row">
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
-                        <div id="my-accordion">
-                            <div class="accordion-group">
-                                <div class="accordion-heading">
-                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#my-accordion" href="#one">
-                                        Item #1
-                                    </a>
-                                </div>
-                                <div id="one" class="collapse in">
-                                    <div class="accordion-inner">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-group">
-                                <div class="accordion-heading">
-                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#my-accordion" href="#two">
-                                        Item #2
-                                    </a>
-                                </div>
-                                <div id="two" class="collapse">
-                                    <div class="accordion-inner">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-group">
-                                <div class="accordion-heading">
-                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#my-accordion" href="#three">
-                                        Item #3
-                                    </a>
-                                </div>
-                                <div id="three" class="collapse">
-                                    <div class="accordion-inner">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="btn-group">
+                        <button id="btn1" class="btn btn-small">Toggle First</button>
+                        <button id="btn2" class="btn btn-small">Show Second</button>
+                        <button id="btn3" class="btn btn-small">Hide Third</button>
+                        <button id="btn4" class="btn btn-small">Collapse All</button>
+                        <button id="btn5" class="btn btn-small disabled">Expand All</button>
+                    </div>
+                    <button id="chk1" class="btn btn-small btn-info" data-dojo-type="bootstrap/Button" data-dojo-props="toggleable:true">Allow All Open</button>
+                    <div id="my-accordion" data-dojo-type="bootstrap/Collapse">
+                        <div data-dojo-type="bootstrap/CollapseItem" data-dojo-props="title:'<i class=icon-globe></i>New York', content:'New York is a state in the Northeastern region of the United States. New York is the 27th-most extensive, the 3rd-most populous, and the 7th-most densely populated of the 50 United States.'"></div>
+                        <div data-dojo-type="bootstrap/CollapseItem" data-dojo-props="title:'<i class=\'icon-globe\'></i>California', content:'California is a state located on the West Coast of the United States. It is the most populous U.S. state, and the third most extensive.'"></div>
+                        <div data-dojo-type="bootstrap/CollapseItem" data-dojo-props="title:'<i class=\'icon-globe\'></i>Georgia', content:'Georgia is a state located in the southeastern United States. It was established in 1732, the last of the original Thirteen Colonies.'"></div>
+                    </div>
+                    <button id="btn7" class="btn btn-small btn-danger pull-right" data-dojo-type="bootstrap/Button">Remove Last</button>
+                    <button id="btn6" class="btn btn-small btn-primary pull-right" data-dojo-type="bootstrap/Button">Add</button>
                 </section>
             </div>
         </div>
         
         <script type="text/javascript" src="assets/config.js"></script>
-        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         
         <script>
-            require([ "dojo/_base/array", "dojo/query", "dojo/on", "bootstrap/Collapse", "./assets/tests.js" ],
-                function ( array, query, on ) {
-                    ['#one', '#two', '#three'].forEach(function (id) {
-                        query(id).on('show', function () {
-                            console.info(id + ': show');
+            require([
+                "dojo/query",
+                "dojo/parser",
+                "dojo/dom-construct",
+                "dijit/registry",
+                "bootstrap/CollapseItem",
+                "bootstrap/Collapse",
+                "bootstrap/Button",
+                "./assets/tests.js",
+                "dojo/domReady!"
+            ], function ( query, parser, domConstruct, registry, CollapseItem, Button ) {
+                    var accord;
+                    parser.parse().then(function(){
+                        accord = registry.byId("my-accordion");
+                        accord.on('show', function (e) {
+                            console.info(e.target.id + ': show');
                         });
 
-                        query(id).on('shown', function () {
-                            console.info(id + ' is now shown');
+                        accord.on('shown', function (e) {
+                            console.info(e.target.id + ' is now shown');
                         });
 
-                        query(id).on('hide', function () {
-                            console.info(id + ': hide');
+                        accord.on('hide', function (e) {
+                            console.info(e.target.id + ': hide');
                         });
 
-                        query(id).on('hidden', function () {
-                            console.info(id + 'is now hidden');
+                        accord.on('hidden', function (e) {
+                            console.info(e.target.id + ' is now hidden');
                         });
+                    });
+                    query("#btn1").on("click", function(){
+                        accord.toggle(0);
+                    });
+                    query("#btn2").on("click", function(){
+                        var secondWidget = accord.getChildren()[1];
+                        accord.show(secondWidget);
+                    });
+                    query("#btn3").on("click", function(){
+                        accord.hide(2);
+                    });
+                    query("#btn4").on("click", function(){
+                        accord.collapseAll();
+                    });
+                    query("#btn5").on("click", function(){
+                        accord.expandAll();
+                    });
+                    query("#btn6").on("click", function(){
+                        var c1 = new CollapseItem({
+                            title: "Tennessee",
+                            content: "Tennessee is a U.S. state located in the Southeastern United States. Tennessee is the 36th most extensive and the 17th most populous of the 50 United States."
+                        }, domConstruct.create("div", null, query("#my-accordion")[0]))
+                        accord.add(c1);
+
+                    });
+                    query("#btn7").on("click", function(){
+                        accord.remove(accord.getChildren().length-1);
+
+                    });
+                    query("#chk1").on("click", function(){
+                        if(registry.byId(this.id).isActive()){
+                            query("#btn5").removeClass("disabled");
+                            accord.set("allowAllOpen", true);
+                        } else {
+                            query("#btn5").addClass("disabled");
+                            accord.set("allowAllOpen", false);
+                        }
                     });
                 }
             );

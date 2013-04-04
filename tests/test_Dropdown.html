@@ -21,13 +21,45 @@
         <div class="row">
             <section class="sidebar span3"></section>
             <section id="main" class="main span8">
+                <span class="dropdown" data-dojo-type="bootstrap/Dropdown">
+                    <a class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="http://google.com">one</a></li>
+                        <li><a href="#">two</a></li>
+                        <li><a href="#">three</a></li>
+                    </ul>
+                </span>
+                <br/>
                 <ul class="nav nav-pills">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
+                    <li class="active"><a href="#">Regular link</a></li>
+                    <li class="dropdown" data-dojo-type="bootstrap/Dropdown">
+                        <a class="dropdown-toggle" id="drop4" role="button" href="#">Dropdown <b class="caret"></b></a>
                         <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-                            <li><a href="#">one</a></li>
-                            <li><a href="#">two</a></li>
-                            <li><a href="#">three</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" data-dojo-type="bootstrap/Dropdown">
+                        <a class="dropdown-toggle" id="drop5" role="button" href="#">Dropdown 2 <b class="caret"></b></a>
+                        <ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="drop5">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" data-dojo-type="bootstrap/Dropdown">
+                        <a class="dropdown-toggle" id="drop6" role="button" href="#">Dropdown 3 <b class="caret"></b></a>
+                        <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop5">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -35,10 +67,25 @@
         </div>
     </div>
     <script type="text/javascript" src="assets/config.js"></script>
-    <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+    <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
 
     <script>
-        require(["dojo/query", "dojo/on", "bootstrap/Dropdown", "./assets/tests.js"]);
+        require([
+            "dojo/query",
+            "dojo/on",
+            "dojo/parser",
+            "bootstrap/Dropdown",
+            "./assets/tests.js"
+        ], function(query, on, parser, Dropdown){
+            //query("#btn").on("click", function(){
+                start();
+            //});
+            function start(){
+                parser.parse().then(function(){
+
+                });
+            }
+        });
     </script>
 </body>
 </html>

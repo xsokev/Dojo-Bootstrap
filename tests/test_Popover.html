@@ -22,23 +22,32 @@
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
                     <h3>Trigger by hover</h3>
-                    <a href="#" class="btn" rel="popover" data-trigger="hover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover on right">Popover on right</a>
-                    <a href="#" class="btn" rel="popover" data-trigger="hover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover on bottom">Popover on bottom</a>
+                    <a href="#" class="btn" data-dojo-type="bootstrap/PopOver"
+                       data-dojo-props="trigger:'hover', placement:'right', content:'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.', title:'Popover on right'">Popover on right</a>
+                    <a href="#" class="btn" data-dojo-type="bootstrap/PopOver"
+                       data-dojo-props="trigger:'hover', placement:'bottom', content:'Vivamus sagittis lacus vel augue laoreet rutrum faucibus.', title:'Popover on bottom'">Popover on bottom</a>
                     <h3>Trigger by default click</h3>
-                    <a href="#" class="btn" rel="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover on top">Popover on top</a>
-                    <a href="#" class="btn" rel="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-original-title="Popover on left">Popover on left</a>
+                    <a href="#" class="btn" data-dojo-type="bootstrap/PopOver"
+                       data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-title="Popover on top">Popover on top</a>
+                    <a href="#" class="btn" data-dojo-type="bootstrap/PopOver"
+                       data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-title="Popover on left">Popover on left</a>
                 </section>
             </div>
         </div>
         <script type="text/javascript" src="assets/config.js"></script>
-        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
-        
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+
         <script>
-            require(["dojo/query", "dojo/on", "bootstrap/Button", "bootstrap/Popover", "./assets/tests.js"],
-                function (query, on) {
-                    query('a[rel=popover]').popover();
-                }
-            );
+            require([
+                "dojo/query",
+                "dojo/on",
+                "dojo/parser",
+                "dijit/registry",
+                "bootstrap/PopOver",
+                "./assets/tests.js"
+            ], function(query, on, parser, registry, PopOver){
+                parser.parse();
+            });
         </script>
     </body>
 </html>

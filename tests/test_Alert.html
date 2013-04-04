@@ -21,27 +21,64 @@
             <div class="row">
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
-                    <div class="alert fade in">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Declarative</h4>
+
+                    <div data-dojo-type="bootstrap/Alert" class="alert fade in">
                         <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+
+                        <script type="dojo/on" data-dojo-event="close" data-dojo-args="ev">
+                            console.info('Alert about to be closed');
+                        </script>
+                        <script type="dojo/on" data-dojo-event="closed" data-dojo-args="ev">
+                            console.info('Alert is now closed');
+                        </script>
                     </div>
+
+                    <div data-dojo-type="bootstrap/Alert" data-dojo-props="closable:false" class="alert alert-success fade in">
+                        It's going to be a wonderful day!
+                    </div>
+                    <div data-dojo-type="bootstrap/Alert" data-dojo-props="closable:true" class="alert alert-info fade in">It's not what you know!</div>
+                    <h4>Programmatic</h4>
+                    <div id="out"></div>
                 </section>
             </div>
         </div>
 
         <script src="assets/config.js"></script>
-        <script src="../vendor/dojo/dojo/dojo.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         
         <script>
-            require([ "dojo/query", "dojo/on", "bootstrap/Alert", "./assets/tests.js" ],
-                function (query, on) {
-                    query('.alert').on('close', function () {
-                        console.info('close');
+            require([
+                "dojo/parser",
+                "dojo/query",
+                "dojo/on",
+                "dojo/dom-construct",
+                "bootstrap/Alert",
+                "./assets/tests.js"
+            ], function(parser, query, on, domConstruct, Alert){
+                    parser.parse();
+                    var a1 = new Alert({
+                        'class': 'alert-success fade in',
+                        content: "<strong>Oh yeah!</strong> That's just lookin' fine",
+                        closable: true
+                    }, domConstruct.create("div", null, "out"));
+                    a1.on("closed", function(){
+                        alert("Wait! Don't close that!");
                     });
+                    var a2 = new Alert({
+                        'class': 'alert-error in',
+                        content: "OH SNAP!<br/>SOMETHING WRONG HAPPENED!",
+                        closable: false
+                    });
+                    domConstruct.place(a2.domNode, "out");
 
-                    query('.alert').on('closed', function () {
-                        console.info('it is now closed');
+                    var ta1 = new Alert({
+                        'class': 'alert-error in',
+                        content: "I will disappear shortly.",
+                        closable: false,
+                        timeout: 2000
                     });
+                    domConstruct.place(ta1.domNode, "out", "first");
                 }
             );
         </script>

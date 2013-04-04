@@ -1,5 +1,5 @@
 /* ==========================================================
- * Button.js v1.1.0
+ * Button.js v2.0.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -18,81 +18,107 @@
 
 define([
     "./Support",
+    "./_BootstrapWidget",
     "dojo/_base/declare",
-    "dojo/query",
+    "dojo/on",
     "dojo/_base/lang",
-    'dojo/_base/window',
-    'dojo/on',
-    'dojo/dom-class',
+    "dojo/dom-class",
     "dojo/dom-attr",
-    "dojo/NodeList-dom",
-    'dojo/NodeList-traverse',
-    "dojo/domReady!"
-], function (support, declare, query, lang, win, on, domClass, domAttr) {
+    "dojo/NodeList-traverse"
+], function (support, _BootstrapWidget, declare, on, lang, domClass, domAttr) {
     "use strict";
 
-    var toggleSelector = '[data-toggle^=button]';
-    var toggleRadioSelector = '[data-toggle="buttons-radio"]';
-    var Button = declare([], {
-        defaultOptions:{
-            "loading-text":'loading...'
-        },
-        constructor:function (element, options) {
-            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-            this.domNode = element;
-        },
-        setState:function (state) {
-            var _this = this;
-            var d = 'disabled';
-            support.getData(this.domNode, 'reset-text', lang.trim((this.domNode.tag === "INPUT") ? this.domNode.val : this.domNode.innerHTML));
-            state = state + '-text';
-            var data = support.getData(this.domNode, state);
-            this.domNode[(this.domNode.tag === "INPUT") ? "val" : "innerHTML"] = data || this.options[state];
+    // module:
+    //      Button
 
-            setTimeout(function () {
-                if (state === 'loading-text') {
-                    domClass.add(_this.domNode, d);
-                    domAttr.set(_this.domNode, d, d);
-                } else {
-                    domClass.remove(_this.domNode, d);
-                    domAttr.remove(_this.domNode, d);
-                }
-            }, 0);
+    return declare("Button", [_BootstrapWidget], {
+        // summary:
+        //      Control button states.
+        // example:
+        // |	<button class="btn" data-dojo-type="Button">Load</button>
+        //
+        // example:
+        // |	new Button({toggleable:true}, dojo.byId("button"));
+        //
+
+        // _valueProp: [protected readonly] String
+        _valueProp: "innerHTML",
+
+        // resetText: String
+        //          text to display when button state is reset
+        text: "",
+        _setTextAttr: function(val){
+            this._set("text", val);
+            this.domNode[this._valueProp] = val;
         },
-        toggle:function () {
-            var $parent = query(this.domNode).parents(toggleRadioSelector);
-            if ($parent.length) {
-                query('.active', $parent[0]).removeClass('active');
+
+        // loadingText: String
+        //          text to display when button state is loading
+        loadingText: "loading...",
+
+        // resetText: String
+        //          text to display when button state is reset
+        resetText: "",
+
+        // toggleable: Boolean
+        //          whether an individual button can be toggled
+        toggleable: false,
+
+        // active: Boolean
+        //          sets a button's active state
+        active: false,
+        _setActiveAttr: function(val){
+            this._set("active", val);
+            if (this.toggleable) {
+                domClass[val === true ? "add" : "remove"](this.domNode, 'active');
             }
-            domClass.toggle(this.domNode, 'active');
+        },
+
+        // disabled: Boolean
+        //          sets a button's disabled state
+        disabled: false,
+        _setDisabledAttr: function(val){
+            this._set("disabled", val);
+            domClass[val === true ? "add" : "remove"](this.domNode, 'disabled');
+        },
+
+        postCreate:function () {
+            this.own(on(this.domNode, "click", lang.hitch(this, function(){
+                this.toggle();
+            })));
+            this._valueProp = (this.domNode.tag === "INPUT") ? "value" : "innerHTML";
+        },
+
+        loading: function(/*String?*/ txt){
+            // summary:
+            //      places the button in a loading state with text specified by the loadingText property
+            txt = txt || this.loadingText;
+            if(this.resetText === ""){
+                this.set("resetText", this.domNode[this._valueProp]);
+            }
+            this.set("text", txt);
+            domClass.add(this.domNode, "disabled");
+            domAttr.set(this.domNode, "disabled", "disabled");
+        },
+
+        reset: function(){
+            // summary:
+            //      resets the button's state, replacing the button's value with resetText
+            this.set("text", this.resetText);
+            domClass.remove(this.domNode, "disabled");
+            domAttr.remove(this.domNode, "disabled");
+        },
+
+        toggle: function(){
+            // summary:
+            //      toggles a button's active or inactive state
+            if (this.toggleable) { this.set("active", !this.active); }
+        },
+
+        isActive: function(){
+            // summary:
+            //      whether the button is active
+            return this.active;
         }
     });
-
-    lang.extend(query.NodeList, {
-        button:function (option) {
-            var options = (lang.isObject(option)) ? option : {};
-            return this.forEach(function (node) {
-                var data = support.getData(node, 'button');
-                if (!data) {
-                    support.setData(node, 'button', (data = new Button(node, options)));
-                }
-                if (lang.isString(option) && option === 'toggle') {
-                    data.toggle();
-                }
-                else if (option) {
-                    data.setState(option);
-                }
-            });
-        }
-    });
-
-    on(win.body(), on.selector(toggleSelector, '.btn:click'), function (e) {
-        var btn = e.target;
-        if (!domClass.contains(btn, 'btn')){
-            btn = query(btn).closest('.btn');
-        }
-        query(btn).button('toggle');
-    });
-
-    return Button;
 });

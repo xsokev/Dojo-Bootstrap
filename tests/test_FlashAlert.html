@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Alert</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/tests.css">
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8" style="min-height: 300px">
+                    <div data-spy="flash-alert" data-timeout="5000" class="alert fade in">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>*********</strong> loaded with page html
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script src="assets/config.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
+        
+        <script>
+            require([ "dojo/query", "dojo/on", "bootstrap/FlashAlert", "./assets/tests.js" ],
+                function (query, on) {
+					query("#main").flashalert("flash", {message: "<center>Flash Alert Module Testing</center>", type: "alert-info", timeout: false});
+					query("#main").flashalert("flash", {message: "No 'REAL' error on this page!", type: "alert-error", timeout: false});
+					query("#main").flashalert("flash", {message: "Successfully executed!", type: "alert-success", timeout: 4000});
+					query("#main").flashalert("flash", {message: "Last a little longer!", timeout: 8000, canClose: true});
+                }
+            );
+        </script>
+    </body>
+</html>

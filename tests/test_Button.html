@@ -21,26 +21,28 @@
             <div class="row">
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
+                    <h4>Declarative</h4>
                     <section>
                         <div class="page-header">
-                            <h1>Stateful</h1>
+                            <h5>Stateful</h5>
                         </div>
-                        <button type="button" id="loading-button" class="btn btn-primary" data-loading-text="Loading...">Load</button>
+                        <button class="btn btn-primary"
+                                data-dojo-type="bootstrap/Button" data-dojo-id="btn1" id="btn1">Load<i class="icon-link"></i></button>
                     </section>
 
                     <section>
                         <div class="page-header">
-                            <h1>Toggle</h1>
+                            <h5>Toggle</h5>
                         </div>
-                        <button type="button" class="btn" data-toggle="button">Toggle</button>
+                        <input type="button" value="Toggle" class="btn" data-dojo-type="bootstrap/Button" data-dojo-props="toggleable:true" />
                     </section>
 
                     <section>
                         <div class="page-header">
-                            <h1>Checkbox</h1>
+                            <h5>Checkbox</h5>
                         </div>
-                        <div class="btn-group" data-toggle="buttons-checkbox">
-                            <button type="button" class="btn">Left</button>
+                        <div class="btn-group" data-dojo-type="bootstrap/ButtonGroup">
+                            <button data-dojo-type="bootstrap/Button" class="btn">Left</button>
                             <button type="button" class="btn">Middle</button>
                             <button type="button" class="btn">Right</button>
                         </div>
@@ -48,9 +50,9 @@
 
                     <section>
                         <div class="page-header">
-                            <h1>Radio</h1>
+                            <h5>Radio</h5>
                         </div>
-                        <div class="btn-group" data-toggle="buttons-radio">
+                        <div class="btn-group" data-dojo-type="bootstrap/ButtonGroup" data-dojo-props="mode:'radio'">
                             <button type="button" class="btn">Left</button>
                             <button type="button" class="btn">Middle</button>
                             <button type="button" class="btn">Right</button>
@@ -61,16 +63,26 @@
         </div>
 
         <script type="text/javascript" src="assets/config.js"></script>
-        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         
         <script>
-            require([ "dojo/query", "bootstrap/Button", "./assets/tests.js" ],
-                function (query, on) {
-                    query("#loading-button").on("click", function(e){
-                        var target = this;
-                        query(target).button('loading');
+            require([
+                "dojo/parser",
+                "dojo/query",
+                "dijit/registry",
+                "bootstrap/Button",
+                "bootstrap/ButtonGroup",
+                "./assets/tests.js",
+                "dojo/domReady!"
+            ], function (parser, query, registry, Button, ButtonGroup) {
+                    var b1;
+                    parser.parse().then(function(){
+                        b1 = registry.byId("btn1");
+                    });
+                    query("#btn1").on("click", function(e){
+                        b1.loading();
                         setTimeout(function(){
-                            query(target).button('reset');
+                            b1.reset();
                         }, 2000);
                     });
                 }

@@ -1,5 +1,5 @@
 /* ==========================================================
- * Collapse.js v1.1.0
+ * Collapse.js v2.0.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -15,143 +15,157 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
+
 define([
-    './Support',
-    'dojo/_base/declare',
-    'dojo/query',
-    'dojo/_base/lang',
-    'dojo/_base/window',
-    'dojo/on',
-    'dojo/dom-class',
-    'dojo/dom-attr',
-    'dojo/dom-geometry',
-    'dojo/dom-style',
-    'dojo/NodeList-dom',
-    'dojo/NodeList-traverse',
-    'dojo/domReady!'
-], function (support, declare, query, lang, win, on, domClass, domAttr, domGeom, domStyle) {
+    "./CollapseItem",
+    "./Support",
+    "./_BootstrapWidget",
+    "dojo/_base/declare",
+    "dijit/_Container",
+    "dojo/query",
+    "dojo/on",
+    "dojo/_base/lang",
+    "dojo/_base/array",
+    "dojo/dom-class",
+    "dojo/NodeList-traverse"
+], function (CollapseItem, support, _BootstrapWidget, declare, _Container, query, on, lang, array, domClass) {
     "use strict";
-    var collapseSelector = '[data-toggle=collapse]';
-    var Collapse = declare([], {
-        defaultOptions:{
-            toggle:true
-        },
-        constructor:function (element, options) {
-            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-            this.domNode = element;
-            if (this.options.parent) {
-                this.parent = query(this.options.parent);
-            }
-            if (this.options.toggle) { this.toggle(); }
-        },
-        dimension:function () {
-            return domClass.contains(this.domNode, 'width') ? 'width' : 'height';
-        },
-        show:function () {
-            var dimension, scroll, actives, hasData;
 
-            if (this.transitioning) {
-                return;
-            }
-            if(this.parent && this.options.target) {
-                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
-                    domClass.remove(el, 'collapsed');
+    // module:
+    //      Collapse
+
+    var _dimension = function(node){
+            return domClass.contains(node, 'width') ? 'width' : 'height';
+        },
+        _beforeShow = function(targetNode){
+            if(!this.allowAllOpen && targetNode){
+                this.getChildren().forEach(function(collapse){
+                    if(collapse._transitioning){ return; }
+                    if(collapse.domNode.id !== targetNode.id){
+                        collapse.hide(true);
+                    }
                 });
             }
-
-            dimension = this.dimension();
-            scroll = support.toCamel(['scroll', dimension].join('-'));
-            actives = this.parent && query('> .accordion-group > .in', this.parent[0]);
-
-            if (actives && actives.length) {
-                hasData = support.getData(actives[0], 'collapse');
-                if (hasData && hasData.transitioning) {
-                    return;
-                }
-                actives.collapse('hide');
-                if (!hasData) { support.setData(actives[0], 'collapse', null); }
-            }
-
-            domStyle.set(this.domNode, dimension, '0px');
-            this.transition('add', 'show', 'shown');
-            if (support.trans) { domStyle.set(this.domNode, dimension, this.domNode[scroll] + 'px'); }
         },
-        hide:function () {
-            if (this.transitioning) {
-                return;
-            }
-            if(this.parent && this.options.target) {
-                query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
-                    domClass.add(el, 'collapsed');
-                });
-            }
-
-            var dimension = this.dimension();
-            this.reset(domStyle.get(this.domNode, dimension));
-            this.transition('remove', 'hide', 'hidden');
-            domStyle.set(this.domNode, dimension, '0px');
-        },
-        reset:function (size) {
-            size = size ? parseFloat(size, 10) + 'px' : 'auto';
-            var dimension = this.dimension();
-            domClass.remove(this.domNode, 'collapse');
-            domStyle.set(this.domNode, dimension, size);
-            this._offsetWidth = this.domNode.offsetWidth;
-            domClass[(size !== null ? 'add' : 'remove')](this.domNode, 'collapse');
-            return this;
-        },
-        transition:function (method, startEvent, completeEvent) {
-            var _complete = lang.hitch(this, function () {
-                if (startEvent === 'show') {
-                    this.reset();
-                }
-                this.transitioning = 0;
-                on.emit(this.domNode, completeEvent, {bubbles:false, cancelable:false});
+        _removeCollapseItemEvent = function(targetCi, list){
+            var _list = array.filter(list, function(ci){
+                return targetCi.id !== ci.id;
             });
+            return _list;
+        };
 
-            on.emit(this.domNode, startEvent, {bubbles:false, cancelable:false});
 
-            this.transitioning = 1;
 
-            domClass[method](this.domNode, 'in');
+    // summary:
+    //
+    return declare("Collapse", [_BootstrapWidget, _Container], {
+        baseClass: "accordion",
 
-            if (support.trans && domClass.contains(this.domNode, 'collapse')) {
-                on.once(this.domNode, support.trans.end, _complete);
-            } else {
-                _complete();
+        // allowAllOpen: Boolean
+        //          determines if all panes can be open at the same time
+        allowAllOpen: false,
+
+        postCreate:function () {
+            if(!domClass.contains(this.domNode, this.baseClass)){
+                domClass.add(this.domNode, this.baseClass);
+            }
+            this._events = [];
+        },
+
+        startup: function(){
+            if(this.getChildren().length){
+                array.forEach(this.getChildren(), function(ci){
+                    var evt = this.own(ci.on("show, shown, hide, hidden", lang.hitch(this, function(e){
+                        if(e.type === "show"){ _beforeShow.call(this, e.target); }
+                        this.emit(e.type, e);
+                    })));
+                    this._events.push({"id":ci.id, "event": evt});
+                }, this);
+                var first = this.getChildren()[0];
+                first.show();
+            }
+            this.emit("started");
+        },
+
+        // summary:
+        //      toggles a collapse pane. Accepts the widget index or the widget
+        toggle: function(){
+            var widgetRef = arguments.length && arguments[0];
+            if(widgetRef === null){ return; }
+            if(typeof widgetRef === "number"){
+                widgetRef = this.getChildren()[widgetRef];
+            }
+            if (widgetRef.isInstanceOf && widgetRef.isInstanceOf(CollapseItem)) {
+                if(widgetRef.isCollapsed()){
+                    this.show(widgetRef);
+                } else {
+                    this.hide(widgetRef);
+                }
             }
         },
-        toggle:function () {
-            this[domClass.contains(this.domNode, 'in') ? 'hide' : 'show']();
-        }
-    });
-    lang.extend(query.NodeList, {
-        collapse:function (option) {
-            var options = (lang.isObject(option)) ? option : false;
-            return this.forEach(function (node) {
-                var data = support.getData(node, 'collapse');
-                if (!data) {
-                    support.setData(node, 'collapse', (data = new Collapse(node, options)));
-                }
-                if (lang.isString(option)) {
-                    data[option].call(data);
-                }
-            });
-        }
-    });
 
-    on(win.body(), on.selector(collapseSelector, 'click'), function (e) {
-        var node = this;
-        if (support.getData(node, 'toggle') !== 'collapse') {
-            node = query(this).closest('[data-toggle=collapse]')[0];
-        }
-        if (node) {
-            var target = domAttr.get(node, 'data-target') || e.preventDefault() || support.hrefValue(node);
-            if (target) {
-                var option = support.getData(target, 'collapse') ? 'toggle' : support.getData(node);
-                query(target).collapse(option);
+        // summary:
+        //      shows a collapse pane. Accepts the widget index or the widget
+        show: function(){
+            var widgetRef = arguments.length && arguments[0];
+            if(widgetRef === null){ return; }
+            if(typeof widgetRef === "number"){
+                widgetRef = this.getChildren()[widgetRef];
+            }
+            if (widgetRef.isInstanceOf && widgetRef.isInstanceOf(CollapseItem)) {
+                widgetRef.show();
+            }
+        },
+
+        // summary:
+        //      hides a collapse pane. Accepts the widget index or the widget
+        hide: function(){
+            var widgetRef = arguments.length && arguments[0];
+            if(widgetRef === null){ return; }
+            if(typeof widgetRef === "number"){
+                widgetRef = this.getChildren()[widgetRef];
+            }
+            if (widgetRef.isInstanceOf && widgetRef.isInstanceOf(CollapseItem)) {
+                widgetRef.hide();
+            }
+        },
+
+        collapseAll: function(){
+            this.getChildren().forEach(function(collapse){
+                if(collapse._transitioning){ return; }
+                collapse.hide(true);
+            });
+        },
+
+        expandAll: function(){
+            if(!this.allowAllOpen){ return; }
+            this.getChildren().forEach(function(collapse){
+                if(collapse._transitioning){ return; }
+                collapse.show(true);
+            });
+        },
+
+        add: function(collapseItem){
+            if (collapseItem.isInstanceOf && collapseItem.isInstanceOf(CollapseItem)) {
+                this.addChild(collapseItem);
+                var evt = this.own(collapseItem.on("show, shown, hide, hidden", lang.hitch(this, function(e){
+                    if(e.type === "show"){ _beforeShow.call(this, e.target); }
+                    this.emit(e.type, e);
+                })));
+                this._events.push({"id":collapseItem.id, "event": evt});
+            }
+        },
+
+        remove: function(collaspeItem){
+            if(collaspeItem === null){ return; }
+            if(typeof collaspeItem === "number"){
+                collaspeItem = this.getChildren()[collaspeItem];
+            }
+            if (collaspeItem.isInstanceOf && collaspeItem.isInstanceOf(CollapseItem)) {
+                this.removeChild(collaspeItem);
+                collaspeItem.destroy();
+                this._events = _removeCollapseItemEvent(collaspeItem, this._events);
             }
         }
     });
-    return Collapse;
 });

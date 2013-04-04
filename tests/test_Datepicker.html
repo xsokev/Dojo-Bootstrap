@@ -5,7 +5,7 @@
         <title>Dojo-Bootstrap/Datepicker</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/tests.css">
-        <link rel="stylesheet" href="../assets/datepicker.css">
+        <link rel="stylesheet" href="../assets/calendar.css">
     </head>
 
     <body>
@@ -22,42 +22,59 @@
             <div class="row">
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
-                    <input class="span2" size="16" type="text" value="21-12-2012" id="mydate">
-                    <div class="input-append date" id="my-datepicker" data-date="21-12-2012" data-date-format="dd-mm-yyyy">
-                        <input class="span2" size="16" type="text" value="21-12-2012">
+                    <h4>Declarative</h4>
+                    <input id="my-datepicker" value="1/1/2013" class="span2" type="text" data-dojo-type="bootstrap/DatePicker">
+                    <div class="input-append" data-dojo-type="bootstrap/DatePicker" data-dojo-props="format:'dd-M-yyyy'">
+                        <input value="21-12-2012" class="date span2" size="16" type="text">
                         <span class="add-on"><i class="icon-th"></i></span>
                     </div>
+                    <h4>Programmatic</h4>
+                    <button class="btn" id="btn">Create</button>
+                    <input id="mydate" class="span2" type="text">
                 </section>
             </div>
         </div>
         <script type="text/javascript" src="assets/config.js"></script>
-        <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         
         <script>
-            require(["dojo/query", "dojo/on", "bootstrap/Datepicker", "./assets/tests.js" ],
-                function (query, on) {
-                    query('#mydate').datepicker({
-                        format: 'mm-dd-yyyy'
-                    });
+            require([
+                "dojo/query",
+                "bootstrap/DatePicker",
+                "dojo/parser",
+                "dijit/registry",
+                "./assets/tests.js",
+                "dojo/domReady!"
+            ], function (query, DatePicker, parser, registry) {
+                start();
+                query("#btn").on("click", function(){
+                    makeNew();
+                });
+                function start(){
+                    parser.parse().then(function(){
+                        var picker1 = registry.byId("my-datepicker");
+                        picker1.on('show', function(ev){
+                            console.info('show');
+                        });
 
-                    query('#my-datepicker').datepicker({
-                        format: 'mm-dd-yyyy',
-                        weekStart: 1
-                    });
+                        picker1.on('hide', function(ev){
+                            console.info('hide');
+                        });
 
-                    query('#my-datepicker').datepicker().on('show', function(ev){
-                        console.info('show');
-                    });
-
-                    query('#my-datepicker').datepicker().on('hide', function(ev){
-                        console.info('hide');
-                    });
-
-                    query('#my-datepicker').datepicker().on('changeDate', function(ev){
-                        console.info('New date is ' + ev.date);
+                        picker1.on('changeDate', function(ev){
+                            console.info('New date is ' + ev.date);
+                        });
                     });
                 }
-            );
+                function makeNew(){
+                    var mydate = new DatePicker({
+                        format: 'MM.yyyy',
+                        minViewMode: 1
+                    }, query("#mydate")[0]);
+                    query("#mydate")[0].value = "9.13.1970";
+                    query("#btn").style.display = "none";
+                }
+            });
         </script>
     </body>
 </html>

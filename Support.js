@@ -17,14 +17,17 @@
  * ========================================================== */
 define([
     "dojo/query",
-    "dojo/_base/lang",
-    "dojo/dom-attr",
-    "dojo/_base/array",
     "dojo/json",
     "dojo/has",
+    "dojo/_base/lang",
+    "dojo/_base/array",
+    "dojo/_base/fx",
+    "dojo/dom-attr",
+    "dojo/dom-style",
+    "dojo/dom-geometry",
     "dojo/NodeList-data"
 ],
-function (query, lang, attr, array, json, has) {
+function (query, json, has, lang, array, fx, domAttr, domStyle, domGeom) {
     "use strict";
 
     lang.extend(query.NodeList, {
@@ -119,6 +122,10 @@ function (query, lang, attr, array, json, has) {
     }
 
     return {
+        eventObject: {
+            bubbles: true,
+            cancelable: true
+        },
         trans: _transition,
         getData: function(node, key, def){
             key = key || undefined;
@@ -126,7 +133,7 @@ function (query, lang, attr, array, json, has) {
             if(key !== undefined && lang.isString(key)){
                 var data = query(node).data(key);
                 if (data && data[0] === undefined) {
-                    if(query(node)[0]){ data = attr.get(query(node)[0], 'data-'+key); }
+                    if(query(node)[0]){ data = domAttr.get(query(node)[0], 'data-'+key); }
                     if (data !== undefined){ data = _attrValue(data); }
                     if (data === undefined && def !== undefined){
                         data = this.setData(node, key, def);
@@ -154,13 +161,53 @@ function (query, lang, attr, array, json, has) {
         toUnderscore: function(str){
             return str.replace(/([A-Z])/g, function($1){ return "_"+$1.toLowerCase(); });
         },
+        falsey: function(val){
+            return val === undefined || val === null || val === 0 || val === '0' || val === 'false' || val === false;
+        },
         hrefValue: function(element){
-            var href = attr.get(element, 'href');
+            var href = domAttr.get(element, 'href');
             if(href !== null){
                 href = href.replace(/.*(?=#[^\s]+$)/, ''); //strip for ie7
             }
             return href || '';
         },
-        eventSupported: isEventSupported
+        eventSupported: isEventSupported,
+        fadeOut: function(node, callback){
+            fx.fadeOut({node: node, onEnd: callback}).play();
+        },
+        place: function(node, refNode, placement){
+            placement = placement || "top";
+
+            domStyle.set(node, {top:0, left:0, display:'block'});
+            var refPos = domGeom.position(refNode),
+                actualWidth = node.offsetWidth,
+                actualHeight = node.offsetHeight,
+                nodeGeom;
+            refPos.x = refNode.offsetLeft;
+            refPos.y = refNode.offsetTop;
+
+            switch (placement) {
+                case 'bottom':
+                    nodeGeom = {top: refPos.y + refPos.h, left: refPos.x + refPos.w / 2 - actualWidth / 2};
+                    break;
+                case 'top':
+                    nodeGeom = {top:refPos.y - actualHeight, left:refPos.x + refPos.w / 2 - actualWidth / 2};
+                    break;
+                case 'left':
+                    nodeGeom = {top:refPos.y + refPos.h / 2 - actualHeight / 2, left:refPos.x - actualWidth};
+                    break;
+                case 'right':
+                    nodeGeom = {top:refPos.y + refPos.h / 2 - actualHeight / 2, left:refPos.x + refPos.w};
+                    break;
+            }
+            return nodeGeom;
+        },
+        isElement: function(element){
+            if (element.nodeName && element.nodeType === 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
     };
 });

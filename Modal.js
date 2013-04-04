@@ -1,5 +1,5 @@
 /* ==========================================================
- * Modal.js v1.1.0
+ * Modal.js v2.0.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -18,90 +18,254 @@
 
 define([
     "./Support",
+    "./_BootstrapWidget",
     "dojo/_base/declare",
+    "dijit/_TemplatedMixin",
     "dojo/query",
+    "dojo/on",
     "dojo/_base/lang",
     "dojo/_base/window",
-    "dojo/on",
-    "dojo/dom-class",
     "dojo/dom-construct",
+    "dojo/dom-class",
     "dojo/dom-attr",
     "dojo/dom-style",
     "dojo/request",
-    "dojo/NodeList-dom",
     "dojo/NodeList-traverse",
-    "dojo/NodeList-manipulate",
-    "dojo/domReady!"
-], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr, domStyle, request) {
+    "dojo/NodeList-manipulate"
+], function (support, _BootstrapWidget, declare, _TemplatedMixin, query, on, lang, win, domConstruct, domClass, domAttr, domStyle, request) {
     "use strict";
 
-    var toggleSelector = '[data-toggle=modal]';
-    var dismissSelector = '[data-dismiss=modal]';
-    var Modal = declare([], {
-        defaultOptions:{
-            backdrop:true,
-            keyboard:true,
-            show:true
+    // module:
+    //      Modal
+
+    var _hideWithTransition = function() {
+            var timeout = setTimeout(lang.hitch(this, function () {
+                if (this._hideEvent) { this._hideEvent.remove(); }
+                _hideModal.call(this);
+            }), 500);
+            this._hideEvent = support.trans ? on.once(this.domNode, support.trans.end, lang.hitch(this, function () {
+                clearTimeout(timeout);
+                _hideModal.call(this);
+            })) : null;
         },
-        constructor:function (element, options) {
-            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-            var elm = this.domNode = element;
-            on(this.domNode, on.selector(dismissSelector, 'click'), lang.hitch(this, this.hide));
-            if (this.options.remote) {
-                request(this.options.remote).then(function(html){
-                    query('.modal-body', elm).html(html);
-                });
+        _hideModal = function() {
+            domStyle.set(this.domNode, 'display', 'none');
+            this.emit('hidden', {});
+            _backdrop.call(this);
+        },
+        _backdrop = function(callback) {
+            var animate = domClass.contains(this.domNode, 'fade') ? 'fade' : '';
+            if (this.isShown && this.backdrop) {
+                var doAnimate = support.trans && animate;
+                this.backdropNode = domConstruct.place('<div class="modal-backdrop ' + animate + '" />', win.body());
+                on.once(this.backdropNode, 'click', this.backdrop === 'static' ?
+                    lang.hitch(this.domNode, 'focus') :
+                    lang.hitch(this, 'hide'));
+                if (doAnimate) {
+                    this._offsetWidth = this.backdropNode.offsetWidth;
+                }
+                domClass.add(this.backdropNode, 'in');
+                if (doAnimate) {
+                    on.once(this.backdropNode, support.trans.end, callback);
+                } else {
+                    callback();
+                }
+            } else if (!this.isShown && this.backdropNode) {
+                domClass.remove(this.backdropNode, 'in');
+                if (support.trans && domClass.contains(this.domNode, 'fade')) {
+                    on.once(this.backdropNode, support.trans.end, lang.hitch(this, _removeBackdrop));
+                } else {
+                    _removeBackdrop.call(this);
+                }
+            } else if (callback) {
+                callback();
             }
         },
-        toggle:function () {
+        _removeBackdrop = function() {
+            domConstruct.destroy(this.backdropNode);
+            this.backdropNode = null;
+        },
+        _escape = function() {
+            if (this.isShown && this.keyboard) {
+                this._keyupEvent = this.own(on(win.body(), 'keyup', lang.hitch(this, function (e) {
+                    if (e.which === 27) { this.hide(); }
+                })));
+            } else if (!this.isShown) {
+                if (this._keyupEvent && this._keyupEvent[0]) {
+                    this._keyupEvent[0].remove();
+                }
+            }
+        },
+        _enforceFocus = function() {
+            var _this = this;
+            this._focusInEvent = this.own(on(document, on.selector('.modal', 'focusin'), function (e) {
+                if (_this.domNode !== this && !query(this, _this.domNode).length) {
+                    _this.domNode.focus();
+                }
+            }));
+        };
+
+    // summary:
+    //      Attach event to dismiss this alert if an immediate child-node has class="close"
+    return declare("Modal", [_BootstrapWidget, _TemplatedMixin], {
+        templateString:
+            '<div class="${baseClass}">' +
+            '    <div class="modal-header">' +
+            '        <button type="button" class="close" data-dojo-attach-point="closeNode" aria-hidden="true">&times;</button>' +
+            '        <span data-dojo-attach-point="headerNode">${header}</span>' +
+            '    </div>' +
+            '    <div class="modal-body" data-dojo-attach-point="containerNode"></div>' +
+            '    <div class="modal-footer" data-dojo-attach-point="footerNode">${footer}</div>' +
+            '</div>',
+
+        baseClass: "modal hide",
+
+        // backdrop: Boolean|String
+        //          display backdrop when displaying modal. Value can be true, false or 'static'
+        backdrop: true,
+
+        // showOnStart: Boolean
+        //          display modal after creation
+        showOnStart: false,
+
+        // content: String
+        //          the text or html displayed in the dialog body
+        content: "",
+        _setContentAttr: function(val){
+            this._set("content", val);
+            if(support.isElement(this.content)){
+                domConstruct.place(this.content, this.containerNode, "only");
+            } else {
+                query(this.containerNode).html(this.content);
+            }
+        },
+
+        // remote: Boolean|String
+        //          the url for the remote content
+        remote: "",
+        _setRemoteAttr: function(val){
+            this._set("remote", val);
+            if (this.remote && this.remote !== "") {
+                this.emit('before-remote-load', {});
+                request(this.remote).then(lang.hitch(this, function(htmlText){
+                    this.set("content", htmlText);
+                    this.emit('remote-loaded', {});
+                }));
+            }
+        },
+
+        // keyboard: Boolean
+        //          allow keyboard to be used to close modal
+        keyboard: true,
+
+        // modalClass: String
+        //          extra class(es) that's added to the modal after creation
+        modalClass: "",
+
+        // header: Boolean|String
+        //          the text or html displayed in the dialog header. If false, the header will be hidden
+        header: "",
+        _setHeaderAttr: function(val){
+            this._set("header", val);
+            if(this.header || this.header === ""){
+                domClass.remove(this.headerNode, "hide");
+                if(support.isElement(this.header)){
+                    domConstruct.place(this.header, this.headerNode, "only");
+                } else {
+                    query(this.headerNode).html(this.header);
+                }
+            } else {
+                query(this.headerNode).addClass("hide");
+            }
+        },
+
+        // footer: Boolean|String
+        //          the text or html displayed in the dialog footer. If false, the footer will be hidden
+        footer: "",
+        _setFooterAttr: function(val){
+            this._set("footer", val);
+            if(this.footer || this.footer === ""){
+                domClass.remove(this.footerNode, "hide");
+                if(support.isElement(this.footer)){
+                    domConstruct.place(this.footer, this.footerNode, "only");
+                } else {
+                    query(this.footerNode).html(this.footer);
+                }
+            } else {
+                query(this.footerNode).addClass("hide");
+            }
+        },
+
+
+        postCreate:function () {
+            this.isShown = false;
+            this.own(on(this.closeNode, 'click', lang.hitch(this, this.hide)));
+            if(this.modalClass !== ""){
+                domClass.add(this.domNode, this.modalClass);
+            }
+        },
+
+        startup: function(){
+            this.started = true;
+            this.set("remote", this.remote);
+            if(this.showOnStart){
+                this.show();
+            }
+        },
+
+        toggle: function(){
+            // summary:
+            //      hide or show the modal
             return this[!this.isShown ? 'show' : 'hide']();
         },
-        show:function (e) {
-            var _this = this;
-            on.emit(this.domNode, 'show', {bubbles:false, cancelable:false});
-            if (this.isShown && e.defaultPrevented) { return; }
+
+        show:function () {
+            // summary:
+            //      show the modal
+            this.emit('show', {});
+            if (this.isShown) { return; }
+
             this.isShown = true;
-
             _escape.call(this);
-            _backdrop.call(this, function () {
-                var transition = support.trans && domClass.contains(_this.domNode, 'fade');
-                if (!query(_this.domNode).parent().length) {
-                    domConstruct.place(_this.domNode, win.body());
+            _backdrop.call(this, lang.hitch(this, function () {
+                var transition = support.trans && domClass.contains(this.domNode, 'fade');
+                if (!query(this.domNode).parent().length) {
+                    domConstruct.place(this.domNode, win.body());
                 }
-                domStyle.set(_this.domNode, 'display', 'block');
+                domStyle.set(this.domNode, 'display', 'block');
                 if (transition) {
-                    _this._offsetWidth = _this.domNode.offsetWidth;
+                    this._offsetWidth = this.domNode.offsetWidth;
                 }
-                domClass.add(_this.domNode, 'in');
-                domAttr.set(_this.domNode, 'aria-hidden', false);
-                _enforceFocus.call(_this);
+                domClass.add(this.domNode, 'in');
+                domAttr.set(this.domNode, 'aria-hidden', false);
+                _enforceFocus.call(this);
 
                 if (transition) {
-                    on.once(_this.domNode, support.trans.end, function () {
-                        _this.domNode.focus();
-                        on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
-                    });
+                    on.once(this.domNode, support.trans.end, lang.hitch(this, function () {
+                        this.domNode.focus();
+                        this.emit('shown', {});
+                    }));
                 } else {
-                    _this.domNode.focus();
-                    on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
+                    this.domNode.focus();
+                    this.emit('shown', {});
                 }
-            });
+            }));
         },
+
         hide:function (e) {
-            var _this = this;
-            on.emit(this.domNode, 'hide', {bubbles:false, cancelable:false});
+            // summary:
+            //      hide the modal
+            this.emit('hide', {});
             if (e) { e.preventDefault(); }
-            if (!this.isShown && e.defaultPrevented) {
-                return;
-            }
+            if (!this.isShown && e.defaultPrevented) { return; }
 
             this.isShown = false;
             _escape.call(this);
 
-            if (this.focusInEvent) { this.focusInEvent.remove(); }
+            if (this._focusInEvent && this._focusInEvent[0]) { this._focusInEvent[0].remove(); }
 
             domClass.remove(this.domNode, 'in');
-            domAttr.set(_this.domNode, 'aria-hidden', true);
+            domAttr.set(this.domNode, 'aria-hidden', true);
 
             if (support.trans && domClass.contains(this.domNode, 'fade')) {
                 _hideWithTransition.call(this);
@@ -110,127 +274,4 @@ define([
             }
         }
     });
-
-    function _getTargetSelector(node) {
-        var selector = domAttr.get(node, 'data-target');
-        if (!selector) {
-            selector = support.hrefValue(node);
-        }
-        return (!selector) ? "" : selector;
-    }
-
-    function _hideWithTransition() {
-        var _this = this;
-        var timeout = setTimeout(function () {
-            if (_this.hideEvent) { _this.hideEvent.remove(); }
-            _hideModal.call(_this);
-        }, 500);
-        _this.hideEvent = support.trans ? on.once(_this.domNode, support.trans.end, function () {
-            clearTimeout(timeout);
-            _hideModal.call(_this);
-        }) : null;
-    }
-
-    function _hideModal() {
-        var _this = this;
-        domStyle.set(_this.domNode, 'display', 'none');
-        on.emit(_this.domNode, 'hidden', {bubbles:false, cancelable:false});
-        _backdrop.call(_this);
-    }
-
-    function _backdrop(callback) {
-        var _this = this;
-        var animate = domClass.contains(_this.domNode, 'fade') ? 'fade' : '';
-
-        if (_this.isShown && _this.options.backdrop) {
-            var doAnimate = support.trans && animate;
-            _this.backdropNode = domConstruct.place('<div class="modal-backdrop ' + animate + '" />', win.body());
-            on(_this.backdropNode, 'click', _this.options.backdrop !== 'static' ?
-                lang.hitch(_this.domNode, 'focus') :
-                lang.hitch(_this, 'hide'));
-            if (doAnimate) {
-                _this.backdropNode.offsetWidth;
-            }
-            domClass.add(_this.backdropNode, 'in');
-            if (doAnimate) {
-                on.once(_this.backdropNode, support.trans.end, callback);
-            } else {
-                callback();
-            }
-        } else if (!_this.isShown && _this.backdropNode) {
-            domClass.remove(_this.backdropNode, 'in');
-            if (support.trans && domClass.contains(_this.domNode, 'fade')) {
-                on.once(_this.backdropNode, support.trans.end, lang.hitch(_this, _removeBackdrop));
-            } else {
-                _removeBackdrop.call(_this);
-            }
-        } else if (callback) {
-            callback();
-        }
-    }
-
-    function _removeBackdrop() {
-        var _this = this;
-        domConstruct.destroy(_this.backdropNode);
-        _this.backdropNode = null;
-    }
-
-    function _escape() {
-        var _this = this;
-        if (_this.isShown && _this.options.keyboard) {
-            _this.keyupEvent = on(win.body(), 'keyup', function (e) {
-                if (e.which === 27) { _this.hide(); }
-            });
-        } else if (!_this.isShown) {
-            if (_this.keyupEvent) {
-                _this.keyupEvent.remove();
-            }
-        }
-    }
-
-    function _enforceFocus() {
-        var _this = this;
-        _this.focusInEvent = on(document, on.selector('.modal', 'focusin'), function (e) {
-            if (_this.domNode !== this && !query(this, _this.domNode).length) {
-                _this.domNode.focus();
-            }
-        });
-    }
-
-    lang.extend(query.NodeList, {
-        modal:function (option) {
-            return this.forEach(function (node) {
-                var options = lang.mixin({}, lang.mixin(support.getData(node), lang.isObject(option) && option));
-                var data = support.getData(node, 'modal');
-                if (!data) {
-                    support.setData(node, 'modal', (data = new Modal(node, options)));
-                }
-                if (lang.isString(option)) {
-                    data[option].call(data);
-                }
-                else if (data && data.options.show) {
-                    data.show();
-                }
-            });
-        }
-    });
-    on(win.body(), on.selector(toggleSelector, 'click'), function (e) {
-        var target = query(_getTargetSelector(this));
-        if (target[0] !== undefined) {
-            var href = domAttr.get(this, "href");
-            var option = support.getData(target, 'modal') ? 'toggle' : lang.mixin({ remote: !/#/.test(href) && href}, lang.mixin(support.getData(target), support.getData(this)));
-            if (option === 'toggle') {
-              lang.mixin(support.getData(target, 'modal').options, support.getData(this));
-            }
-            target.modal(option);
-            on.once(target[0], 'hide', function () {
-                target[0].focus();
-            });
-        }
-        if (e) {
-            e.preventDefault();
-        }
-    });
-
-    return Modal;
 });

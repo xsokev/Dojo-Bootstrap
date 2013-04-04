@@ -1,9 +1,10 @@
 {
     "name":"dojo-bootstrap",
-    "version":"1.0",
+    "version":"2.0",
     "main":"main",
     "dependencies":{
         "dojo":"current",
+        "dijit":"current",
         "util":"current"
     },
     "description":"Implementation of the Twitter Bootstrap using the Dojo Toolkit.",

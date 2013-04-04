@@ -1,5 +1,5 @@
 /* ==========================================================
- * Alert.js v1.1.0
+ * Alert.js v2.0.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -17,74 +17,93 @@
  * ========================================================== */
 
 define([
-    './Support',
+    "./Support",
+    "./_BootstrapWidget",
     "dojo/_base/declare",
+    "dijit/_TemplatedMixin",
     "dojo/query",
+    "dojo/on",
     "dojo/_base/lang",
-    'dojo/_base/window',
-    'dojo/on',
-    'dojo/dom-class',
-    'dojo/dom-construct',
-    "dojo/dom-attr",
-    "dojo/NodeList-dom",
-    'dojo/NodeList-traverse',
-    "dojo/domReady!"
-], function (support, declare, query, lang, win, on, domClass, domConstruct, domAttr) {
+    "dojo/dom-class",
+    "dojo/dom-style"
+], function (support, _BootstrapWidget, declare, _TemplatedMixin, query, on, lang, domClass, domStyle) {
     "use strict";
 
-    var dismissSelector = '[data-dismiss="alert"]';
-    var Alert = declare([], {
-        defaultOptions:{},
-        constructor:function (element, options) {
-            this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
-            this.domNode = element;
-            on(this.domNode, on.selector(dismissSelector, 'click'), lang.hitch(this, close));
+    // module:
+    //      Alert
+
+    return declare("Alert", [_BootstrapWidget, _TemplatedMixin], {
+        // summary:
+        //		Wrap all alerts with close functionality.
+        // description:
+        //		Wrap all alerts with close functionality. To have your alerts animate out when closed,
+        //      make sure they have the .fade and .in class already applied to them.
+        // example:
+        // |	<div data-dojo-type="Alert" data-dojo-props="timeout:10000">...alert message...</div>
+        //
+        // example:
+        // |	new Alert({closable: false, content: "..."});
+        //
+
+        // close: [callback]
+        //      This event fires immediately when the close instance method is called.
+        // closed: [callback]
+        //      This event is fired when the alert has been closed (will wait for css transitions to complete).
+
+        templateString:
+            '<div class="alert fade in">' +
+            '        <button data-dojo-attach-point="closeNode" class="close">&times;</button>' +
+            '   <div data-dojo-attach-point="containerNode"></div>' +
+            '</div>',
+
+        // closable: Boolean
+        //      alert can be closed
+        closable: true,
+        _setClosableAttr: function(val){
+            this._set("closable", val);
+            domStyle.set(this.closeNode, "visibility", (val ? "visible" : "hidden"));
+        },
+
+        // content: String
+        //      content for the alert
+        content: "",
+        _setContentAttr: { node: "containerNode", type: "innerHTML" },
+
+        // timeout: Number
+        //      number of milliseconds to display alert before closing
+        timeout: false,
+
+        postCreate:function () {
+            query("> .close", this.domNode).on("click", lang.hitch(this, function(){
+                this.close();
+            }));
+            if(this.timeout && typeof parseInt(this.timeout, 10) === "number"){
+                window.setTimeout(lang.hitch(this, function(){
+                    this.close();
+                }), parseInt(this.timeout, 10));
+            }
+        },
+
+        close: function(){
+            // summary:
+            //      hide and destroy widget using an optional fade transition
+            var transition = support.trans,
+                _remove = lang.hitch(this, function(){
+                    this.emit('closed', {});
+                    this.destroyRecursive();
+                });
+
+            this.emit("close", {});
+            if (domClass.contains(this.domNode, 'fade')) {
+                if(transition){
+                    domClass.remove(this.domNode, "in");
+                    on(this.domNode, support.trans.end, _remove);
+                } else {
+                    support.fadeOut(this.domNode, _remove);
+                }
+            } else {
+                _remove();
+            }
         }
     });
-
-    function close(e) {
-        var _this = this;
-        var selector = domAttr.get(_this, 'data-target');
-        if (!selector) {
-            selector = support.hrefValue(_this);
-        }
-        var targetNode;
-        if (selector && selector !== '#' && selector !== '') {
-            targetNode = query(selector);
-        } else {
-            targetNode = domClass.contains(query(_this)[0], 'alert') ? query(_this) : query(_this).parent();
-        }
-
-        if (e) { e.stopPropagation(); }
-
-        on.emit(targetNode[0], 'close', {bubbles:true, cancelable:true});
-        domClass.remove(targetNode[0], 'in');
-
-        function _remove() {
-            on.emit(targetNode[0], 'closed', {bubbles:true, cancelable:true});
-            domConstruct.destroy(targetNode[0]);
-        }
-        var transition = support.trans && domClass.contains(targetNode[0], 'fade');
-        if (transition) { on(targetNode[0], support.trans.end, _remove); } else { _remove(); }
-        if (e) { e.preventDefault(); }
-        return false;
-    }
-
-    lang.extend(query.NodeList, {
-        alert:function (option) {
-            var options = (lang.isObject(option)) ? option : {};
-            return this.forEach(function (node) {
-                var data = support.getData(node, 'alert');
-                if (!data) {
-                    support.setData(node, 'alert', (data = new Alert(node, options)));
-                }
-                if (lang.isString(option) && option === "close") {
-                    close.call(node);
-                }
-            });
-        }
-    });
-    on(win.body(), on.selector(dismissSelector, 'click'), close);
-
-    return Alert;
 });

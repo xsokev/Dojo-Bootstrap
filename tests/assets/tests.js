@@ -1,6 +1,12 @@
 require(
-    [ "dojo/query", "dojo/_base/array", "dojo/NodeList-html", "bootstrap/Affix", "dojo/domReady!" ],
-    function (query, array) {
+    [
+        "dojo/query",
+        "dojo/_base/array",
+        "dojo/NodeList-dom",
+        "dojo/NodeList-html",
+        "bootstrap/Affix",
+        "dojo/domReady!"
+    ], function (query, array) {
         "use strict";
 
         var main = query("#main"),
@@ -16,7 +22,7 @@ require(
             other_tests = {
                 header: "Visual Tests",
                 icon: "eye-open",
-                modules: [ "Affix", "Alert", "Button", "Carousel", "Collapse", "Datepicker", "Dropdown", "Marquee", "Modal", "Popover", "Scrollspy", "Tooltip", "Typeahead" ]
+                modules: [ "Affix", "Alert", "Button", "Calendar", "Carousel", "Collapse", "Datepicker", "Dropdown", "Modal", "Popover", "Scrollspy", "Tab", "Tooltip", "Typeahead" ]
             },
             module_name = (function(){
                 var loc = String(window.location),
@@ -25,7 +31,6 @@ require(
                     period_pos = file.indexOf(".");
                 return file.substring(5, period_pos);
             })();
-
         sidebar.html('<ul class="nav nav-list affix"/>');
         menuHtml += '<li class="nav-header"><i class="icon-'+unit_tests.icon+' icon-white"></i>'+unit_tests.header+'</li>';
         array.forEach(unit_tests.links, function(link){
@@ -37,5 +42,6 @@ require(
             menuHtml += '<li '+(module === module_name ? 'class="active"' : '')+'><a href="test_'+module+'.html">'+module+'</a></li>';
         });
         sidebar.query("ul").html(menuHtml);
+
     }
 );
