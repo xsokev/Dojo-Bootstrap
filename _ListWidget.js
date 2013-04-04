@@ -119,8 +119,6 @@ define([
             li.addClass('active');
         },
         _select = function (e) {
-            console.log(e);
-            console.log(this);
             var li = query('.active', this.list)[0];
             this.emit('list-select', lang.mixin(e || {}, { selected: li }));
             if(this.preventDefault){
