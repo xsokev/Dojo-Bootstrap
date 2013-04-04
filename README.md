@@ -26,11 +26,13 @@ See examples in test/test_*.html
         </head>
     
         <body>
-            <button type="button" id="loading-button" class="btn btn-primary" data-loading-text="Loading...">Load</button>
+            <button type="button" id="loading-button" class="btn btn-primary"
+                data-dojo-type="bootstrap/Button" data-dojo-props="loadingText: 'Loading...'">Load</button>
         
             <script>
                 var dojoConfig = {
                     async: 1,
+                    parseOnLoad: true,
                     packages: [
                         { name: "bootstrap", location: "path/to/Dojo-Bootstrap" }
                     ]
@@ -40,13 +42,8 @@ See examples in test/test_*.html
             <script type="text/javascript" src="path/to/dojo/dojo/dojo.js"></script>
     
             <script>
-                require(["bootstrap/Button", "dojo/query"], function (Button, query) {
-                    query("#loading-button").on("click", function(e){
-                        query(e.target).button('loading');
-                        setTimeout(function(){
-                            query(e.target).button('reset');
-                        }, 2000);
-                    });
+                require(["bootstrap/Button"], function (Button) {
+
                 });
             </script>
         </body>
