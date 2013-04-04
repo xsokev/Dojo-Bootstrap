@@ -12,7 +12,7 @@ An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com
 
 ## Integration
 
-See examples in test/test_*.html
+See examples in tests/test_*.html
 
 ### In Brief
 
