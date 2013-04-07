@@ -40,6 +40,8 @@ define([
         // example:
         // |	new Button({toggleable:true}, dojo.byId("button"));
         //
+        // click: [callback]
+        //      This event fires when the domNode is clicked
 
         // _valueProp: [protected readonly] String
         _valueProp: "innerHTML",
@@ -85,6 +87,7 @@ define([
         postCreate:function () {
             this.own(on(this.domNode, "click", lang.hitch(this, function(){
                 this.toggle();
+				this.emit("click", {});
             })));
             this._valueProp = (this.domNode.tag === "INPUT") ? "value" : "innerHTML";
         },

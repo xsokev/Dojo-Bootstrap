@@ -17,7 +17,6 @@
  * ========================================================== */
 
 define([
-    "./Support",
     "./_ListWidget",
     "./_BootstrapWidget",
     "dojo/_base/declare",
@@ -30,7 +29,7 @@ define([
     "dojo/dom-class",
     "dijit/registry",
     "dojo/NodeList-traverse"
-], function (support, _ListWidget, _BootstrapWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
+], function (_ListWidget, _BootstrapWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
     "use strict";
 
     // module:

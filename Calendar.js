@@ -238,9 +238,20 @@ define([
         }));
     };
 
-    // summary:
-    //      Widget for displaying a calendar
     return declare("Calendar", [_BootstrapWidget, _TemplatedMixin], {
+        // summary:
+        //      Widget for displaying a calendar
+        // description:
+        //		This is a static calendar widget. It can be used alone or with a popup control
+        // example:
+        // |	<div data-dojo-type="Alert" data-dojo-props="timeout:10000">...alert message...</div>
+        //
+        // example:
+        // |	new Alert({closable: false, content: "..."});
+        //
+
+        // close: [callback]
+        //      This event fires immediately when the close instance method is called.
         templateString: template,
 
         baseClass: "calendar",

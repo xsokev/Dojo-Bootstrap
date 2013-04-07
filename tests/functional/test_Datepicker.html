@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Datepicker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../assets/tests.css">
+        <link rel="stylesheet" href="../../assets/calendar.css">
+        <style type="text/css">
+            .control-label {
+                border-left: 2px solid #eeeeee;
+                height: 20px;
+                padding: 5px;
+                margin-right: 5px;
+                width: 100px;
+                display: inline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <a class="brand" href="../index.html">Dojo Bootstrap Tests</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8">
+                    <h4>Declarative</h4>
+                    <input id="my-datepicker" value="1/1/2013" class="span2" type="text" data-dojo-type="bootstrap/Datepicker">
+                    <div class="input-append" id="mydate">
+                        <!--<input value="21-12-2012" class="date span2" size="16" type="text"-->
+                               <!--data-dojo-type="bootstrap/Datepicker"-->
+                               <!--data-dojo-props="format:'dd-M-yyyy', selector: '#date_trig', trigger: 'click'">-->
+                        <input value="21-12-2012" class="date span2" size="16" type="text" />
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+                    <h4>Programmatic</h4>
+                    <input value="9.1970" class="span1" type="text"
+                           data-dojo-type="bootstrap/Datepicker"
+                           data-dojo-props="format: 'MM.yy',minViewMode: 1" />
+                    <div class="control-group">
+                        <button class="btn btn-success" id="dateBtn">Pick Date</button>
+                        <div class="control-label" id="dateLabel">&nbsp;</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="../assets/config.js"></script>
+        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        
+        <script>
+            require([
+                "dojo/query",
+                "dojo/on",
+                "bootstrap/Datepicker",
+                "dojo/parser",
+                "dijit/registry",
+                "../assets/tests.js",
+                "dojo/domReady!"
+            ], function (query, on, Datepicker, parser, registry) {
+                start();
+                function start(){
+                    parser.parse().then(function(){
+                        var picker1 = registry.byId("my-datepicker");
+                        picker1.on('show', function(ev){
+                            console.info('show');
+                        });
+
+                        picker1.on('hide', function(ev){
+                            console.info('hide');
+                        });
+
+                        picker1.on('changeDate', function(ev){
+                            console.info('New date is ' + ev.date);
+                        });
+                    });
+                    new Datepicker({
+                        format:'dd-M-yyyy',
+                        selector: '.add-on',
+                        trigger: 'click'
+                    }, query("#mydate")[0]);
+                    var date1 = new Datepicker({
+                        trigger: 'click'
+                    }, query("#dateBtn")[0]);
+                    date1.on("change", function(e){
+                        query("#dateLabel")[0].innerHTML = e.formattedDate;
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

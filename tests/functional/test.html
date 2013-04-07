@@ -5,13 +5,13 @@
 </head>
 <body>
     <div id="div1"></div>
-<script type="text/javascript" src="assets/config.js"></script>
-<script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+<script type="text/javascript" src="../assets/config.js"></script>
+<script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
 <script type="text/javascript">
     //http://mootools.net/docs/core/Core/Core#Core:typeOf
     require([
         "bootstrap/_BootstrapWidget",
-        "dojo/_base/declare",
+        "../../../common/dojo-sdk-1.8.3/dojo/_base/declare",
         "dojo/domReady!"
     ], function(_BootstrapWidget, declare){
         var Widget = declare([_BootstrapWidget], {

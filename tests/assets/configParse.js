@@ -1,7 +1,7 @@
 var dojoConfig = {
     async: 1,
     cacheBust: 1,
-    parseOnLoad: false,
+    parseOnLoad: true,
     tlmSiblingOfDojo: false,
     packages: [
         { name: "dojo", location: "../../dojo-sdk-1.8.3/dojo" },

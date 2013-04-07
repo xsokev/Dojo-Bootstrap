@@ -175,33 +175,6 @@ function (query, json, has, lang, array, fx, domAttr, domStyle, domGeom) {
         fadeOut: function(node, callback){
             fx.fadeOut({node: node, onEnd: callback}).play();
         },
-        place: function(node, refNode, placement){
-            placement = placement || "top";
-
-            domStyle.set(node, {top:0, left:0, display:'block'});
-            var refPos = domGeom.position(refNode),
-                actualWidth = node.offsetWidth,
-                actualHeight = node.offsetHeight,
-                nodeGeom;
-            refPos.x = refNode.offsetLeft;
-            refPos.y = refNode.offsetTop;
-
-            switch (placement) {
-                case 'bottom':
-                    nodeGeom = {top: refPos.y + refPos.h, left: refPos.x + refPos.w / 2 - actualWidth / 2};
-                    break;
-                case 'top':
-                    nodeGeom = {top:refPos.y - actualHeight, left:refPos.x + refPos.w / 2 - actualWidth / 2};
-                    break;
-                case 'left':
-                    nodeGeom = {top:refPos.y + refPos.h / 2 - actualHeight / 2, left:refPos.x - actualWidth};
-                    break;
-                case 'right':
-                    nodeGeom = {top:refPos.y + refPos.h / 2 - actualHeight / 2, left:refPos.x + refPos.w};
-                    break;
-            }
-            return nodeGeom;
-        },
         isElement: function(element){
             if (element.nodeName && element.nodeType === 1){
                 return true;

@@ -38,6 +38,12 @@ define([
     return declare("ButtonGroup", [_BootstrapWidget, _Container], {
         // summary:
         //      Attach event handlers to a button or group of buttons
+        // example:
+        // |	<button class="btn" data-dojo-type="Button">Load</button>
+        //
+        // example:
+        // |	new Button({toggleable:true}, dojo.byId("button"));
+        //
 
         // mode: String
         //          mode for group of buttons: radio, checkbox

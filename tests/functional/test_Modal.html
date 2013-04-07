@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <title>Dojo-Bootstrap/Modal</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="assets/tests.css">
+        <link rel="stylesheet" href="../assets/tests.css">
+        <link rel="stylesheet" href="../../assets/calendar.css">
         <style type="text/css">
             .login-dlg { width: 350px; }
         </style>
@@ -15,7 +16,7 @@
             <div class="navbar-inner">
                 <div class="container">
                     <div class="nav-collapse collapse">
-                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
+                        <a class="brand" href="../index.html">Dojo Bootstrap Tests</a>
                     </div>
                 </div>
             </div>
@@ -46,6 +47,12 @@
                                     <input id="password" class="input-small" type="password">
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label for="verifydate" class="control-label">Today's Date:</label>
+                                <div class="controls">
+                                    <input id="verifydate" data-dojo-type="bootstrap/Datepicker" class="input-small" type="text">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="modal3" data-dojo-type="bootstrap/Modal"
@@ -53,8 +60,8 @@
                 </section>
             </div>
         </div>
-        <script type="text/javascript" src="assets/config.js"></script>
-        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        <script type="text/javascript" src="../assets/config.js"></script>
+        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
         <script>
             require([
                 "dojo/query",
@@ -62,11 +69,17 @@
                 "dojo/parser",
                 "dijit/registry",
                 "bootstrap/Modal",
-                "bootstrap/ToolTip",
-                "bootstrap/PopOver",
+                "bootstrap/Tooltip",
+                "bootstrap/Popover",
+                "bootstrap/Datepicker",
                 "dojo/dom-construct",
+<<<<<<< HEAD:tests/test_Modal.html
                 "./assets/tests.js"
             ], function (query, on, parser, registry, Modal, ToolTip, PopOver, domConstruct) {
+=======
+                "../assets/tests.js"
+            ], function (query, on, parser, registry, Modal, Tooltip, Popover, Datepicker, domConstruct) {
+>>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                     var modal1, modal2, remoteLoaded = false;
                     parser.parse().then(function(){
                         modal1 = registry.byId("modal1");
@@ -93,6 +106,7 @@
                         modal3 = registry.byId("modal3");
                         modal3.on('remote-loaded', function () {
                             remoteLoaded = true;
+<<<<<<< HEAD:tests/test_Modal.html
                             var etiam = registry.byId("etiam");
                             if(!etiam){
                                 new PopOver({
@@ -102,6 +116,8 @@
                                     placement: 'bottom'
                                 }, query("#etiam", modal3.containerNode)[0])
                             }
+=======
+>>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                         });
                     });
                     query('#btn1').on('click', function(){
@@ -113,12 +129,22 @@
                     query('#btn3').on('click', function(){
                         modal3 && modal3.show();
                         if(!remoteLoaded){
+<<<<<<< HEAD:tests/test_Modal.html
                             modal3.set('remote', './assets/basic.html');
+=======
+                            modal3.set('remote', '../assets/basic.html');
+>>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                         }
                     });
-                    new ToolTip({
+                    new Tooltip({
                         placement: "bottom", title: "Enter your username"
                     }, query("#username")[0]);
+                    new Popover({
+                        placement: "right",
+                        title: "Password",
+                        content: "Start with a base word phrase, lengthen the phrase, swap in non-alphabetic and uppercase characters and lastly: rotate/change your password regularly",
+                        trigger: "hover"
+                    }, query("#password")[0]);
                 }
             );
         </script>
