@@ -18,51 +18,45 @@
 
 //TODO:  - When PopOver inside Modal and the Modal is open, closed then opened again, the PopOver no longer triggers
 define([
-    "./Support",
-    "./ToolTip",
+    "./Popup",
     "dojo/_base/declare",
     "dojo/query",
-    "dojo/on",
-    "dojo/mouse",
-    "dojo/_base/lang",
-    "dojo/_base/window",
-    "dojo/dom-class",
-    "dojo/dom-attr",
-    "dojo/dom-style",
-    "dojo/dom-geometry",
-    "dojo/dom-construct",
-    "dojo/NodeList-manipulate"
-], function (support, ToolTip, declare, query, on, mouse, lang, win, domClass, domAttr, domStyle, domGeom, domConstruct) {
+    "dojo/dom-class"
+], function (PopupWidget, declare, query, domClass) {
     "use strict";
 
     // module:
-    //      PopOver
+    //      Popover
 
-    var _tip = function () {
-        return this._tipNode = (this._tipNode) ? this._tipNode : domConstruct.toDom(this.template);
-    };
+    return declare("Popover", [PopupWidget], {
+        // summary:
+        //      Bootstrap template for creating a widget that uses a template
 
-    // summary:
-    //      Bootstrap template for creating a widget that uses a template
-    return declare("PopOver", [ToolTip], {
         // template: String
         //          template used to construct the popover
         template: '<div class="popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>',
 
         // placement: String|Function
-        //          where the tooltip should be displayed. Values are top, bottom, left, right
+        //          where the popover should be displayed. Values are top, bottom, left, right
         placement: "right",
 
         // trigger: String
-        //          what event causes the tooltip to be displayed
+        //          what event causes the popover to be displayed
         trigger: "click",
 
         // type: String
-        //          what type of tooltip style widget to display
+        //          what type of popover style widget to display
         type: "popover",
 
+        // title: String|Function
+        //          content for the popover
+        title: "",
+        _setTitleAttr: function(val){
+            this._set("title", (typeof val === 'function' ? val.call(this) : val));
+        },
+
         // content: String|Function
-        //          content for the widget
+        //          content for the popover
         content: "",
         _setContentAttr: function(val){
             this._set("content", (typeof val === 'function' ? val.call(this) : val));
@@ -74,10 +68,10 @@ define([
             // tags:
             //      protected extension
 
-            var tip = _tip.call(this);
-            query('.popover-title', tip).html(this.title);
-            query('.popover-content', tip).html(this.content);
-            domClass.remove(tip, 'fade in top bottom left right');
+            var popup = this._popup.call(this);
+            query('.popover-title', popup)[0].innerHTML = this.title;
+            query('.popover-content', popup)[0].innerHTML = this.content;
+            domClass.remove(popup, 'fade in top bottom left right');
         }
     });
 });

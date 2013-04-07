@@ -1,5 +1,5 @@
 /* ==========================================================
- * Datepicker.js v1.1.0
+ * PopOver.js v2.0.0
  * ==========================================================
  * Copyright 2012 xsokev
  *
@@ -15,60 +15,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================== */
+
+//TODO:  - When PopOver inside Modal and the Modal is open, closed then opened again, the PopOver no longer triggers
 define([
-    "./Support",
+    "./Popup",
     "./Calendar",
-    "./_BootstrapWidget",
     "dojo/_base/declare",
-    "dijit/place",
     "dojo/query",
-    "dojo/_base/lang",
-    "dojo/_base/window",
     "dojo/on",
+    "dojo/_base/lang",
     "dojo/dom-class",
-    "dojo/dom-construct"
-], function (support, CalendarWidget, _BootstrapWidget, declare, place, query, lang, win, on, domClass, domConstruct) {
-    "use strict";
+    "dojo/NodeList-manipulate"
+], function (PopupWidget, CalendarWidget, declare, query, on, lang, domClass) {
+
+    // module:
+    //      Datepicker
 
     var _updateDom = function (e) {
-        if (this.isInput) {
-            this.domNode.value = e.formattedDate;
-        } else {
-            if (this.component) {
-                this.componentInput.value = e.formattedDate;
-            }
+        if (this._inputNode) {
+            this._inputNode.value = e.formattedDate;
         }
-        this.emit('changeDate', e);
-        this.hide();
+        if (this.trigger === "focus") {
+            this.domNode.blur();
+        } else {
+            this.hide();
+        }
+        this.emit('changeDate', e); //[Deprecated soon]
+        this.emit('change', e);
     };
 
-    var _keydown = function (e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 9) { this.hide(); } // when hitting TAB, for accessibility
-    };
+    return declare("Datepicker", [PopupWidget], {
+        // summary:
+        //      Bootstrap widget for displaying a popup calendar
 
-    var _blur = function () {
-        this.hide();
-    };
+        // trigger: String
+        //          what event causes the tooltip to be displayed
+        trigger: "focus",
 
-
-
-
-    // summary:
-    //      Dropdown widget for displaying the calendar widget
-    return declare("DatePicker", [_BootstrapWidget], {
-        baseClass: "datepicker",
-
-        // showOnFocus: Boolean
-        //          the start view mode for the calendar
-        showOnFocus: true,
+        // type: String
+        //          what type of tooltip style widget to display
+        type: "datepicker",
 
         // viewMode: Number|String
         //          the start view mode for the calendar
         viewMode: 0,
         _setViewModeAttr: function(val){
             this._set("viewMode", val);
-            if(this.calendar){ this.calendar.set("viewMode", val); }
+            if(this._calendar){ this._calendar.set("viewMode", val); }
         },
 
         // minViewMode: Number|String
@@ -76,7 +69,7 @@ define([
         minViewMode: 0,
         _setMinViewModeAttr: function(val){
             this._set("minViewMode", val);
-            if(this.calendar){ this.calendar.set("minViewMode", val); }
+            if(this._calendar){ this._calendar.set("minViewMode", val); }
         },
 
         // value: String|Date
@@ -84,7 +77,7 @@ define([
         value: (new Date()),
         _setValueAttr: function(val){
             this._set("value", val);
-            if(this.calendar){ this.calendar.set("date", val); }
+            if(this._calendar){ this._calendar.set("date", val); }
         },
 
         // weekStart: Number
@@ -92,7 +85,7 @@ define([
         weekStart: 0,
         _setWeekStartAttr: function(val){
             this._set("weekStart", val);
-            if(this.calendar){ this.calendar.set("weekStart", val); }
+            if(this._calendar){ this._calendar.set("weekStart", val); }
         },
 
         // format: String
@@ -100,103 +93,61 @@ define([
         format: "M/d/yyyy",
         _setFormatAttr: function(val){
             this._set("format", val);
-            if(this.calendar){ this.calendar.set("format", val); }
+            if(this._calendar){ this._calendar.set("format", val); }
         },
 
-        postCreate:function () {
-            this.calendar = new CalendarWidget({
+        // placement: String|Function
+        //          where the popup should be displayed. Values are top, bottom, left, right
+        placement: ["below", "above"],
+
+        updateCalendar: function (val) {
+            if (this._inputNode) {
+                val = val || this._inputNode.value;
+            } else {
+                val = val || new Date();
+            }
+            this.set("value", val);
+        },
+
+        _resetContent: function(){
+            // summary:
+            //
+            // tags:
+            //      protected extension
+
+            var popup = this._popup.call(this);
+            this._calendar = new CalendarWidget({
                 viewMode: this.viewMode,
                 minViewMode: this.minViewMode,
                 weekStart: this.weekStart,
                 format: this.format,
                 date: this.value
-            }, domConstruct.create("div", null, this.domNode));
-            this.picker = this.calendar.domNode;
-            domClass.add(this.picker, this.baseClass+" dropdown-menu");
-            if(this.calendar.startup && !this.calendar.started){
-                query(this.picker).hide();
-                this.calendar.startup();
-            }
-            this.isInput = this.domNode.tagName === 'INPUT' || this.domNode.tagName === 'TEXTAREA';
-            this.component = query('.add-on', this.domNode)[0] || false;
-            this.componentInput = query('input', this.domNode)[0] || false;
-            if (this.isInput) {
-                if(this.showOnFocus){
-                    this.own(on(this.domNode, 'focus', lang.hitch(this, 'show')));
-                }
-                this.own(on(this.domNode, "click", lang.hitch(this, "show")));
-                this.own(on(this.domNode, 'blur', lang.hitch(this, _blur)));
-                this.own(on(this.domNode, 'keyup', lang.hitch(this, 'updateCalendar')));
-                this.own(on(this.domNode, 'keydown', lang.hitch(this, _keydown)));
-            } else {
-                this._docMouseDownEvent = on(document, 'mousedown', lang.hitch(this, 'hide'));
-                if (this.component){
-                    this.own(on(this.component, "click", lang.hitch(this, "show")));
-                } else {
-                    this.own(on(this.domNode, "click", lang.hitch(this, "show")));
-                }
-            }
-            this._resizeEvent = on(win.global, 'resize', lang.hitch(this, function(){
-                place.around(this.picker, this.domNode, ["below", "above"], true);
-            }));
-            this._bodyClickEvent = on(win.body(), 'click', lang.hitch(this, 'hide'));
+            });
+            this._calendar.startup();
 
-            this.own(on(this.calendar, 'changeDate', lang.hitch(this, _updateDom)));
+            query(popup).html(this._calendar.domNode);
+            domClass.remove(popup, 'fade in top bottom left right');
+            var _calendarChangeEvent = on.once(this._calendar, 'changeDate', lang.hitch(this, _updateDom));
+            on.once(this, 'hide', function(){
+                console.log("hide date called");
+                _calendarChangeEvent.remove();
+                _calendarChangeEvent = null;
+            });
             this.startupViewMode = this.viewMode;
             this.updateCalendar();
-            this._shown = false;
         },
-
-        show: function (e) {
-            if(e){
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            query('div.'+this.baseClass+'.dropdown-menu').hide(); //make sure to hide all other calendars
-            this.updateCalendar();
-            query(this.picker).show();
-
-            place.around(this.picker, this.domNode, ["below", "above"], true);
-            if(!this._shown){
-                this.emit('show', {});
-                this._shown = true;
-            }
-        },
-
-        hide: function () {
-            query(this.picker).hide();
-            this.calendar.set("viewMode", this.startupViewMode);
-            if(this._shown){
-                this.emit('hide', {});
-                this._shown = false;
-            }
-        },
-
-        updateCalendar: function () {
-            var date = "";
-            if (this.isInput) {
-                date = this.domNode.value;
-            } else {
-                if (this.component) {
-                    date = this.componentInput.value;
-                }
-            }
-            this.set("value", date);
-        },
-
-        destroy: function(){
-            if(!this.isInput && this._docMouseDownEvent){
-                this._docMouseDownEvent.remove();
-                this._docMouseDownEvent = null;
-            }
-            if(this._bodyClickEvent){
-                this._bodyClickEvent.remove();
-                this._bodyClickEvent = null;
-            }
-            if(this._resizeEvent){
-                this._resizeEvent.remove();
-                this._resizeEvent = null;
-            }
-        }
+         _initEvents: function(){
+             this.inherited(arguments);
+             this._isInput = this.domNode.tagName === 'INPUT' || this.domNode.tagName === 'TEXTAREA';
+             if (this._isInput) {
+                 this._inputNode = this.domNode;
+                 this.own(on(this.domNode, 'keyup', lang.hitch(this, 'updateCalendar')));
+             } else {
+                 this._inputNode = query('input', this.domNode)[0] || false;
+                 if(this.selector){
+                     this._componentNode = query(this.selector, this.domNode)[0] || false;
+                 }
+             }
+         }
     });
 });
