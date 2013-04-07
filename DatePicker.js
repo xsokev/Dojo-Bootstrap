@@ -18,7 +18,7 @@
 
 //TODO:  - When PopOver inside Modal and the Modal is open, closed then opened again, the PopOver no longer triggers
 define([
-    "./Popup",
+    "./PopupBase",
     "./Calendar",
     "dojo/_base/declare",
     "dojo/query",

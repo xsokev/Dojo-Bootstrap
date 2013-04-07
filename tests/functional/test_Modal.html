@@ -73,13 +73,8 @@
                 "bootstrap/Popover",
                 "bootstrap/Datepicker",
                 "dojo/dom-construct",
-<<<<<<< HEAD:tests/test_Modal.html
-                "./assets/tests.js"
-            ], function (query, on, parser, registry, Modal, ToolTip, PopOver, domConstruct) {
-=======
                 "../assets/tests.js"
             ], function (query, on, parser, registry, Modal, Tooltip, Popover, Datepicker, domConstruct) {
->>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                     var modal1, modal2, remoteLoaded = false;
                     parser.parse().then(function(){
                         modal1 = registry.byId("modal1");
@@ -106,18 +101,6 @@
                         modal3 = registry.byId("modal3");
                         modal3.on('remote-loaded', function () {
                             remoteLoaded = true;
-<<<<<<< HEAD:tests/test_Modal.html
-                            var etiam = registry.byId("etiam");
-                            if(!etiam){
-                                new PopOver({
-                                    //trigger:'hover',
-                                    content:'Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Vivamus sagittis lacus vel augue laoreet rutrum faucibus.',
-                                    title:'Etiam info',
-                                    placement: 'bottom'
-                                }, query("#etiam", modal3.containerNode)[0])
-                            }
-=======
->>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                         });
                     });
                     query('#btn1').on('click', function(){
@@ -129,11 +112,7 @@
                     query('#btn3').on('click', function(){
                         modal3 && modal3.show();
                         if(!remoteLoaded){
-<<<<<<< HEAD:tests/test_Modal.html
-                            modal3.set('remote', './assets/basic.html');
-=======
                             modal3.set('remote', '../assets/basic.html');
->>>>>>> Minor updates towards 2.0.0 RC1:tests/functional/test_Modal.html
                         }
                     });
                     new Tooltip({

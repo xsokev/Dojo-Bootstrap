@@ -17,7 +17,7 @@
  * ========================================================== */
 
 define([
-    "./Popup",
+    "./PopupBase",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/dom-class",
