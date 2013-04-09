@@ -18,7 +18,8 @@
 
 define([
     "./Support",
-    "./_ListWidget",
+    "./List",
+    "./_ListInputBase",
     "./_BootstrapWidget",
     "dojo/_base/declare",
     "dojo/query",
@@ -31,11 +32,10 @@ define([
     "dojo/dom-construct",
     "dojo/dom-geometry",
     "dojo/NodeList-manipulate"
-], function (support, _ListWidget, _BootstrapWidget, declare, query, on, lang, array, domAttr, domClass, domStyle, domConstruct, domGeom) {
-    "use strict";
+], function (support, ListWidget, _ListInputBase, _BootstrapWidget, declare, query, on, lang, array, domAttr, domClass, domStyle, domConstruct, domGeom) {
 
     // module:
-    //      TypeAhead
+    //      Typeahead
 
     var _menuTemplate = '<ul class="typeahead dropdown-menu"></ul>',
         _menuItemTemplate = '<li><a href="#"></a></li>',
@@ -79,7 +79,7 @@ define([
         _keyup = function(e){ this.lookup(e); };
     // summary:
     //      Attach event to dismiss this alert if an immediate child-node has class="close"
-    return declare("TypeAhead", [_BootstrapWidget, _ListWidget], {
+    return declare("TypeAhead", [_BootstrapWidget, _ListInputBase], {
         preventDefault: true,
 
         // source: Array
@@ -113,21 +113,25 @@ define([
         //
         updater: _defaultFunctions.updater,
 
-        postCreate:function () {
-            this.list = domConstruct.toDom(_menuTemplate);
-            this.hide();
-            domConstruct.place(this.list, document.body);
-            this.initializeList();
-            this.own(on(this.domNode, 'blur', lang.hitch(this, _blur)));
+        hoverClass: "active",
 
-            this.own(on(this, 'list-select', lang.hitch(this, _select)));
-            this.own(on(this, 'list-keyup', lang.hitch(this, _keyup)));
+        postCreate:function () {
+            this.listNode = domConstruct.toDom(_menuTemplate);
+            this.hide();
+            domConstruct.place(this.listNode, document.body);
+            if(this.listNode){
+                this.list = new ListWidget({ hoverClass: this.hoverClass }, this.listNode);
+                this.own(on(this.list, 'list-select', lang.hitch(this, _select)));
+            }
             this.own(on(this, 'list-escape', lang.hitch(this, "hide")));
+            this.own(on(this, 'list-keyup', lang.hitch(this, _keyup)));
+            this.own(on(this.domNode, 'blur', lang.hitch(this, _blur)));
+            this.inherited(arguments);
         },
 
         show: function () {
             var pos = domGeom.position(this.domNode, true);
-            domStyle.set(this.list, {
+            domStyle.set(this.listNode, {
                 top: (pos.y + this.domNode.offsetHeight)+'px',
                 left: pos.x+'px',
                 display: 'block'
@@ -137,7 +141,7 @@ define([
         },
 
         hide: function () {
-            domStyle.set(this.list, 'display', 'none');
+            domStyle.set(this.listNode, 'display', 'none');
             this.shown = false;
             return this;
         },
@@ -171,7 +175,7 @@ define([
                 if (i === 0) { domClass.add(li, 'active'); }
                 return li.outerHTML;
             }, this);
-            query(this.list).html(items.join(''));
+            query(this.listNode).html(items.join(''));
             return this;
         }
     });

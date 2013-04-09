@@ -21,7 +21,7 @@
         <div class="row">
             <section class="sidebar span3"></section>
             <section id="main" class="main span8">
-                <span class="dropdown" data-dojo-type="bootstrap/Dropdown">
+                <span id="dd1" class="dropdown" data-dojo-type="bootstrap/Dropdown">
                     <a class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="http://google.com">one</a></li>
@@ -75,16 +75,15 @@
             "dojo/on",
             "dojo/parser",
             "bootstrap/Dropdown",
+            "dijit/registry",
             "../assets/tests.js"
-        ], function(query, on, parser, Dropdown){
-            //query("#btn").on("click", function(){
-                start();
-            //});
-            function start(){
-                parser.parse().then(function(){
-
+        ], function(query, on, parser, Dropdown, registry){
+            parser.parse().then(function(){
+                var dd1 = registry.byId("dd1");
+                dd1.on("select", function(e){
+                    console.log(e.selectedItem);
                 });
-            }
+            });
         });
     </script>
 </body>

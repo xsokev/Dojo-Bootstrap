@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Dojo-Bootstrap/ListBase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/tests.css">
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="nav-collapse collapse">
+                    <a class="brand" href="../index.html">Dojo Bootstrap Tests</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <section class="sidebar span3"></section>
+            <section id="main" class="main span8">
+                <div class="control-group">
+                    <div class="controls">
+                        <ul id="drop1" class="nav nav-list" role="menu" aria-labelledby="drop1"
+                                data-dojo-type="bootstrap/List" data-dojo-props="preventDefault: true">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                        </ul>
+                        <br/><br/>
+                        <ul id="drop2" class="nav nav-list"
+                            data-dojo-type="bootstrap/List" data-dojo-props="preventDefault: true">
+                            <li class="nav-header">List header</li>
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#">Library</a></li>
+                            <li><a href="#">Applications</a></li>
+                            <li class="nav-header">Another list header</li>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../assets/config.js"></script>
+    <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+
+    <script>
+        require([
+            "dojo/query",
+            "dojo/on",
+            "dojo/parser",
+            "bootstrap/List",
+            "dijit/registry",
+            "../assets/tests.js"
+        ], function(query, on, parser, List, registry){
+            var ks;
+            parser.parse().then(function(){
+
+            });
+        });
+    </script>
+</body>
+</html>

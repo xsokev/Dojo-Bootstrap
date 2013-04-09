@@ -17,8 +17,8 @@
  * ========================================================== */
 
 define([
-    "./_ListWidget",
     "./_BootstrapWidget",
+    "./List",
     "dojo/_base/declare",
     "dojo/_base/window",
     "dojo/_base/lang",
@@ -29,7 +29,7 @@ define([
     "dojo/dom-class",
     "dijit/registry",
     "dojo/NodeList-traverse"
-], function (_ListWidget, _BootstrapWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
+], function (_BootstrapWidget, ListWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
     "use strict";
 
     // module:
@@ -54,7 +54,7 @@ define([
 
     // summary:
     //      Bootstrap template for creating a widget that uses a template
-    var _Dropdown = declare("Dropdown", [_BootstrapWidget, _ListWidget], {
+    var _Dropdown = declare("Dropdown", [_BootstrapWidget], {
         preventDefault: false,
 
         postCreate:function () {
@@ -62,12 +62,14 @@ define([
             if(this.toggleNode){
                 this.own(on(this.toggleNode, "click, touchstart", lang.hitch(this, "toggle")));
             }
-            this.list = query(".dropdown-menu", this.domNode)[0];
-            this.initializeList();
+            this.listNode = query(".dropdown-menu", this.domNode)[0];
+            if(this.listNode){
+                this.list = new ListWidget({}, this.listNode);
+                this.own(on(this.list, 'list-select', lang.hitch(this, _select)));
+                this.own(on(this.list, 'list-escape', lang.hitch(this, "close")));
+            }
             this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) { e.stopPropagation(); }));
             this._bodyClickEvent = on(document, 'click', _clearDropdowns);
-            this.own(on(this, 'list-select', lang.hitch(this, _select)));
-            this.own(on(this, 'list-escape', lang.hitch(this, "close")));
             this.shown = false;
         },
 
@@ -85,7 +87,7 @@ define([
             if(this.isDisabled()) { return false; }
             _clearDropdowns();
             this.isOpen() || domClass.add(this.domNode, 'open');
-            this.domNode.focus();
+            this.list.first();
             this.shown = true;
         },
 
