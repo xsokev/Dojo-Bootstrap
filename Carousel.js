@@ -33,13 +33,11 @@ define([
     "dojo/dom-attr",
     "dojo/NodeList-traverse"
 ], function (CarouselItem, support, _BootstrapWidget, declare, lang, array, _TemplatedMixin, _Container, query, on, mouse, domConstruct, domClass, domAttr) {
-    "use strict";
 
     // module:
     //      Carousel
-
-    var _active = function(){
-            return array.filter(this.getChildren(), function(child){
+    var _active = function () {
+            return array.filter(this.getChildren(), function (child) {
                 return child.active;
             })[0];
         },
@@ -49,99 +47,135 @@ define([
                 fallback = type === 'next' ? 'first' : 'last',
                 children = this.getChildren(),
                 isCycling = this._intervalTimer,
-                indicators,
-                eventObj;
+                indicators, eventObj;
             next = next || active._getSibling(type);
 
             this._sliding = true;
-            if (isCycling) { this.pause(); }
-
-            if(!(next instanceof CarouselItem)){
-                next = fallback === "last" ? children[children.length-1] : children[0];
+            if (isCycling) {
+                this.pause();
             }
 
-            if (next && next.active) { return; }
+            if (!(next instanceof CarouselItem)) {
+                next = fallback === "last" ? children[children.length - 1] : children[0];
+            }
 
-            if(this.indicators){
+            if (next && next.active) {
+                return;
+            }
+
+            if (this.indicators) {
                 indicators = query("li", this.indicatorsNode);
                 if (indicators.length) {
                     query(".active", this.indicatorsNode).removeClass('active');
-                    on.once(this, "slid", lang.hitch(this, function(){
+                    on.once(this, "slid", lang.hitch(this, function () {
                         var active = _active.call(this),
                             nextIndicator = indicators[active ? active.getIndexInParent() : 0];
-                        if (nextIndicator) { domClass.add(nextIndicator, "active"); }
+                        if (nextIndicator) {
+                            domClass.add(nextIndicator, "active");
+                        }
                     }));
                 }
             }
 
-            eventObj = { relatedTarget: next, previousTarget: active, direction: direction };
+            eventObj = {
+                relatedTarget: next,
+                previousTarget: active,
+                direction: direction
+            };
             if (!mute && support.trans && domClass.contains(this.domNode, 'slide')) {
                 this.emit('slide', eventObj);
                 domClass.add(next.domNode, type);
                 this._offsetWidth = next.domNode.offsetWidth;
 
-                if(active){ domClass.add(active.domNode, direction); }
+                if (active) {
+                    domClass.add(active.domNode, direction);
+                }
                 domClass.add(next.domNode, direction);
-                on.once(this.domNode, support.trans.end, lang.hitch(this, function(){
+                on.once(this.domNode, support.trans.end, lang.hitch(this, function () {
                     domClass.remove(next.domNode, [type, direction].join(' '));
                     next.set('active', true);
-                    if(active){
+                    if (active) {
                         domClass.remove(active.domNode, direction);
                         active.set("active", false);
                     }
                     this._sliding = false;
-                    setTimeout(lang.hitch(this, function(){
+                    setTimeout(lang.hitch(this, function () {
                         this.emit('slid', eventObj);
                     }), 0);
                 }));
             } else {
                 this.emit('slide', eventObj);
-                if(active){ active.set("active", false); }
+                if (active) {
+                    active.set("active", false);
+                }
                 next.set("active", true);
                 this._sliding = false;
                 this.emit('slid', eventObj);
             }
 
-            if(isCycling) { this.cycle(); }
+            if (isCycling) {
+                this.cycle();
+            }
             return this;
         };
 
-
-
-    // summary:
-    //      Attach event handlers to a button or group of buttons
     return declare("Carousel", [_BootstrapWidget, _TemplatedMixin, _Container], {
+        // summary:
+        //      Create a transition capable slideshow of any html content.
+        // description:
+        //      Uses a template to provide HTML required for displaying a Carousel using Twitter Bootstrap.
+        //      Uses properties to control the display of Carousel elements.
+        //
+        //      ## Events ##
+        //		Call `widget.on("slide", func)` to monitor when a CarouselItem starts transitioning.
+        //
+        //		Call `widget.on("slid", func)` to monitor when a CarouselItem has finished transitioning.
+        //
+        // example:
+        // |  <div id="my-carousel" class="slide" data-dojo-type="Carousel" data-dojo-props="...">
+        // |      <div data-dojo-type="CarouselItem" data-dojo-props="img:'img1.jpg', title:'One', content:'Uno'"></div>
+        // |      <div data-dojo-type="CarouselItem" data-dojo-props="img:'img2.jpg', title:'Two', content:'Dos'"></div>
+        // |      <div data-dojo-type="CarouselItem" data-dojo-props="img:'img3.jpg', title:'Three', content:'Tres'"></div>
+        // |  </div>
+        //
+        // example:
+        // |	new Carousel({interval: 5000, pauseOnHover: false}, );
+        //
+
         templateString:
-            '<div class="${baseClass} hide">' +
+            '<div class="carousel hide">' +
             '    <ol class="carousel-indicators" data-dojo-attach-point="indicatorsNode"></ol>' +
             '    <div class="carousel-inner" data-dojo-attach-point="containerNode"></div>' +
             '    <a class="left carousel-control" data-slide="prev" data-dojo-attach-point="prevNode">&lsaquo;</a>' +
             '    <a class="right carousel-control" data-slide="next" data-dojo-attach-point="nextNode">&rsaquo;</a>' +
             '</div>',
 
-        baseClass: "carousel",
-
         // indicators: Boolean
-        //          whether indicators are visible
+        //          whether indicators are visible. Default is true.
         indicators: true,
 
         // navigatable: Boolean
-        //          whether navigation controls are visible
+        //          whether navigation controls are visible. Default is true.
         navigatable: true,
 
         // interval: Number
-        //          elapsed time between slides in milliseconds
+        //          elapsed time between slides in milliseconds. Default is 3000.
         interval: 3000,
 
         // currentSlide: Number
-        //          the start slide of current
+        //          the start slide of current. Default is 0.
         currentSlide: 0,
 
         // pauseOnHover: Boolean
-        //          event that causes the animation to stop
+        //          whether hovering over carousel causes it to stop cycling. Default is true.
         pauseOnHover: true,
 
-        postCreate:function () {
+        postCreate: function () {
+            // summary:
+            //      registers event handlers and hides necessary controls based on properties. Also creates
+            //      indicators for each carousel item.
+            // tags:
+            //		private extension
             if (this.pauseOnHover) {
                 this.own(on(this.domNode, mouse.enter, lang.hitch(this, 'pause')));
                 this.own(on(this.domNode, mouse.leave, lang.hitch(this, 'cycle')));
@@ -155,15 +189,15 @@ define([
             }
 
             if (this.indicators) {
-                query("[data-dojo-type*='CarouselItem']", this.domNode).forEach(function(item, index){
+                query("[data-dojo-type*='CarouselItem']", this.domNode).forEach(function (item, index) {
                     var indicator = domConstruct.toDom("<li></li>");
                     domAttr.set(indicator, "data-slide-to", index);
-                    if(domClass.contains(item, "active")){
+                    if (domClass.contains(item, "active")) {
                         domClass.add(indicator, "active");
                     }
                     domConstruct.place(indicator, this.indicatorsNode);
                 }, this);
-                this.own(on(this.indicatorsNode, "click", lang.hitch(this, function(e){
+                this.own(on(this.indicatorsNode, "click", lang.hitch(this, function (e) {
                     this.pause().to(domAttr.get(e.target, "data-slide-to"));
                     this.cycle();
                 })));
@@ -176,59 +210,100 @@ define([
             this._sliding = false;
         },
 
-        startup: function(){
+        startup: function () {
+            // summary:
+            //      sets the current slide and starts the slideshow.
+            // tags:
+            //		private extension
+            this.inherited(arguments);
             this.to(this.currentSlide, true);
             domClass.remove(this.domNode, "hide");
             this.cycle();
-            this.started = true;
         },
 
-        cycle: function (e) {
+        cycle: function (/*Object|Boolean?*/ e) {
+            // summary:
+            //      starts the carousel slideshow
             e = e || false;
-            if (e !== true) { this._paused = false; }
+            if (e !== true) {
+                this._paused = false;
+            }
             if (this.interval && !this._paused) {
                 this._intervalTimer = setInterval(lang.hitch(this, 'next'), this.interval);
             }
             return this;
         },
 
-        to: function (pos, mute) {
+        to: function (/*Number*/ position, /*Boolean?*/ mute) {
+            // summary:
+            //      activates the slide indicated by the position parameter.
+            // returns:
+            //      returns a reference to the widget.
+            // position:
+            //      zero based index of CarouselItem
+            // mute:
+            //      optional boolean value to silence the event trigger if true
             mute = mute || false;
             var activePos = -1,
                 children = this.getChildren(),
                 active = _active.call(this);
-            if(active){ activePos = active.getIndexInParent(); }
-            if (pos > (children.length - 1) || pos < 0) { return; }
+            if (active) {
+                activePos = active.getIndexInParent();
+            }
+            if (position > (children.length - 1) || position < 0) {
+                return;
+            }
             if (this._sliding) {
-                return on.once(this, 'slid', lang.hitch(this, function(){
-                    this.to(pos, mute);
+                return on.once(this, 'slid', lang.hitch(this, function () {
+                    this.to(position, mute);
                 }));
             }
-            if (activePos === pos) {
+            if (activePos === position) {
                 return this.pause().cycle();
             }
-            return _slide.call(this, (pos > activePos ? 'next' : 'prev'), children[pos], mute);
+            return _slide.call(this, (position > activePos ? 'next' : 'prev'), children[position], mute);   //return Carousel
         },
 
-        pause: function (e) {
+        pause: function (/*Object|Boolean?*/ e) {
+            // summary:
+            //      stops the carousel from cycling.
+            // returns:
+            //      returns a reference to the widget.
             e = e || false;
-            if (e !== true) { this._paused = true; }
+            if (e !== true) {
+                this._paused = true;
+            }
             if (query('.next, .prev', this.domNode).length && support.trans.end) {
-                on.emit(this.domNode, support.trans.end, {cancelable:true, bubbles:true});
+                on.emit(this.domNode, support.trans.end, {
+                    cancelable: true,
+                    bubbles: true
+                });
                 this.cycle(true);
             }
             clearInterval(this._intervalTimer);
             this._intervalTimer = null;
-            return this;
+            return this;    //return Carousel
         },
 
         next: function () {
-            if (this._sliding) { return; }
+            // summary:
+            //      displays the next slide in the carousel
+            // returns:
+            //      returns a reference to the widget.
+            if (this._sliding) {
+                return;
+            }
             return _slide.call(this, 'next');
         },
 
         prev: function () {
-            if (this._sliding) { return; }
+            // summary:
+            //      displays the prev slide in the carousel
+            // returns:
+            //      returns a reference to the widget.
+            if (this._sliding) {
+                return;
+            }
             return _slide.call(this, 'prev');
         }
     });
