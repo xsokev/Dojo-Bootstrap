@@ -1,0 +1,13 @@
+{
+    "bitwise":  true,
+    "curly":    true,
+    "eqeqeq":   true,
+    "forin":    true,
+    "noarg":    true,
+    "noempty":  true,
+    "undef":    true,
+    "expr":     true,
+    "browser":  true,
+    "devel":    true,
+    "dojo":     true
+}
