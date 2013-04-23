@@ -63,21 +63,26 @@ define([
         };
 
     return declare("_ListBase", null, {
-        /* summary:
-              Bootstrap base widget module for handling lists. Should not be used alone. This is an
-              abstract widget that should be implemented by another widget. Be sure to call the
-              _initListEvents during widget initialization.
-              If this implementing widget is Evented, the module will emit events for various actions.
-        */
-
-        // list-enter: [callback]
-        //      Event fires when enter is pressed while list has focus
-        // list-escape: [callback]
-        //      Event fires when escape is pressed while list has focus
-        // list-keyup: [callback]
-        //      Event fires when a keyup event is triggered on a list item
-        // list-select: [callback]
-        //      Event fires when a list item is selected
+        // summary:
+        //      Bootstrap base widget module for handling lists.
+        // description:
+        //      Bootstrap base widget module for handling lists. Should not be used alone. This is an
+        //      abstract widget that should be implemented by another widget. Be sure to call the
+        //      _initListEvents during widget initialization.
+        //
+        //      ## Events ##
+        //      If this implementing widget is Evented, the module will emit events for various actions.
+        //
+        //		Call `widget.on("list-enter", func)` to monitor when the enter key is pressed on a list.
+        //
+        //		Call `widget.on("list-escape", func)` to monitor when the escape key is pressed on a list.
+        //
+        //		Call `widget.on("list-keyup", func)` to monitor when a key other than enter, escape, tab,
+        //      shift, alt, ctrl or any arrow key is pressed on a list.
+        //
+        //		Call `widget.on("list-select", func)` to monitor when a list item is selected. Returns
+        //      event.selected.
+        //
 
         // hoverClass: String
         //      class to use when items receive hover
@@ -90,6 +95,12 @@ define([
         _initListEvents: function(){
             // summary:
             //      initialize events for navigating through the list items
+            // description:
+            //      Initializes events for keypress, keyup, keydown (if supported),
+            //      click and mouseover. To support focusing on list items, each
+            //      anchor is given a tabindex attribute if one doesn't exist.
+            // tags:
+            //      protected extension
             query("li", this.domNode).filter(function(li){
                 return !_isSelectableListItem(li);
             }).map(function(li){
@@ -107,25 +118,50 @@ define([
             this.own(on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, _mouseenter)));
         },
 
-        _select: function (li) {
-            if(!li){ return; }
+        _select: function (/*HTMLElement*/ li) {
             // summary:
-            //      internal function for selecting a list item
+            //      Selects element passed in as parameter.
+            // description:
+            //      Removes selection of current list item and selects the list item passed in.
+            //      Emits list-select event and passes selected list item with event.selected.
+            // tags:
+            //      protected
+            // li:
+            //      the list item to make active and emit to watchers.
+            if(!li){ return; }
             query('.'+this.activeClass, this.domNode).removeClass(this.activeClass);
             query('.'+this.hoverClass, this.domNode).removeClass(this.hoverClass);
             domClass.add(li, this.activeClass);
             this.emit && this.emit('list-select', lang.mixin({ selected: li }));
         },
 
-        _next: function (suppressFocus) {
+        _next: function (/*Boolean?*/ suppressFocus) {
+            // summary:
+            //      Moves the selection to the next item in the list.
+            // tags:
+            //      protected
+            // suppressFocus:
+            //      used to suppress focusing on list item when making the list item active.
             _traverse.call(this, "next", "_first", suppressFocus);
         },
 
-        _prev: function (suppressFocus) {
+        _prev: function (/*Boolean?*/ suppressFocus) {
+            // summary:
+            //      Moves the selection to the prev item in the list.
+            // tags:
+            //      protected
+            // suppressFocus:
+            //      used to suppress focusing on list item when making the list item active.
             _traverse.call(this, "prev", "_last", suppressFocus);
         },
 
-        _first: function(suppressFocus) {
+        _first: function(/*Boolean?*/ suppressFocus) {
+            // summary:
+            //      Moves the selection to the first item in the list.
+            // tags:
+            //      protected
+            // suppressFocus:
+            //      used to suppress focusing on list item when making the list item active.
             var active = this._getActive();
             if(active){ domClass.remove(active, this.activeClass); }
             var prev = query('li', this.domNode).first();
@@ -136,7 +172,13 @@ define([
             !suppressFocus && prev.query("a")[0] && prev.query("a")[0].focus();
         },
 
-        _last: function(suppressFocus) {
+        _last: function(/*Boolean?*/ suppressFocus) {
+            // summary:
+            //      Moves the selection to the last item in the list.
+            // tags:
+            //      protected
+            // suppressFocus:
+            //      used to suppress focusing on list item when making the list item active.
             var active = this._getActive();
             if(active){ domClass.remove(active, this.activeClass); }
             var next = query('li', this.domNode).last();
@@ -147,7 +189,13 @@ define([
             !suppressFocus && next.query("a")[0] && next.query("a")[0].focus();
         },
 
-        _move: function (e, suppressFocus) {
+        _move: function (/*Object*/ e, /*Boolean?*/ suppressFocus) {
+            // summary:
+            //      Changes the selected item based on pressed key.
+            // tags:
+            //      protected
+            // suppressFocus:
+            //      used to suppress focusing on list item when making the list item active.
             var code = e.charCode || e.keyCode;
             switch(code) {
                 case keys.TAB:
@@ -177,7 +225,15 @@ define([
             e.stopPropagation();
         },
 
-        _keyup: function (e) {
+        _keyup: function (/*Object*/ e) {
+            // summary:
+            //      Handles keyup event.
+            // description:
+            //      Suppresses all keys that involve moving the selection. Emits list-enter event
+            //      on object selection using the Tab and Enter keys. Emits list-escape on
+            //      selection of Escape key. Emits list-keyup event for all other keys.
+            // tags:
+            //      protected
             var code = e.charCode || e.keyCode;
             switch(code) {
                 case keys.PAGE_UP:
@@ -189,7 +245,7 @@ define([
                 case keys.SHIFT:
                 case keys.CTRL:
                 case keys.ALT:
-                    break;
+                break;
                 case keys.TAB:
                 case keys.ENTER:
                     this.emit && this.emit("list-enter", e);
@@ -199,7 +255,7 @@ define([
                         e.stopPropagation();
                         e.preventDefault();
                     }
-                    break;
+                break;
                 case keys.ESCAPE:
                     this.emit && this.emit("list-escape");
                     break;
@@ -209,7 +265,11 @@ define([
             }
         },
 
-        _keydown: function (e) {
+        _keydown: function (/*Object*/ e) {
+            // summary:
+            //      Calls _move on keydown.
+            // tags:
+            //      protected
             var code = e.charCode || e.keyCode;
             this.suppressKeyPressRepeat = array.indexOf([
                 keys.DOWN_ARROW,
@@ -223,12 +283,25 @@ define([
             this._move(e);
         },
 
-        _keypress: function (e) {
+        _keypress: function (/*Object*/ e) {
+            // summary:
+            //      calls _move on keypress.
+            // tags:
+            //      protected
             if (this.suppressKeyPressRepeat) { return; }
             this._move(e);
         },
 
-        _getActive: function(){
+        _getActive: function() {
+            // summary:
+            //      Get the current active list item.
+            // description:
+            //      Looks through the list of items and finds the item with class equal to
+            //      .active and .hover. If a .active is found, the first one is returned.
+            //      Otherwise, if .hover is found, the first one is returned. If neither
+            //      is found, null is returned.
+            // tags:
+            //      protected
             var items = query("li.active, li.hover", this.domNode);
             var active;
             var actives = array.filter(items, function(item){
@@ -239,7 +312,7 @@ define([
             } else if(items.length > 0){
                 active = items[0];
             }
-            return active;
+            return active;  //return Object
         }
-});
+    });
 });

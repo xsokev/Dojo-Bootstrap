@@ -57,16 +57,28 @@ define([
                 default:
                     this.emit("list-keyup", e);
             }
-        },
-        _keypress = function (e) {
-            if (this.suppressKeyPressRepeat) { return; }
-            this.list._move(e, true);
         };
 
-    // summary:
-    //      Bootstrap widget module for handling list actions in input controls
     return declare("_ListInputBase", null, {
+        // summary:
+        //      Bootstrap base widget module for handling list actions in input controls
+        // description:
+        //		This module is useful for input controls that will display a navigable list.
+        //      This module acts as a proxy for the key events needed to navigate through the
+        //      list. The module should be implemented and used directly.
+        //
+        //      ## Events ##
+        //		Call `widget.on("list-escape", func)` to monitor when the escape key is pressed on a list.
+        //
+        //		Call `widget.on("list-keyup", func)` to monitor when a key other than enter, escape, tab,
+        //      shift, alt, ctrl or any arrow key is pressed on a list.
+        //
+
         postCreate: function(){
+            // summary:
+            //		Handles keyup, keypress and keydown events.
+            // tags:
+            //		private extension
             if(this.domNode.tagName === "INPUT"){
                 this.own(on(this.domNode, 'keyup', lang.hitch(this, _keyup)));
                 this.own(on(this.domNode, 'keypress, keydown', lang.hitch(this, function(e){
@@ -80,7 +92,7 @@ define([
                         keys.ENTER,
                         keys.ESCAPE
                     ], code) >= 0){
-                        this.list._move(e, true);
+                        this.list && this.list._move(e, true);
                     }
                 })));
             }
