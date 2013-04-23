@@ -16,7 +16,6 @@
  * limitations under the License.
  * ========================================================== */
 
-//TODO:  - When PopOver inside Modal and the Modal is open, closed then opened again, the PopOver no longer triggers
 define([
     "./PopupBase",
     "dojo/_base/declare",

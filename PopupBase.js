@@ -125,6 +125,11 @@ define([
         // trigger: String
         //          what event causes the popup to be displayed
         trigger: "click",
+        _setTriggerAttr: function(val){
+            this._set("trigger", val);
+            this._destroyEvents();
+            this._initEvents();
+        },
 
         // delayShow: Integer
         //          the time in milliseconds that should pass before showing the popup after it has been triggered
@@ -143,6 +148,10 @@ define([
         showOnFocus: true,
 
         postCreate:function () {
+            // summary:
+            //
+            // tags:
+            //		private extension
             this._modal = _getModal.call(this);
             this._initEvents();
         },
@@ -202,21 +211,39 @@ define([
 
         destroy: function() {
             this.hide();
-            if(this._eventHideOnModal){ this._eventHideOnModal.remove(); }
+            this._destroyEvents();
             this.inherited(arguments);
         },
 
-        _resetContent: function(){},
+        _resetContent: function(){
+            // summary:
+            //
+            // tags:
+            //		protected
+            throw new Error('must be implemented by subclass!');
+        },
 
         _popup: function () {
+            // summary:
+            //
+            // tags:
+            //		protected
             return this._popupNode = (this._popupNode) ? this._popupNode : domConstruct.toDom(this.template);
         },
 
         _visible: function(){
+            // summary:
+            //
+            // tags:
+            //		protected
             return domClass.contains(this._popup.call(this), 'in');
         },
 
         _initEvents: function(){
+            // summary:
+            //
+            // tags:
+            //		protected
             if (this.trigger === 'click') {
                 if(this._modal){
                     this._eventHideOnModal = this._modal.on('hide', lang.hitch(this, function(){
@@ -224,10 +251,11 @@ define([
                     }));
                 }
                 if (this.selector) {
-                    this.own(on(this.domNode, on.selector(this.selector, 'click'), lang.hitch(this, 'toggle')));
+                    this._eventClick = on(this.domNode, on.selector(this.selector, 'click'), lang.hitch(this, 'toggle'));
                 } else {
-                    this.own(on(this.domNode, 'click', lang.hitch(this, 'toggle')));
+                    this._eventClick = on(this.domNode, 'click', lang.hitch(this, 'toggle'));
                 }
+                this.own(this._eventClick);
             } else if (this.trigger !== 'manual') {
                 var eventIn = this.trigger === 'hover' ? mouse.enter : 'focusin',
                     eventOut = this.trigger === 'hover' ? mouse.leave : 'focusout';
@@ -235,10 +263,13 @@ define([
                     eventIn = on.selector(this.selector, eventIn);
                     eventOut = on.selector(this.selector, eventOut);
                 }
-                this.own(on(this.domNode, eventIn, lang.hitch(this, _enter)));
-                this.own(on(this.domNode, eventOut, lang.hitch(this, _leave)));
+                this._eventIn = on(this.domNode, eventIn, lang.hitch(this, _enter));
+                this._eventOut = on(this.domNode, eventOut, lang.hitch(this, _leave));
+
+                this.own(this._eventIn);
+                this.own(this._eventOut);
             }
-            Viewport.on("resize", lang.hitch(this, function(){
+            this._eventViewResize = Viewport.on("resize", lang.hitch(this, function(){
                 if(this._visible()){
                     var popup = this._popup.call(this),
                         placement = typeof this.placement === 'function' ?
@@ -247,6 +278,18 @@ define([
                     _place.call(this, popup, this.domNode, placement);
                 }
             }));
+        },
+
+        _destroyEvents: function(){
+            // summary:
+            //
+            // tags:
+            //		protected
+            if(this._eventHideOnModal){ this._eventHideOnModal.remove(); this._eventHideOnModal = null; }
+            if(this._eventClick){ this._eventClick.remove(); this._eventClick = null; }
+            if(this._eventIn){ this._eventIn.remove(); this._eventIn = null; }
+            if(this._eventOut){ this._eventOut.remove(); this._eventOut = null; }
+            if(this._eventViewResize){ this._eventViewResize.remove(); this._eventViewResize = null; }
         }
     });
 });

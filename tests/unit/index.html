@@ -18,9 +18,14 @@
         </div>
         <div class="container">
             <div class="row">
-                <section class="span6"><a href="functional/index.html"><h3>Functional</h3></a></section>
-                <section class="span6"><a href="unit/index.html"><h3>Unit</h3></a></section>
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8"><p>&nbsp;</p></section>
             </div>
         </div>
+        <script src="assets/config.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
+        <script>
+            require(["./assets/tests.js"]);
+        </script>
     </body>
 </html>

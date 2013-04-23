@@ -64,6 +64,10 @@ define([
     //      Activates a tab element and content container. Tab should have either a data-target or an href targeting a container node in the DOM.
     return declare("Tab", [_BootstrapWidget], {
         postCreate:function () {
+            // summary:
+            //
+            // tags:
+            //		private
             var _this = this;
             this.own(on(this.domNode, on.selector(_tabSelector, "click"), function(e){
                 if(e){ e.preventDefault(); }

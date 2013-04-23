@@ -21,7 +21,7 @@
             <div class="row">
                 <section class="sidebar span3"></section>
                 <section id="main" class="main span8">
-                    <a href="#" data-dojo-type="bootstrap/Tooltip" data-dojo-props="placement:'top',trigger:'click'" title="Tooltip on top">Top</a> -
+                    <a href="#" data-dojo-type="bootstrap/Tooltip" data-dojo-props="placement:'top'" title="Tooltip on top">Top</a> -
                     <a href="#" data-dojo-type="bootstrap/Tooltip" data-dojo-props="placement:'right'" title="Tooltip on right">Right</a> -
                     <a href="#" data-dojo-type="bootstrap/Tooltip" data-dojo-props="placement:'bottom'" title="Tooltip on bottom">Bottom</a> -
                     <a href="#" id="tt4">Left</a>
@@ -30,15 +30,16 @@
         </div>
         
         <script type="text/javascript" src="../assets/configParse.js"></script>
-        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+	    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
 
         <script>
             require([
+                "dojo/ready",
                 "dojo/query",
                 "dojo/on",
                 "bootstrap/Tooltip",
-                "../assets/tests.js"
-            ], function(query, on, Tooltip){
+                "./tests.js"
+            ], function(ready, query, on, Tooltip){
                 new Tooltip({ "placement": "left", title: "Tooltip on left"}, query("#tt4")[0]);
             });
         </script>

@@ -37,20 +37,23 @@ define([
 
     return declare("ButtonGroup", [_BootstrapWidget, _Container], {
         // summary:
-        //      Attach event handlers to a button or group of buttons
+        //      Attach event handlers to a group of buttons.
         // example:
-        // |	<button class="btn" data-dojo-type="Button">Load</button>
+        // |	<div class="btn-group" data-dojo-type="ButtonGroup">...</div>
         //
         // example:
-        // |	new Button({toggleable:true}, dojo.byId("button"));
+        // |	new ButtonGroup({mode:"radio"}, dojo.byId("div"));
         //
 
         // mode: String
-        //          mode for group of buttons: radio, checkbox
+        //          mode for group of buttons: radio, checkbox. Default is 'checkbox'.
         mode: "checkbox",
 
         postCreate:function () {
-            this._buttons = [];
+            // summary:
+            //      creates event handler for click event.
+            // tags:
+            //		private extension
             this.own(on(this.domNode, "click", lang.hitch(this, function(e){
                 var btn = e.target;
                 if (!domClass.contains(btn, 'btn')){
@@ -61,6 +64,10 @@ define([
         },
 
         startup: function(){
+            // summary:
+            //      finds existing buttons and add them as Button widgets.
+            // tags:
+            //		private extension
             query(".btn", this.domNode).forEach(function(btn){
                 var foundButton = this.hasChildren && array.filter(this.getChildren(), function(b){ return b.id === btn.id; })[0];
                 if(foundButton){ this.add(foundButton); } else { this.add(btn); }
@@ -118,6 +125,16 @@ define([
                 this.removeChild(button);
                 button.destroy();
             }
+        },
+
+        getActive: function(){
+            // summary:
+            //      returns a list of selected(active) Buttons.
+            // returns:
+            //      Array of active Buttons
+            return array.filter(this.getChildren(), function(btn){
+                return btn.get("active") === true;
+            });
         }
 
     });

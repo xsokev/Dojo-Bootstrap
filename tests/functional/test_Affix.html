@@ -67,7 +67,7 @@
         </div>
 
         <script src="../assets/config.js"></script>
-        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
         
         <script>
             require([
@@ -75,7 +75,7 @@
                 "dojo/parser",
                 "bootstrap/ScrollSpy",
                 "bootstrap/Affix",
-                "../assets/tests.js"
+                "./tests.js"
             ], function(query, parser, ScrollSpy){
                 parser.parse().then(function(){
                     var scrollSpy = new ScrollSpy({

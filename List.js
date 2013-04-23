@@ -28,13 +28,31 @@ define([
 
     return declare("List", [_BootstrapWidget, _ListBase], {
         // summary:
-        //      Bootstrap widget module for handling lists
+        //      Bootstrap widget for handling lists.
+        // description:
+        //      Provides basic functionality for vertical lists. This List widget is
+        //      used in the Dropdown and Typeahead widgets.
+        // example:
+        // |	<ul class="nav nav-list" role="menu"
+        // |            data-dojo-type="List" data-dojo-props="preventDefault: true">
+        // |        <li role="presentation"><a href="#">Action</a></li>
+        // |        <li role="presentation"><a href="#">Another action</a></li>
+        // |        <li role="presentation" class="divider"></li>
+        // |        <li role="presentation"><a href="#">Separated link</a></li>
+        // |	</ul>
 
-        postCreate: function(){
+
+    postCreate: function(){
+            // summary:
+            //      calls this._initListEvents to initialize list events.
+            // tags:
+            //		private extension
             this._initListEvents();
         },
 
-        select: function (li) {
+        select: function (/*HTMLElement*/ li) {
+            // summary:
+            //      Selects the list item passed in. Provides public access to the protected this._select method.
             this._select(li);
         }
     });

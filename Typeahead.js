@@ -116,6 +116,10 @@ define([
         hoverClass: "active",
 
         postCreate:function () {
+            // summary:
+            //
+            // tags:
+            //		private
             this.listNode = domConstruct.toDom(_menuTemplate);
             this.hide();
             domConstruct.place(this.listNode, document.body);

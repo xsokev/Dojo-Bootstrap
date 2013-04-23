@@ -87,9 +87,14 @@ define([
         //          If a single number is provided, the offset will be applied in both top and left directions.
         //          To listen for a single direction, or multiple unique offsets, just provide an object offset: { x: 10 }.
         //          Use a function when you need to dynamically provide an offset (useful for some responsive designs).
+        //          Default offset is 10.
         offset: 10,
 
         postCreate:function () {
+            // summary:
+            //      Establishes events to handle window clicks and scrolling.
+            // tags:
+            //		private extension
             this._affixed = false;
             this.own(on(win.global, 'click, scroll', lang.hitch(this, (function () { setTimeout(lang.hitch(this, _checkPosition), 1); }))));
             _checkPosition.call(this, true);

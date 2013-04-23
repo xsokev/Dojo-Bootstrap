@@ -45,7 +45,7 @@
         </div>
 
         <script src="../assets/config.js"></script>
-        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
         
         <script>
             require([
@@ -54,7 +54,7 @@
                 "dojo/on",
                 "dojo/dom-construct",
                 "bootstrap/Alert",
-                "../assets/tests.js"
+                "./tests.js"
             ], function(parser, query, on, domConstruct, Alert){
                     parser.parse();
                     var a1 = new Alert({

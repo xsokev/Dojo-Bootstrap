@@ -62,21 +62,20 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="../assets/config.js"></script>
-        <script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        <script type="text/javascript" src="../assets/configParse.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
         
         <script>
             require([
-                "dojo/parser",
+                "dojo/ready",
                 "dojo/query",
                 "dijit/registry",
                 "bootstrap/Button",
                 "bootstrap/ButtonGroup",
-                "../assets/tests.js",
-                "dojo/domReady!"
-            ], function (parser, query, registry, Button, ButtonGroup) {
+                "./tests.js"
+            ], function (ready, query, registry) {
                     var b1;
-                    parser.parse().then(function(){
+                    ready(function(){
                         b1 = registry.byId("btn1");
                     });
                     query("#btn1").on("click", function(e){

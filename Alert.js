@@ -38,17 +38,18 @@ define([
         // description:
         //		Wrap all alerts with close functionality. To have your alerts animate out when closed,
         //      make sure they have the .fade and .in class already applied to them.
+        //
+        //      ## Events ##
+        //		Call `widget.on("close", func)` to monitor when an Alert widget is about to close.
+        //
+        //		Call `widget.on("closed", func)` to monitor when an Alert widget has closed.
+        //
         // example:
         // |	<div data-dojo-type="Alert" data-dojo-props="timeout:10000">...alert message...</div>
         //
         // example:
         // |	new Alert({closable: false, content: "..."});
         //
-
-        // close: [callback]
-        //      This event fires immediately when the close instance method is called.
-        // closed: [callback]
-        //      This event is fired when the alert has been closed (will wait for css transitions to complete).
 
         // templateString: String
         //      template used to create new Alerts programmatically
@@ -59,7 +60,7 @@ define([
             '</div>',
 
         // closable: Boolean
-        //      alert can be closed
+        //      alert can be closed. Default is true.
         closable: true,
         _setClosableAttr: function(val){
             this._set("closable", val);
@@ -67,19 +68,23 @@ define([
         },
 
         // content: String
-        //      content for the alert
+        //      content for the alert.
         content: "",
         _setContentAttr: { node: "containerNode", type: "innerHTML" },
 
-        // timeout: Number
-        //      number of milliseconds to display alert before closing
+        // timeout: Number|Boolean
+        //      number of milliseconds to display alert before closing. Default is false.
         timeout: false,
 
         postCreate:function () {
+            // summary:
+            //      creates event handler for close button. Handles initial timeout value if not falsey.
+            // tags:
+            //		private extension
             query("> .close", this.domNode).on("click", lang.hitch(this, function(){
                 this.close();
             }));
-            if(this.timeout && typeof parseInt(this.timeout, 10) === "number"){
+            if(support.falsey(this.timeout) && typeof parseInt(this.timeout, 10) === "number"){
                 window.setTimeout(lang.hitch(this, function(){
                     this.close();
                 }), parseInt(this.timeout, 10));

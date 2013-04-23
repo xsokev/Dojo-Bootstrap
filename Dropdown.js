@@ -52,12 +52,45 @@ define([
             this.emit("select", { selectedItem: li });
         };
 
-    // summary:
-    //      Bootstrap template for creating a widget that uses a template
-    var _Dropdown = declare("Dropdown", [_BootstrapWidget], {
+    return declare("Dropdown", [_BootstrapWidget], {
+        // summary:
+        //      Adds dropdown support to elements.
+        // description:
+        //      Handles the visibility of the dropdown. Provides events for dropdown list
+        //      item selection.
+        //
+        //      ## Events ##
+        //		Call `widget.on("select", func)` to monitor when a dropdown list item is
+        //      selected. Returns event.selectedItem.
+        //
+        // example:
+        // |    <input value="21-12-2012" class="date" type="text"
+        // |           data-dojo-type="Datepicker" data-dojo-props="format:'dd-M-yyyy'">
+        // example:
+        // |    <div class="input-append" id="mydate">
+        // |        <input value="21-12-2012" class="date" type="text" />
+        // |        <span class="add-on"><i class="icon-th"></i></span>
+        // |    </div>
+        // |    new Datepicker({
+        // |        format:'dd-M-yyyy',
+        // |        selector: '.add-on',
+        // |        trigger: 'click'
+        // |    }, dojo.byId("#mydate"));
+        // example:
+        // |    <button class="btn" id="dateBtn">...</button>
+        // |    new Datepicker({
+        // |        trigger: 'click'
+        // |    }, dojo.byId("#dateBtn"));
+
+        // preventDefault: Boolean
+        //          prevent default actions when list items are clicked
         preventDefault: false,
 
         postCreate:function () {
+            // summary:
+            //      initializes events needed to display dropdown element. Also initializes list handler.
+            // tags:
+            //		private extension
             this.toggleNode = query(".dropdown-toggle", this.domNode)[0];
             if(this.toggleNode){
                 this.own(on(this.toggleNode, "click, touchstart", lang.hitch(this, "toggle")));
@@ -74,6 +107,8 @@ define([
         },
 
         toggle: function(e){
+            // summary:
+            //      toggles the display of the dropdown
             if(this.isDisabled()) { return false; }
             this.isOpen() ? this.close() : this.open();
             if(e){
@@ -84,26 +119,33 @@ define([
         },
 
         open: function(){
+            // summary:
+            //      shows the dropdown. Hides any other displayed dropdowns on the page.
             if(this.isDisabled()) { return false; }
             _clearDropdowns();
             this.isOpen() || domClass.add(this.domNode, 'open');
-            this.list.first();
+            this.list._first();
             this.shown = true;
         },
 
         close: function(){
+            // summary:
+            //      hides the dropdown.
             if(this.isDisabled()) { return false; }
             this.isOpen() && domClass.remove(this.domNode, 'open');
             this.shown = false;
         },
 
         isDisabled: function(){
-            return domClass.contains(this.domNode, "disabled") || domAttr.get(this.domNode, "disabled");
+            // summary:
+            //      returns whether the dropdown is currently disabled.
+            return domClass.contains(this.domNode, "disabled") || domAttr.get(this.domNode, "disabled");    //Boolean
         },
 
         isOpen: function(){
+            // summary:
+            //      returns whether the dropdown is currently visible.
             return this.shown;
         }
     });
-    return _Dropdown;
 });

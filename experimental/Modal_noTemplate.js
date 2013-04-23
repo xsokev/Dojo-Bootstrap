@@ -17,8 +17,8 @@
  * ========================================================== */
 
 define([
-    "./Support",
-    "./_BootstrapWidget",
+    "bootstrap/Support",
+    "bootstrap/_BootstrapWidget",
     "dojo/_base/declare",
     "dojo/query",
     "dojo/on",
@@ -31,74 +31,97 @@ define([
     "dojo/request",
     "dojo/NodeList-traverse",
     "dojo/NodeList-manipulate"
-], function (support, _BootstrapWidget, declare, query, on, lang, win, domConstruct, domClass, domAttr, domStyle, request) {
+], function (support, _BootstrapWidget, declare, query, on, lang, win, domConstruct, domClass, domAttr, domStyle, request)
+{
     "use strict";
 
     // module:
     //      Modal
 
-    var _hideWithTransition = function() {
-            var timeout = setTimeout(lang.hitch(this, function () {
-                if (this._hideEvent) { this._hideEvent.remove(); }
-                _hideModal.call(this);
-            }), 500);
-            this._hideEvent = support.trans ? on.once(this.domNode, support.trans.end, lang.hitch(this, function () {
-                clearTimeout(timeout);
-                _hideModal.call(this);
-            })) : null;
-        },
-        _hideModal = function() {
+    var _hideWithTransition = function ()
+    {
+        var timeout = setTimeout(lang.hitch(this, function ()
+        {
+            if (this._hideEvent) { this._hideEvent.remove(); }
+            _hideModal.call(this);
+        }), 500);
+        this._hideEvent = support.trans ? on.once(this.domNode, support.trans.end, lang.hitch(this, function ()
+        {
+            clearTimeout(timeout);
+            _hideModal.call(this);
+        })) : null;
+    },
+        _hideModal = function ()
+        {
             domStyle.set(this.domNode, 'display', 'none');
             this.emit('hidden', {});
             _backdrop.call(this);
         },
-        _backdrop = function(callback) {
+        _backdrop = function (callback)
+        {
             var animate = domClass.contains(this.domNode, 'fade') ? 'fade' : '';
-            if (this.isShown && this.backdrop) {
+            if (this.isShown && this.backdrop)
+            {
                 var doAnimate = support.trans && animate;
                 this.backdropNode = domConstruct.place('<div class="modal-backdrop ' + animate + '" />', win.body());
                 on.once(this.backdropNode, 'click', this.backdrop === 'static' ?
                     lang.hitch(this.domNode, 'focus') :
                     lang.hitch(this, 'hide'));
-                if (doAnimate) {
+                if (doAnimate)
+                {
                     this._offsetWidth = this.backdropNode.offsetWidth;
                 }
                 domClass.add(this.backdropNode, 'in');
-                if (doAnimate) {
+                if (doAnimate)
+                {
                     on.once(this.backdropNode, support.trans.end, callback);
-                } else {
+                } else
+                {
                     callback();
                 }
-            } else if (!this.isShown && this.backdropNode) {
+            } else if (!this.isShown && this.backdropNode)
+            {
                 domClass.remove(this.backdropNode, 'in');
-                if (support.trans && domClass.contains(this.domNode, 'fade')) {
+                if (support.trans && domClass.contains(this.domNode, 'fade'))
+                {
                     on.once(this.backdropNode, support.trans.end, lang.hitch(this, _removeBackdrop));
-                } else {
+                } else
+                {
                     _removeBackdrop.call(this);
                 }
-            } else if (callback) {
+            } else if (callback)
+            {
                 callback();
             }
         },
-        _removeBackdrop = function() {
+        _removeBackdrop = function ()
+        {
             domConstruct.destroy(this.backdropNode);
             this.backdropNode = null;
         },
-        _escape = function() {
-            if (this.isShown && this.keyboard) {
-                this._keyupEvent = this.own(on(win.body(), 'keyup', lang.hitch(this, function (e) {
+        _escape = function ()
+        {
+            if (this.isShown && this.keyboard)
+            {
+                this._keyupEvent = this.own(on(win.body(), 'keyup', lang.hitch(this, function (e)
+                {
                     if (e.which === 27) { this.hide(); }
                 })));
-            } else if (!this.isShown) {
-                if (this._keyupEvent && this._keyupEvent[0]) {
+            } else if (!this.isShown)
+            {
+                if (this._keyupEvent && this._keyupEvent[0])
+                {
                     this._keyupEvent[0].remove();
                 }
             }
         },
-        _enforceFocus = function() {
+        _enforceFocus = function ()
+        {
             var _this = this;
-            this._focusInEvent = this.own(on(document, on.selector('.modal', 'focusin'), function (e) {
-                if (_this.domNode !== this && !query(this, _this.domNode).length) {
+            this._focusInEvent = this.own(on(document, on.selector('.modal', 'focusin'), function (e)
+            {
+                if (_this.domNode !== this && !query(this, _this.domNode).length)
+                {
                     _this.domNode.focus();
                 }
             }));
@@ -118,12 +141,15 @@ define([
         // content: String
         //          the text or html displayed in the dialog body
         content: "",
-        _setContentAttr: function(val){
+        _setContentAttr: function (val)
+        {
             this._set("content", val);
-            if(!this.started){ return; }
-            if(this.content instanceof HTMLElement){
+            if (!this._started) { return; }
+            if (this.content instanceof HTMLElement)
+            {
                 domConstruct.place(this.content, this.containerNode, "only");
-            } else {
+            } else
+            {
                 query(this.containerNode).html(this.content);
             }
         },
@@ -131,11 +157,14 @@ define([
         // remote: Boolean|String
         //          the url for the remote content
         remote: "",
-        _setRemoteAttr: function(val){
+        _setRemoteAttr: function (val)
+        {
             this._set("remote", val);
-            if(!this.started){ return; }
-            if (this.remote && this.remote !== "") {
-                request(this.remote).then(lang.hitch(this, function(htmlText){
+            if (!this._started) { return; }
+            if (this.remote && this.remote !== "")
+            {
+                request(this.remote).then(lang.hitch(this, function (htmlText)
+                {
                     this.emit('remote-loaded', {});
                     this.set("content", htmlText);
                 }));
@@ -149,17 +178,22 @@ define([
         // header: Boolean|String
         //          the text or html displayed in the dialog header. If false, the header will be hidden
         header: "",
-        _setHeaderAttr: function(val){
+        _setHeaderAttr: function (val)
+        {
             this._set("header", val);
-            if(!this.started){ return; }
-            if(this.headerNode && (this.header || this.header !== "")){
+            if (!this._started) { return; }
+            if (this.headerNode && (this.header || this.header !== ""))
+            {
                 domClass.remove(this.headerContainer, "hide");
-                if(this.header instanceof HTMLElement){
+                if (this.header instanceof HTMLElement)
+                {
                     domConstruct.place(this.header, this.headerNode, "only");
-                } else {
+                } else
+                {
                     query(this.headerNode).html(this.header);
                 }
-            } else {
+            } else
+            {
                 query(this.headerContainer).addClass("hide");
             }
         },
@@ -167,59 +201,73 @@ define([
         // footer: Boolean|String
         //          the text or html displayed in the dialog footer. If false, the footer will be hidden
         footer: "",
-        _setFooterAttr: function(val){
+        _setFooterAttr: function (val)
+        {
             this._set("footer", val);
-            if(!this.started){ return; }
-            if(this.footerNode && (this.footer || this.footer !== "")){
+            if (!this._started) { return; }
+            if (this.footerNode && (this.footer || this.footer !== ""))
+            {
                 domClass.remove(this.footerNode, "hide");
-                if(this.footer instanceof HTMLElement){
+                if (this.footer instanceof HTMLElement)
+                {
                     domConstruct.place(this.footer, this.footerNode, "only");
-                } else {
+                } else
+                {
                     query(this.footerNode).html(this.footer);
                 }
-            } else {
+            } else
+            {
                 query(this.footerNode).addClass("hide");
             }
         },
 
 
-        postCreate:function () {
+        postCreate: function ()
+        {
             this.isShown = false;
             this.containerNode = query(".modal-body", this.domNode)[0];
             this.headerContainer = query(".modal-header", this.domNode)[0];
-            if(this.headerContainer){
+            if (this.headerContainer)
+            {
                 this.headerNode = query("> h3", this.headerContainer)[0];
                 this.closeNode = query("> .close", this.headerContainer)[0];
-                if(this.closeNode){
+                if (this.closeNode)
+                {
                     this.own(on(this.closeNode, 'click', lang.hitch(this, this.hide)));
                 }
-                if(this.headerNode && this.headerNode.innerHTML !== ""){
+                if (this.headerNode && this.headerNode.innerHTML !== "")
+                {
                     this.set("header", this.headerNode.innerHTML);
                 }
             }
             this.footerNode = query(".modal-footer", this.domNode)[0];
-            if(this.footerNode && this.footerNode.innerHTML !== ""){
+            if (this.footerNode && this.footerNode.innerHTML !== "")
+            {
                 this.set("footer", this.footerNode.innerHTML);
             }
         },
 
-        startup: function(){
-            this.started = true;
+        startup: function ()
+        {
+            this.inherited(arguments);
             this.set("remote", this.remote);
             this.set("header", this.header);
             this.set("footer", this.footer);
-            if(this.showOnStart){
+            if (this.showOnStart)
+            {
                 this.show();
             }
         },
 
-        toggle: function(){
+        toggle: function ()
+        {
             // summary:
             //      hide or show the modal
             return this[!this.isShown ? 'show' : 'hide']();
         },
 
-        show:function (e) {
+        show: function (e)
+        {
             // summary:
             //      show the modal
             this.emit('show', {});
@@ -227,32 +275,39 @@ define([
 
             this.isShown = true;
             _escape.call(this);
-            _backdrop.call(this, lang.hitch(this, function () {
+            _backdrop.call(this, lang.hitch(this, function ()
+            {
                 var transition = support.trans && domClass.contains(this.domNode, 'fade');
-                if (!query(this.domNode).parent().length) {
+                if (!query(this.domNode).parent().length)
+                {
                     domConstruct.place(this.domNode, win.body());
                 }
                 domStyle.set(this.domNode, 'display', 'block');
-                if (transition) {
+                if (transition)
+                {
                     this._offsetWidth = this.domNode.offsetWidth;
                 }
                 domClass.add(this.domNode, 'in');
                 domAttr.set(this.domNode, 'aria-hidden', false);
                 _enforceFocus.call(this);
 
-                if (transition) {
-                    on.once(this.domNode, support.trans.end, lang.hitch(this, function () {
+                if (transition)
+                {
+                    on.once(this.domNode, support.trans.end, lang.hitch(this, function ()
+                    {
                         this.domNode.focus();
                         this.emit('shown', {});
                     }));
-                } else {
+                } else
+                {
                     this.domNode.focus();
                     this.emit('shown', {});
                 }
             }));
         },
 
-        hide:function (e) {
+        hide: function (e)
+        {
             // summary:
             //      hide the modal
             this.emit('hide', {});
@@ -267,9 +322,11 @@ define([
             domClass.remove(this.domNode, 'in');
             domAttr.set(this.domNode, 'aria-hidden', true);
 
-            if (support.trans && domClass.contains(this.domNode, 'fade')) {
+            if (support.trans && domClass.contains(this.domNode, 'fade'))
+            {
                 _hideWithTransition.call(this);
-            } else {
+            } else
+            {
                 _hideModal.call(this);
             }
         }

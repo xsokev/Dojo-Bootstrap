@@ -11,7 +11,7 @@
     //http://mootools.net/docs/core/Core/Core#Core:typeOf
     require([
         "bootstrap/_BootstrapWidget",
-        "../../../common/dojo-sdk-1.8.3/dojo/_base/declare",
+        "dojo/_base/declare",
         "dojo/domReady!"
     ], function(_BootstrapWidget, declare){
         var Widget = declare([_BootstrapWidget], {
@@ -40,6 +40,9 @@
         console.log(b.named());
 
         b.set("name", "BWidget");
+        b.set("named", function(){
+            return "NAME: "+this.get("name");
+        });
         console.log("Identity after name set");
         console.log(a.named());
         console.log(b.named());

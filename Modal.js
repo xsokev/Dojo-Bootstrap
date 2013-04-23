@@ -33,7 +33,6 @@ define([
     "dojo/NodeList-traverse",
     "dojo/NodeList-manipulate"
 ], function (support, _BootstrapWidget, declare, _TemplatedMixin, query, on, lang, win, domConstruct, domClass, domAttr, domStyle, request) {
-    "use strict";
 
     // module:
     //      Modal
@@ -105,9 +104,19 @@ define([
             }));
         };
 
-    // summary:
-    //      Attach event to dismiss this alert if an immediate child-node has class="close"
     return declare("Modal", [_BootstrapWidget, _TemplatedMixin], {
+        // summary:
+        //      Modals are streamlined, but flexible, dialog prompts with the minimum required functionality
+        //      and smart defaults.
+        // description:
+        //      This widget handles Modals that are dynamically displayed.
+        //
+        // example:
+        // |	<div data-dojo-type="Modal" data-dojo-props="header:'My Modal', modalClass: 'fade'">
+        // |        <p>Body...</p>
+        // |	</div>
+
+
         templateString:
             '<div class="${baseClass}">' +
             '    <div class="modal-header">' +
@@ -118,7 +127,7 @@ define([
             '    <div class="modal-footer" data-dojo-attach-point="footerNode">${footer}</div>' +
             '</div>',
 
-        baseClass: "modal hide",
+        baseClass: "modal",
 
         // backdrop: Boolean|String
         //          display backdrop when displaying modal. Value can be true, false or 'static'
@@ -198,6 +207,11 @@ define([
 
 
         postCreate:function () {
+            // summary:
+            //      initializes the Modal. Creates a handler for the close button and adding additional
+            //      classes set in the `modalClass` attribute.
+            // tags:
+            //		private extension
             this.isShown = false;
             this.own(on(this.closeNode, 'click', lang.hitch(this, this.hide)));
             if(this.modalClass !== ""){
@@ -206,7 +220,12 @@ define([
         },
 
         startup: function(){
-            this.started = true;
+            // summary:
+            //      loads remote data if remote attribute is set and displays Modal if `showOnStart`
+            //      attribute is set to true.
+            // tags:
+            //		private extension
+            this.inherited(arguments);
             this.set("remote", this.remote);
             if(this.showOnStart){
                 this.show();

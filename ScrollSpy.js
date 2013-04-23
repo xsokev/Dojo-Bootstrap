@@ -55,6 +55,10 @@ define([
         },
 
         postCreate: function () {
+            // summary:
+            //
+            // tags:
+            //		private
             this.scrollNode = this.domNode.tagName === 'BODY' ? win.global : this.domNode;
             this.own(on(this.scrollNode, 'scroll', lang.hitch(this, 'process')));
             this.refresh();

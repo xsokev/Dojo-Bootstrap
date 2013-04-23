@@ -17,7 +17,6 @@
  * ========================================================== */
 
 define([
-    "./Support",
     "./_BootstrapWidget",
     "dojo/_base/declare",
     "dojo/on",
@@ -25,7 +24,7 @@ define([
     "dojo/dom-class",
     "dojo/dom-attr",
     "dojo/NodeList-traverse"
-], function (support, _BootstrapWidget, declare, on, lang, domClass, domAttr) {
+], function (_BootstrapWidget, declare, on, lang, domClass, domAttr) {
     "use strict";
 
     // module:
@@ -34,19 +33,26 @@ define([
     return declare("Button", [_BootstrapWidget], {
         // summary:
         //      Control button states.
+        // description:
+        //      Provides methods for activating, deactivating, enabling and disabling buttons.
+        //      Button text can also be easily changed and reset.
+        //
+        //      ## Events ##
+        //		Call `widget.on("click", func)` to monitor when the button has been clicked.
+        //
         // example:
         // |	<button class="btn" data-dojo-type="Button">Load</button>
         //
         // example:
         // |	new Button({toggleable:true}, dojo.byId("button"));
         //
-        // click: [callback]
-        //      This event fires when the domNode is clicked
 
         // _valueProp: [protected readonly] String
+        //          readonly value that is set on postCreate to determine which property to
+        //          use when setting the Button text.
         _valueProp: "innerHTML",
 
-        // resetText: String
+        // text: String
         //          text to display when button state is reset
         text: "",
         _setTextAttr: function(val){
@@ -55,7 +61,7 @@ define([
         },
 
         // loadingText: String
-        //          text to display when button state is loading
+        //          text to display when button state is loading. Default is 'loading...'.
         loadingText: "loading...",
 
         // resetText: String
@@ -63,11 +69,11 @@ define([
         resetText: "",
 
         // toggleable: Boolean
-        //          whether an individual button can be toggled
+        //          whether an individual button can be toggled. Default is false.
         toggleable: false,
 
         // active: Boolean
-        //          sets a button's active state
+        //          sets a button's active state. Default is false.
         active: false,
         _setActiveAttr: function(val){
             this._set("active", val);
@@ -77,7 +83,7 @@ define([
         },
 
         // disabled: Boolean
-        //          sets a button's disabled state
+        //          sets a button's disabled state. Default is false.
         disabled: false,
         _setDisabledAttr: function(val){
             this._set("disabled", val);
@@ -85,6 +91,10 @@ define([
         },
 
         postCreate:function () {
+            // summary:
+            //      creates event handlers for click event and sets the readonly _valueProp attribute.
+            // tags:
+            //		private extension
             this.own(on(this.domNode, "click", lang.hitch(this, function(){
                 this.toggle();
 				this.emit("click", {});

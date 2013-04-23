@@ -5,6 +5,20 @@
     <title>Dojo-Bootstrap/Popover</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/tests.css">
+    <style type="text/css">
+        .hero-unit { position: relative; height: 300px; }
+        .hero-unit a { position: absolute; width: 90px; text-align: center; cursor: pointer; }
+        .hero-unit h4 { position: absolute; top: 45%; left: 45%; }
+        #a1 { left: 5px; top: 5px; }
+        #a2 { left: 45%; top: 5px; }
+        #a3 { right: 5px; top: 5px; }
+        #a4 { left: 5px; top: 50%; }
+        #a5 { right: 5px; top: 50%; }
+        #a6 { left: 5px; bottom: 5px; }
+        #a7 { left: 45%; bottom: 5px; }
+        #a8 { right: 5px; bottom: 5px; }
+        .dropdown-menu h5 { text-align: center; margin: 2px; padding: 0px; }
+    </style>
 </head>
 
 <body>
@@ -21,36 +35,72 @@
     <div class="row">
         <section class="sidebar span3"></section>
         <section id="main" class="main span8">
-            <h3>Trigger by hover</h3>
-            <a href="#" class="btn" data-dojo-type="bootstrap/Popup"
-               data-dojo-props="trigger:'hover', placement:'right'">Hover on right</a>
-            <a href="#" class="btn" data-dojo-type="bootstrap/Popup"
-               data-dojo-props="trigger:'hover', placement:'bottom'">Hover on bottom</a>
-            <h3>Trigger by default click</h3>
-            <a href="#" class="btn" data-dojo-type="bootstrap/Popup"
-               data-placement="top">Click to top</a>
-            <a href="#" class="btn" data-dojo-type="bootstrap/Popup"
-               data-placement="left">Click to left</a>
-            <h3>Trigger by default focus</h3>
-            <a href="#" class="btn" data-dojo-type="bootstrap/Popup"
-               data-trigger="focus">Focus to show</a>
-            <input type="text" data-dojo-type="bootstrap/Popup"
-               data-trigger="focus" value="Focus to show" />
+            <div class="hero-unit">
+                <a tabindex="1" id="a1" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['above']">Top Left</a>
+                <a tabindex="1" id="a2" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['above-centered']">Top Center</a>
+                <a tabindex="1" id="a3" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['above-alt']">Top Right</a>
+                <a tabindex="1" id="a4" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['before-centered']">Left Anchored</a>
+                <h4>PopupBase</h4>
+                <a tabindex="1" id="a5" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['after-centered']">Right Anchored</a>
+                <a tabindex="1" id="a6" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['below']">Bottom Left</a>
+                <a tabindex="1" id="a7" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['below-centered']">Bottom Center</a>
+                <a tabindex="1" id="a8" href="#" class="label label-warning" data-dojo-type="CustomPopup"
+                   data-dojo-props="trigger:'hover', placement:['below-alt']">Bottom Right</a>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Select Trigger: </label>
+                <div class="btn-group" data-dojo-type="bootstrap/ButtonGroup" data-dojo-props="mode:'radio'">
+                    <button id="btn-hover" type="button" class="btn active">Hover</button>
+                    <button id="btn-click" type="button" class="btn">Click</button>
+                    <button id="btn-focus" type="button" class="btn">Focus</button>
+                </div>
+            </div>
         </section>
     </div>
 </div>
-<script type="text/javascript" src="../assets/config.js"></script>
-<script src="../../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+<script type="text/javascript" src="../assets/configParse.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/dojo.js"></script>
 
 <script>
     require([
         "dojo/query",
         "dojo/on",
-        "dojo/parser",
+        "dojo/_base/declare",
+        "dojo/dom-class",
+        "dijit/registry",
         "bootstrap/PopupBase",
-        "../assets/tests.js"
-    ], function(query, on, parser, Popup){
-        parser.parse();
+        "bootstrap/ButtonGroup",
+        "./tests.js"
+    ], function(query, on, declare, domClass, registry, PopupBase){
+        var CustomPopup = declare("CustomPopup", PopupBase, {
+            _resetContent: function(){
+                var popup = this._popup.call(this);
+                popup.innerHTML = "<h5>"+this.domNode.innerHTML+"</h5>";
+            }
+        });
+        var labels = query(".hero-unit a.label"),
+            changeTriggers = function (trigger){
+                labels.forEach(function(label){
+                    var widLabel = registry.byId(label.id);
+                    widLabel && widLabel.set("trigger", trigger);
+                });
+            };
+        labels.on("mouseover", function(){
+            domClass.add(this, "label-info");
+        });
+        labels.on("mouseout", function(){
+            domClass.remove(this, "label-info");
+        });
+        query("#btn-hover").on("click", function(){ changeTriggers("hover"); });
+        query("#btn-click").on("click", function(){ changeTriggers("click"); });
+        query("#btn-focus").on("click", function(){ changeTriggers("focus"); });
     });
 </script>
 </body>

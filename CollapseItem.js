@@ -65,9 +65,30 @@ define([
             return domClass.contains(parentNode, 'width') ? 'width' : 'height';
         };
 
-    // summary:
-    //      Item for viewing inside the collapse widget
     return declare("CollapseItem", [_BootstrapWidget, _TemplatedMixin], {
+        // summary:
+        //      Item for viewing inside the collapse widget
+        // description:
+        //      Provides an accordion group with collapse and expand support. A CollapseItem can be used as
+        //      part of a Collapse widget or on its own. This makes it useful for providing collapse support
+        //      to a simple panel.
+        //
+        //      ## Events ##
+        //		Call `widget.on("show", func)` to monitor when the CollapseItem is about to show.
+        //
+        //		Call `widget.on("shown", func)` to monitor when the CollapseItem has been shown.
+        //
+        //		Call `widget.on("hide", func)` to monitor when the CollapseItem is about to hide.
+        //
+        //		Call `widget.on("hidden", func)` to monitor when the CollapseItem has been hidden.
+        //
+        // example:
+        // |    <div data-dojo-type="CollapseItem"
+        // |         data-dojo-props="title:'California', content:'California is a West Coast state.'"></div>
+        // example:
+        // |    <div data-dojo-type="CollapseItem"
+        // |         data-dojo-props="title:'<i class=\'icon-globe\'></i>Globe', content:'Some content.'"></div>
+
         templateString:
             '<div class="${baseClass}">' +
             '    <div class="accordion-heading">' +
@@ -91,6 +112,10 @@ define([
         _setContentAttr: { node: "containerNode", type: "innerHTML" },
 
         postCreate:function () {
+            // summary:
+            //      creates click handler for collapsing and expanding the widget.
+            // tags:
+            //		private extension
             this.own(on(this.titleNode, "click", lang.hitch(this, function(e){
                 this.toggle();
             })));
@@ -98,7 +123,9 @@ define([
             this._transitioning = false;
         },
 
-        show: function(quiet){
+        show: function(/*Boolean?*/quiet){
+            // summary:
+            //      expands the widget.
             if (this._transitioning || !this.isCollapsed()) { return; }
 
             var dimension = _getParentDimension.call(this),
@@ -111,7 +138,9 @@ define([
             }
         },
 
-        hide: function(quiet){
+        hide: function(/*Boolean?*/quiet){
+            // summary:
+            //      collapses the widget.
             if (this._transitioning || this.isCollapsed()) { return; }
 
             var dimension = _getParentDimension.call(this);
@@ -122,11 +151,15 @@ define([
         },
 
         toggle: function(){
+            // summary:
+            //      toggles the widget collapsed or expanded
             this[this.isCollapsed() ? 'show' : 'hide']();
         },
 
         isCollapsed: function(){
-            return !domClass.contains(this.contentNode, 'in');
+            // summary:
+            //      returns whether the widget is collapsed or expanded
+            return !domClass.contains(this.contentNode, 'in');  //return Boolean
         }
     });
 });

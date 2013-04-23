@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Dojo-Bootstrap/Modal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="assets/tests.css">
+        <style type="text/css">
+            .login-dlg { width: 350px; }
+        </style>
+    </head>
+
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <div class="nav-collapse collapse">
+                        <a class="brand" href="index.html">Dojo Bootstrap Tests</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <section class="sidebar span3"></section>
+                <section id="main" class="main span8">
+                    <button id="btn" type="button" class="btn btn-success">Parse</button>
+                    <button id="btn1" type="button" class="btn">Open Modal 1</button>
+                    <button id="btn2" type="button" class="btn">Login Modal</button>
+                    <button id="btn3" type="button" class="btn">Modal w/Remote</button>
+                    <div id="modal1" class="modal fade hide" data-dojo-type="bootstrap/Modal">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true">&times;</button>
+                            <h3>My Modal</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Body (Hit ESC to close)</p>
+                        </div>
+                    </div>
+                    <div class="modal fade hide login-dlg" id="modal2" data-dojo-type="bootstrap/Modal">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-hidden="true">&times;</button>
+                            <h3></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="control-group">
+                                    <label for="username" class="control-label">Username:</label>
+                                    <div class="controls">
+                                        <input id="username" class="input-small" type="text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="password" class="control-label">Password:</label>
+                                    <div class="controls">
+                                        <input id="password" class="input-small" type="password">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+
+
+                    <div id="modal3" data-dojo-type="bootstrap/Modal"
+                         data-dojo-props="header:'<strong>Remote Dialog</strong>', remote:'./assets/basic.html', footer: false" class="hide"/>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="assets/config.js"></script>
+        <script src="../../common/dojo-sdk-1.8.3/dojo/dojo.js"></script>
+        <script>
+            require([
+                "dojo/query",
+                "dojo/on",
+                "dojo/parser",
+                "dijit/registry",
+                "bootstrap/Modal",
+                "bootstrap/ToolTip",
+                "dojo/dom-construct",
+                "./assets/tests.js"
+            ], function (query, on, parser, registry, Modal, ToolTip, domConstruct) {
+                    var modal1, modal2;
+                    query("#btn").on("click", start);
+
+                    function start(){
+                        parser.parse().then(function(){
+                            modal1 = registry.byId("modal1");
+
+                            var loginBtn = domConstruct.toDom("<button>Login</button>");
+                            query(loginBtn).addClass("btn btn-primary").on("click", function(){
+                                alert("logging in...");
+                            });
+
+                            modal2 = registry.byId("modal2");
+                            var cancelBtn = domConstruct.toDom("<button class='btn'>Cancel</button>");
+                            query(cancelBtn).on("click", function(){ modal2.hide(); });
+
+                            var buttonContainer = domConstruct.toDom("<div></div>");
+                            domConstruct.place(cancelBtn, buttonContainer);
+                            domConstruct.place(loginBtn, buttonContainer);
+
+                            modal2.set({
+                                "header": "Login",
+                                "footer": buttonContainer,
+                                "keyboard": false
+                            });
+
+                            modal3 = registry.byId("modal3");
+                            query("#modal3").on('show', function () {
+                                console.info('show');
+                            });
+                            query("#modal3").on('shown', function () {
+                                console.info('modal is now shown');
+                            });
+                            query("#modal3").on('hide', function () {
+                                console.info('hide');
+                            });
+                            query("#modal3").on('hidden', function () {
+                                console.info('modal is now hidden');
+                            });
+                        });
+                    }
+                    query('#btn1').on('click', function(){
+                        modal1 && modal1.show();
+                    });
+                    query('#btn2').on('click', function(){
+                        modal2 && modal2.show();
+                    });
+                    query('#btn3').on('click', function(){
+                        modal3 && modal3.show();
+                    });
+                    new ToolTip({
+                        placement: "bottom", title: "Enter your username"
+                    }, query("#username")[0]);
+                }
+            );
+        </script>
+    </body>
+</html>

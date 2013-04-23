@@ -26,12 +26,30 @@ define([
     "use strict";
 
     // module:
-    //      BootstrapWidget
+    //      _BootstrapWidget
 
-    // summary:
-    //      Bootstrap template for creating a widget that uses a template
     return declare("_BootstrapWidget", [_WidgetBase, Evented], {
-        postMixInProperties: function () {
+        // summary:
+        //      Bootstrap template for creating a widget that uses a template
+        
+		postMixInProperties: function () {
+			// summary:
+			//		Reads data-<attr> style properties from DOM element.
+			// description:
+			//		Called for all widgets to read data-<attr> style properties 
+			//		from DOM element and mixes them into the widget. This allows 
+			//		the use of properties like data-trigger="hover" instead of 
+			//		having to embed all of the properties in 
+			//		data-dojo-props="trigger: 'hover',...".
+            //
+            //      ## Events ##
+            //		Call `widget.on("", func)` to monitor when .
+            //
+            // example:
+            // |
+            //
+			// tags:
+			//		private extension
             var props = support.getData(this.srcNodeRef);
             for(var prop in props){
                 if(prop.indexOf("dojo-") >= 0){

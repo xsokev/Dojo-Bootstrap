@@ -29,24 +29,25 @@ define([
     // module:
     //      CarouselItem
 
-    // summary:
-    //      Item for viewing inside the carousel widget
     return declare("CarouselItem", [_WidgetBase, _TemplatedMixin, _Contained], {
+        // summary:
+        //      Item for viewing inside the carousel widget
+        // description:
+        //      This widget provides the basic functionality needed for displaying a Twitter Bootstrap carousel item.
+        // example:
+        // |    <div data-dojo-type="CarouselItem" data-dojo-props="img:'img.jpg', title:'Slide'"></div>
+
         templateString:
             '<div class="item">' +
-            '<img data-dojo-attach-point="imageNode" />' +
-            '<div class="carousel-caption">' +
-            '    <h4 data-dojo-attach-point="titleNode"></h4>' +
-            '    <p data-dojo-attach-point="contentNode"></p>' +
-            '</div>' +
+            '   <img data-dojo-attach-point="imageNode" />' +
+            '   <div class="carousel-caption">' +
+            '       <h4 data-dojo-attach-point="titleNode"></h4>' +
+            '       <p data-dojo-attach-point="contentNode"></p>' +
+            '   </div>' +
             '</div>',
 
-        postCreate:function () {
-            if(this.title === "" && this.content === ""){
-                query(".carousel-caption", this.domNode).addClass("hide");
-            }
-        },
-
+        // active: Boolean
+        //          makes a carousel item active or inactive. Default is false.
         active: false,
         _setActiveAttr: function(val){
             this._set("active", val);
@@ -54,7 +55,7 @@ define([
         },
 
         // img: String
-        //          image for the carousel item
+        //          image for the carousel item.
         img: "",
         _setImgAttr: function(val){
             this._set("img", val);
@@ -65,7 +66,6 @@ define([
                 query(this.imageNode).addClass("hide");
             }
         },
-        //_setImgAttr: { node: "imageNode", type: "src" },
 
         // title: String
         //          title for the carousel item
@@ -75,7 +75,16 @@ define([
         // content: String
         //          html content for the carousel item
         content: "",
-        _setContentAttr: { node: "contentNode", type: "innerHTML" }
+        _setContentAttr: { node: "contentNode", type: "innerHTML" },
 
+        postCreate:function () {
+            // summary:
+            //      hides the carousel caption if no content or title is present.
+            // tags:
+            //		private extension
+            if(this.title === "" && this.content === ""){
+                query(".carousel-caption", this.domNode).addClass("hide");
+            }
+        }
     });
 });

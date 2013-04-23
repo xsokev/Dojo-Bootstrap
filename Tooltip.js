@@ -56,8 +56,11 @@ define([
         },
 
         _resetContent: function(){
+            // summary:
+            //
+            // tags:
+            //		protected
             var domNode;
-
             if (this.selector) { domNode = query(this.selector)[0]; }
             else { domNode = this.domNode; }
 
