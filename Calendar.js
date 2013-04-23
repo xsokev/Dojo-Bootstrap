@@ -16,7 +16,6 @@
  * limitations under the License.
  * ========================================================== */
 define([
-    "dojo/text!./templates/Calendar.tpl",
     "./Support",
     "./_BootstrapWidget",
     "dojo/_base/declare",
@@ -31,19 +30,32 @@ define([
     "dojo/date/locale",
     "dojo/NodeList-dom",
     "dojo/NodeList-traverse"
-], function (template, support, _BootstrapWidget, declare, _TemplatedMixin, query, lang, array, on, domClass, domConstruct, dateDate, dateLocale) {
-    "use strict";
+], function (support, _BootstrapWidget, declare, _TemplatedMixin, query, lang, array, on, domClass, domConstruct, dateDate, dateLocale) {
 
     var _modes = [
-        { clsName: 'days', navFnc: 'Month', navStep: 1 },
-        { clsName: 'months', navFnc: 'FullYear', navStep: 1 },
-        { clsName: 'years', navFnc: 'FullYear', navStep: 10 }
+        {
+            clsName: 'days',
+            navFnc: 'Month',
+            navStep: 1
+        },
+        {
+            clsName: 'months',
+            navFnc: 'FullYear',
+            navStep: 1
+        },
+        {
+            clsName: 'years',
+            navFnc: 'FullYear',
+            navStep: 10
+        }
     ];
 
     var _dates = {
         days: dateLocale.getNames("days", "wide"),
         daysShort: dateLocale.getNames("days", "abbr"),
-        daysMin: array.map(dateLocale.getNames("days", "abbr"), function(day){ return day.substring(0,2); }),
+        daysMin: array.map(dateLocale.getNames("days", "abbr"), function (day) {
+            return day.substring(0, 2);
+        }),
         months: dateLocale.getNames("months", "wide"),
         monthsShort: dateLocale.getNames("months", "abbr")
     };
@@ -52,7 +64,7 @@ define([
         var dowCnt = this.weekStart,
             html = '';
         while (dowCnt < this.weekStart + 7) {
-            html += '<th class="dow">'+_dates.daysMin[(dowCnt++)%7]+'</th>';
+            html += '<th class="dow">' + _dates.daysMin[(dowCnt++) % 7] + '</th>';
         }
         domConstruct.place(html, this.daysOfWeekNode);
     };
@@ -61,33 +73,33 @@ define([
         var html = '',
             rows = 3,
             months = 12,
-            columns = months/rows;
+            columns = months / rows;
         for (var i = 0; i < months; i++) {
-            if(i%columns === 0){
+            if (i % columns === 0) {
                 html += '<div class="row-fluid">';
             }
-            html += '<span class="month span'+(12/columns)+'" data-month="'+i+'">'+_dates.monthsShort[i]+'</span>';
-            if(i%columns === rows){
+            html += '<span class="month span' + (12 / columns) + '" data-month="' + i + '">' + _dates.monthsShort[i] + '</span>';
+            if (i % columns === rows) {
                 html += '</div>';
             }
         }
         domConstruct.place(html, this.monthsNode);
     };
 
-    var _fillYears = function(){
+    var _fillYears = function () {
         var year = new Date(this.viewDate).getFullYear() - 1,
             currentYear = this.date.getFullYear(),
             html = '',
             rows = 3,
             years = 12,
-            columns = years/rows;
-        this.yearsNodeHeader.innerHTML = (year+1) + '-' + (year + (years-2));
+            columns = years / rows;
+        this.yearsNodeHeader.innerHTML = (year + 1) + '-' + (year + (years - 2));
         for (var i = 0; i < years; i++) {
-            if(i%columns === 0){
+            if (i % columns === 0) {
                 html += '<div class="row-fluid">';
             }
-            html += '<span class="year span'+(12/columns)+(i === 0 || i === 11 ? ' old' : '')+(currentYear === year ? ' active' : '')+'">'+(year+i)+'</span>';
-            if(i%columns === rows){
+            html += '<span class="year span' + (12 / columns) + (i === 0 || i === 11 ? ' old' : '') + (currentYear === year ? ' active' : '') + '">' + (year + i) + '</span>';
+            if (i % columns === rows) {
                 html += '</div>';
             }
             //year += 1;
@@ -96,30 +108,29 @@ define([
     };
 
     var _fill = function () {
-        var clsName,
-            html = [],
+        var clsName, html = [],
             d = new Date(this.viewDate),
             year = d.getFullYear(),
             month = d.getMonth(),
             currentDate = this.date.valueOf(),
             currentYear = this.date.getFullYear(),
-            runningDate = new Date(year, month-1, 28,0,0,0,0),
+            runningDate = new Date(year, month - 1, 28, 0, 0, 0, 0),
             day = dateDate.getDaysInMonth(runningDate);
 
-        query('.datepicker-days th.switch', this.domNode)[0].innerHTML = _dates.months[month]+' '+year;
+        query('.datepicker-days th.switch', this.domNode)[0].innerHTML = _dates.months[month] + ' ' + year;
 
         runningDate.setDate(day);
-        runningDate.setDate(day - (runningDate.getDay() - this.weekStart + 7)%7);
+        runningDate.setDate(day - (runningDate.getDay() - this.weekStart + 7) % 7);
 
         var endDate = new Date(runningDate);
         endDate.setDate(endDate.getDate() + 42);
 
-        while(runningDate.valueOf() < endDate.valueOf()) {
+        while (runningDate.valueOf() < endDate.valueOf()) {
             if (runningDate.getDay() === this.weekStart) {
                 html.push('<tr>');
             }
             clsName = this.dateClass(runningDate);
-            if(runningDate.getMonth() === 11 && month === 0){
+            if (runningDate.getMonth() === 11 && month === 0) {
                 clsName += ' old';
             } else if (runningDate.getMonth() === 0 && month === 11) {
                 clsName += ' new';
@@ -131,11 +142,11 @@ define([
             if (runningDate.valueOf() === currentDate) {
                 clsName += ' active';
             }
-            html.push('<td class="day'+clsName+'">'+runningDate.getDate() + '</td>');
+            html.push('<td class="day' + clsName + '">' + runningDate.getDate() + '</td>');
             if (runningDate.getDay() === this.weekEnd) {
                 html.push('</tr>');
             }
-            runningDate.setDate(runningDate.getDate()+1);
+            runningDate.setDate(runningDate.getDate() + 1);
         }
         domConstruct.empty(this.daysNode);
         domConstruct.place(html.join(' '), this.daysNode);
@@ -154,7 +165,7 @@ define([
             this.viewMode = Math.max(this.minViewMode, Math.min(2, this.viewMode + dir));
         }
         query('>div', this.domNode).hide();
-        query('>div.datepicker-'+_modes[this.viewMode].clsName, this.domNode).show();
+        query('>div.datepicker-' + _modes[this.viewMode].clsName, this.domNode).show();
     };
 
     var _mousedown = function (e) {
@@ -168,19 +179,16 @@ define([
         e.preventDefault();
         var target = query(e.target).closest('span, td, th');
         if (target.length === 1) {
-            switch(target[0].nodeName.toLowerCase()) {
+            switch (target[0].nodeName.toLowerCase()) {
                 case 'th':
-                    switch(target[0].className) {
+                    switch (target[0].className) {
                         case 'switch':
                             _showMode.call(this, 1);
                             break;
                         case 'prev':
                         case 'next':
-                            this.viewDate['set'+_modes[this.viewMode].navFnc].call(
-                                this.viewDate,
-                                this.viewDate['get'+_modes[this.viewMode].navFnc].call(this.viewDate) +
-                                    _modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1)
-                            );
+                            this.viewDate['set' + _modes[this.viewMode].navFnc].call(
+                                this.viewDate, this.viewDate['get' + _modes[this.viewMode].navFnc].call(this.viewDate) + _modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1));
                             _fill.call(this);
                             break;
                     }
@@ -194,33 +202,33 @@ define([
                         year = parseInt(yearText, 10) || 0;
                         this.viewDate.setFullYear(year);
                     }
-                    if(this.viewMode === this.minViewMode){
-                        this.set("date", new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1,0,0,0,0));
+                    if (this.viewMode === this.minViewMode) {
+                        this.set("date", new Date(this.viewDate.getFullYear(), this.viewDate.getMonth(), 1, 0, 0, 0, 0));
                         _set.call(this);
                     }
                     _showMode.call(this, -1);
                     _fill.call(this);
                     break;
                 case 'td':
-                    if (domClass.contains(target[0], 'day')){
+                    if (domClass.contains(target[0], 'day')) {
                         var dayText = target[0].innerText || target[0].textContent;
                         day = parseInt(dayText, 10) || 1;
                         month = this.viewDate.getMonth();
                         year = this.viewDate.getFullYear();
                         if (domClass.contains(target[0], 'old')) {
                             month -= 1;
-                            if(month < 0){
+                            if (month < 0) {
                                 month = 11;
                                 year -= 1;
                             }
                         } else if (domClass.contains(target[0], 'new')) {
                             month += 1;
-                            if(month > 12){
+                            if (month > 12) {
                                 month = 0;
                                 year += 1;
                             }
                         }
-                        this.set("date", new Date(year, month, day,0,0,0,0));
+                        this.set("date", new Date(year, month, day, 0, 0, 0, 0));
                         _set.call(this);
                     }
                     break;
@@ -228,9 +236,9 @@ define([
         }
     };
 
-    var _set = function(){
+    var _set = function () {
         this.emit('changeDate', lang.mixin(support.eventObject, {
-            date:this.date,
+            date: this.date,
             formattedDate: dateLocale.format(this.date, {
                 datePattern: this.format,
                 selector: "date"
@@ -242,50 +250,94 @@ define([
         // summary:
         //      Widget for displaying a calendar
         // description:
-        //		This is a static calendar widget. It can be used alone or with a popup control
-        // example:
-        // |	<div data-dojo-type="Alert" data-dojo-props="timeout:10000">...alert message...</div>
+        //		This is a static calendar widget. It can be used alone or with a popup widget
+        //
+        //      ## Events ##
+        //		Call `widget.on("changeDate", func)` to monitor when a date is selected. It
+        //      emits the raw date and a formattedDate..
         //
         // example:
-        // |	new Alert({closable: false, content: "..."});
+        // |	<div data-dojo-type="Calendar" data-dojo-props="..."></div>
+        //
+        // example:
+        // |	new Calendar({viewMode: 2, format: "M.d.yyyy"}, dojo.byId("div"));
         //
 
-        // close: [callback]
-        //      This event fires immediately when the close instance method is called.
-        templateString: template,
+        templateString: '<div class="${baseClass}">' +
+            '   <div class="datepicker-days">' +
+            '       <table class=" table-condensed">' +
+            '           <thead><tr>' +
+            '               <th class="prev"><i class="icon-arrow-left"/></th>' +
+            '               <th colspan="5" class="switch"></th>' +
+            '               <th class="next"><i class="icon-arrow-right"/></th>' +
+            '           </tr>' +
+            '           <tr data-dojo-attach-point="daysOfWeekNode"></tr>' +
+            '           </thead>' +
+            '           <tbody data-dojo-attach-point="daysNode"></tbody>' +
+            '       </table>' +
+            '   </div>' +
+            '   <div class="datepicker-months">' +
+            '       <table class="table-condensed">' +
+            '           <thead><tr>' +
+            '               <th class="prev"><i class="icon-arrow-left"/></th>' +
+            '               <th class="switch"></th>' +
+            '               <th class="next"><i class="icon-arrow-right"/></th>' +
+            '           </tr></thead>' +
+            '           <tbody><tr>' +
+            '               <td colspan="3" data-dojo-attach-point="monthsNode"></td>' +
+            '           </tr></tbody>' +
+            '       </table>' +
+            '   </div>' +
+            '   <div class="datepicker-years">' +
+            '       <table class="table-condensed">' +
+            '           <thead><tr>' +
+            '               <th class="prev"><i class="icon-arrow-left"/></th>' +
+            '               <th class="switch" data-dojo-attach-point="yearsNodeHeader"></th>' +
+            '               <th class="next"><i class="icon-arrow-right"/></th>' +
+            '           </tr></thead>' +
+            '           <tbody><tr>' +
+            '               <td colspan="3" data-dojo-attach-point="yearsNode"></td>' +
+            '           </tr></tbody>' +
+            '       </table>' +
+            '   </div>' +
+            '</div>',
 
         baseClass: "calendar",
 
         // date: String|Date
-        //          the start date for the calendar
+        //          the start date for the calendar. Accepts Date object or parse-able string value. The
+        //          string value should match the format used with this widget. Default is today's date.
         date: (new Date()),
-        _setDateAttr: function(val){
-            var newDate,
-                today = new Date();
-            if(val instanceof Date){
-                newDate = new Date(val.getFullYear(),val.getMonth(),val.getDate(),0,0,0);
-            } else if(typeof val === "string") {
+        _setDateAttr: function (val) {
+            var newDate, today = new Date();
+            if (val instanceof Date) {
+                newDate = new Date(val.getFullYear(), val.getMonth(), val.getDate(), 0, 0, 0);
+            } else if (typeof val === "string") {
                 var parsedDate = dateLocale.parse(val, {
                     datePattern: this.format,
                     selector: "date"
                 });
-                if(parsedDate){
-                    newDate = new Date(parsedDate.getFullYear(),parsedDate.getMonth(),parsedDate.getDate(),0,0,0);
+                if (parsedDate) {
+                    newDate = new Date(parsedDate.getFullYear(), parsedDate.getMonth(), parsedDate.getDate(), 0, 0, 0);
                 } else {
-                    newDate = new Date(today.getFullYear(),today.getMonth(),today.getDate(),0,0,0);
+                    newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
                 }
             } else {
-                newDate = new Date(today.getFullYear(),today.getMonth(),today.getDate(),0,0,0);
+                newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
             }
             this._set("date", newDate);
             this.viewDate = new Date(this.date);
-            if(this.started){ _fill.call(this); }
+            if (this._started) {
+                _fill.call(this);
+            }
         },
 
         // viewMode: Number|String
-        //          the start view mode for the calendar
+        //          the start view mode for the calendar. This allows you to start the calendar with a certain
+        //          view: years, months or the default, days. Accepts: 'days', 'months', 'years', 0 for days,
+        //          1 for months and 2 for years. Default is 0.
         viewMode: 0,
-        _setViewModeAttr: function(val){
+        _setViewModeAttr: function (val) {
             if (typeof val === 'string') {
                 switch (val) {
                     case 'months':
@@ -304,9 +356,11 @@ define([
         },
 
         // minViewMode: Number|String
-        //          the start view mode for the calendar
+        //          the minimum view level for the calendar. This allows you to limit the calendar to showing
+        //          only years (2), months and years(1), or the default days, months and years(0). Accepts:
+        //          'days', 'months', 'years', 0 for days, 1 for months and 2 for years. Default is 0.
         minViewMode: 0,
-        _setMinViewModeAttr: function(val){
+        _setMinViewModeAttr: function (val) {
             if (typeof val === 'string') {
                 switch (val) {
                     case 'months':
@@ -325,27 +379,40 @@ define([
         },
 
         // dateClass: String|Function
-        //          the function to use to determine
-        dateClass: function(date){ return ''; },
-        _setDateClassAttr: function(val){
-            if(typeof val === "string"){
-                this._set("dateClass", function(){ return val; });
-            } else if(typeof val === "function") {
+        //          the function to use to determine any special formatting for a date cell based on it's value.
+        //          Could be useful for disabling values when providing min/max styling.
+        dateClass: function (date) { return ''; },
+        _setDateClassAttr: function (val) {
+            if (typeof val === "string") {
+                this._set("dateClass", function () {
+                    return val;
+                });
+            } else if (typeof val === "function") {
                 this._set("dateClass", val);
             } else {
-                this._set("dateClass", function(){ return ''; });
+                this._set("dateClass", function () {
+                    return '';
+                });
             }
         },
 
         // weekStart: Number
-        //          the numeric day that the week starts on. Usually 0-Sunday or 1-Monday
+        //          the numeric day that the week starts on. Usually 0-Sunday or 1-Monday. Default is 0.
         weekStart: 0,
 
         // format: String
-        //          format the date should use to parse on input and format on output
+        //          format the date should use to parse on input and format on output. Uses dojo/date/locale to
+        //          format and parse dates and date strings. Formatting patterns are implemented using the syntax
+        //          described at unicode.org[http://www.unicode.org/reports/tr35/tr35-4.html#Date_Format_Patterns].
+        //          Default is 'M/d/yyyy'.
         format: "M/d/yyyy",
 
-        postCreate:function () {
+        postCreate: function () {
+            // summary:
+            //      sets initial view mode. Creates handlers for mousedown and click events. Initalizes calendar
+            //      display.
+            // tags:
+            //		private extension
             this.viewMode = this.minViewMode;
             this.weekEnd = this.weekStart === 0 ? 6 : this.weekStart - 1;
 
@@ -357,8 +424,12 @@ define([
             _showMode.call(this);
         },
 
-        startup: function(){
-            this.started = true;
+        startup: function () {
+            // summary:
+            //      sets the initial date after calendar DOM has been created and initialized.
+            // tags:
+            //		private extension
+            this.inherited(arguments);
             this.set("date", this.date);
         }
     });
