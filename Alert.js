@@ -84,7 +84,7 @@ define([
             query("> .close", this.domNode).on("click", lang.hitch(this, function(){
                 this.close();
             }));
-            if(support.falsey(this.timeout) && typeof parseInt(this.timeout, 10) === "number"){
+            if(!support.falsey(this.timeout) && typeof parseInt(this.timeout, 10) === "number"){
                 window.setTimeout(lang.hitch(this, function(){
                     this.close();
                 }), parseInt(this.timeout, 10));
