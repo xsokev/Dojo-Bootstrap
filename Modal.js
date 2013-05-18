@@ -291,6 +291,11 @@ define([
             } else {
                 _hideModal.call(this);
             }
+        },
+
+        destroy: function () {
+            this.hide();
+            this.inherited(arguments);
         }
     });
 });
