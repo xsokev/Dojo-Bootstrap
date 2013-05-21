@@ -52,7 +52,7 @@ define([
             this.emit("select", { selectedItem: li });
         };
 
-    return declare("Dropdown", [_BootstrapWidget], {
+    var _Dropdown = declare("Dropdown", [_BootstrapWidget], {
         // summary:
         //      Adds dropdown support to elements.
         // description:
@@ -148,4 +148,5 @@ define([
             return this.shown;
         }
     });
+    return _Dropdown;
 });
