@@ -275,8 +275,8 @@ define([
             // summary:
             //      hide the modal
             this.emit('hide', {});
-            if (e) { e.preventDefault(); }
-            if (!this.isShown && e.defaultPrevented) { return; }
+            if (e && e.preventDefault) { e.preventDefault(); }
+            if (!this.isShown && e && e.defaultPrevented) { return; }
 
             this.isShown = false;
             _escape.call(this);
@@ -291,6 +291,11 @@ define([
             } else {
                 _hideModal.call(this);
             }
+        },
+
+        destroy: function () {
+            this.hide();
+            this.inherited(arguments);
         }
     });
 });
