@@ -35,24 +35,7 @@ define([
     // module:
     //      Dropdown
 
-    var _clearDropdowns = function() {
-            array.forEach(_getDropdowns(), function(dropdown){
-                dropdown.close();
-            });
-        },
-        _getDropdowns = function(){
-            var allWidgets = registry.findWidgets(document.body);
-            return array.filter(allWidgets, function(widget){
-                return widget instanceof _Dropdown;
-            });
-        },
-        _select = function(e){
-            var li = e.selected;
-            this.close();
-            this.emit("select", { selectedItem: li });
-        };
-
-    return declare("Dropdown", [_BootstrapWidget], {
+    var _Dropdown = declare("Dropdown", [_BootstrapWidget], {
         // summary:
         //      Adds dropdown support to elements.
         // description:
@@ -85,6 +68,8 @@ define([
         // preventDefault: Boolean
         //          prevent default actions when list items are clicked
         preventDefault: false,
+        selectable: true,
+        selectFirstOnOpen: true,
 
         postCreate:function () {
             // summary:
@@ -98,11 +83,12 @@ define([
             this.listNode = query(".dropdown-menu", this.domNode)[0];
             if(this.listNode){
                 this.list = new ListWidget({}, this.listNode);
-                this.own(on(this.list, 'list-select', lang.hitch(this, _select)));
+                this.own(on(this.list, 'list-select', lang.hitch(this, this._select)));
                 this.own(on(this.list, 'list-escape', lang.hitch(this, "close")));
+                this.list.selectable = this.selectable;
             }
             this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) { e.stopPropagation(); }));
-            this._bodyClickEvent = on(document, 'click', _clearDropdowns);
+            this._bodyClickEvent = on(document, 'click', lang.hitch(this, this._clearDropdowns));
             this.shown = false;
         },
 
@@ -122,9 +108,11 @@ define([
             // summary:
             //      shows the dropdown. Hides any other displayed dropdowns on the page.
             if(this.isDisabled()) { return false; }
-            _clearDropdowns();
+            this._clearDropdowns();
             this.isOpen() || domClass.add(this.domNode, 'open');
-            this.list._first();
+            if (this.selectFirstOnOpen) {
+                this.list._first();
+            }
             this.shown = true;
         },
 
@@ -146,6 +134,25 @@ define([
             // summary:
             //      returns whether the dropdown is currently visible.
             return this.shown;
+        },
+
+        _clearDropdowns: function() {
+            array.forEach(this._getDropdowns(), function(dropdown){
+                dropdown.close();
+            });
+        },
+        _getDropdowns: function(){
+            var allWidgets = registry.findWidgets(document.body);
+            return array.filter(allWidgets, function(widget){
+                return widget instanceof _Dropdown;
+            });
+        },
+        _select: function(e){
+            var li = e.selected;
+            this.close();
+            this.emit("select", { selectedItem: li });
         }
     });
+
+    return _Dropdown;
 });
