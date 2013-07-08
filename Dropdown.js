@@ -68,8 +68,8 @@ define([
         // preventDefault: Boolean
         //          prevent default actions when list items are clicked
         preventDefault: false,
-        selectable: true,
-        selectFirstOnOpen: true,
+//        selectable: true,
+        selectFirstOnOpen: false,
 
         postCreate:function () {
             // summary:
@@ -85,11 +85,28 @@ define([
                 this.list = new ListWidget({}, this.listNode);
                 this.own(on(this.list, 'list-select', lang.hitch(this, this._select)));
                 this.own(on(this.list, 'list-escape', lang.hitch(this, "close")));
-                this.list.selectable = this.selectable;
+//                this.set('selectable', this.selectable);
+//                this.list.selectable = this.selectable;
             }
             this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) { e.stopPropagation(); }));
             this._bodyClickEvent = on(document, 'click', lang.hitch(this, this._clearDropdowns));
             this.shown = false;
+        },
+
+        _setSelectableAttr: function (selectable) {
+            this.list.selectable = selectable;
+        },
+
+        _getSelectableAttr: function () {
+            return this.list.selectable;
+        },
+
+        _setSelectFirstOnOpen: function (selectFirstOnOpen) {
+            this.selectFirstOnOpen = selectFirstOnOpen;
+        },
+
+        _getSelectFirstOnOpen: function () {
+            return this.selectFirstOnOpen;
         },
 
         toggle: function(e){
