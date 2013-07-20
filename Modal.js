@@ -48,9 +48,14 @@ define([
             })) : null;
         },
         _hideModal = function() {
-            domStyle.set(this.domNode, 'display', 'none');
+            if (this.domNode) {
+                domStyle.set(this.domNode, 'display', 'none');
+                _backdrop.call(this);
+            } else {
+                // No domNode: probably coming from a destroy()
+                _removeBackdrop.call(this);
+            }
             this.emit('hidden', {});
-            _backdrop.call(this);
         },
         _backdrop = function(callback) {
             var animate = domClass.contains(this.domNode, 'fade') ? 'fade' : '';
@@ -294,7 +299,7 @@ define([
         },
 
         destroy: function () {
-            this.hide();
+            if (this.isShown) { this.hide(); }
             this.inherited(arguments);
         }
     });
