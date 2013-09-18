@@ -38,7 +38,7 @@ define([
     //      Typeahead
 
     var _menuTemplate = '<ul class="typeahead dropdown-menu"></ul>',
-        _menuItemTemplate = '<li><a href="#"></a></li>',
+        _menuItemTemplate = '<li><a href="#" onclick="return false;"></a></li>',
         _defaultFunctions = {
             updater: function (item) {
                 return item;
