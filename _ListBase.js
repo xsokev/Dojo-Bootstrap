@@ -114,7 +114,7 @@ define([
             if(support.eventSupported(this.domNode, "keydown")) {
                 this.own(on(this.domNode, 'keydown', lang.hitch(this, "_keydown")));
             }
-            this.own(on(this.domNode, 'click', lang.hitch(this, _click)));
+            this.own(on(this.domNode, 'mousedown', lang.hitch(this, _click)));
             this.own(on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, _mouseenter)));
         },
 

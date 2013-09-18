@@ -66,10 +66,6 @@ define([
                 return beginsWith.concat(caseSensitive, caseInsensitive);
             }
         },
-        _blur = function () {
-            var _this = this;
-            setTimeout(function () { _this.hide(); }, 150);
-        },
         _select = function(e){
             var li = e.selected;
             this.domNode.value = this.updater(domAttr.get(li, 'data-value'));
@@ -129,7 +125,7 @@ define([
             }
             this.own(on(this, 'list-escape', lang.hitch(this, "hide")));
             this.own(on(this, 'list-keyup', lang.hitch(this, _keyup)));
-            this.own(on(this.domNode, 'blur', lang.hitch(this, _blur)));
+            this.own(on(this.domNode, 'blur', lang.hitch(this, "hide")));
             this.inherited(arguments);
         },
 
