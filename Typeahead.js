@@ -57,6 +57,8 @@ define([
         //          number of characters allowed before displaying the list
         minLength: 1,
 
+        inputNode: null,
+
         hoverClass: "active",
 
         _menuTemplate: '<ul class="typeahead dropdown-menu"></ul>',
@@ -106,7 +108,7 @@ define([
 
         _select: function(e){
             var li = e.selected;
-            this.domNode.value = this.updater(domAttr.get(li, 'data-value'));
+            this.set('value', this.updater(domAttr.get(li, 'data-value')));
             this.emit('change', { });
             return this.hide();
         },
@@ -119,6 +121,7 @@ define([
             // tags:
             //		private
             this.listNode = domConstruct.toDom(this._menuTemplate);
+            this.inputNode = query('input', this.domNode)[0];
             this.hide();
             domConstruct.place(this.listNode, document.body);
             if(this.listNode){
@@ -150,7 +153,7 @@ define([
 
         lookup: function () {
             var items;
-            this._query = this.domNode.value;
+            this._query = this.get('value');
             if (!this._query || this._query.length < this.minLength) {
                 return this.shown ? this.hide() : this;
             }
@@ -179,6 +182,22 @@ define([
             }, this);
             query(this.listNode).html(items.join(''));
             return this;
+        },
+
+        _getValueAttr: function () {
+            return this.get('inputValue');
+        },
+
+        _setValueAttr: function (value) {
+            this.set('inputValue', value);
+        },
+
+        _getInputValueAttr: function () {
+            return this.inputNode.value;
+        },
+
+        _setInputValueAttr: function (value) {
+            this.inputNode.value = value;
         }
     });
 });
