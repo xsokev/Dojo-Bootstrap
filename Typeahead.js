@@ -113,8 +113,6 @@ define([
             return this.hide();
         },
 
-        _keyup: function(e){ this.lookup(e); },
-
         postCreate:function () {
             // summary:
             //
@@ -128,10 +126,24 @@ define([
                 this.list = new ListWidget({ hoverClass: this.hoverClass }, this.listNode);
                 this.own(on(this.list, 'list-select', lang.hitch(this, this._select)));
             }
-            this.own(on(this, 'list-escape', lang.hitch(this, "hide")));
-            this.own(on(this, 'list-keyup', lang.hitch(this, this._keyup)));
-            this.own(on(this.domNode, 'blur', lang.hitch(this, this._blur)));
+            this.own(
+//                on(this.inputNode, 'keyup', lang.hitch(this, this.lookup)),
+                on(this.inputNode, 'blur', lang.hitch(this, this._blur)),
+                // TODO(aramk) since the _ListInputBase superclass assumes .domNode to be the input node, these don't work
+                on(this.inputNode, 'keyup', lang.hitch(this, this._keyup)),
+                on(this.inputNode, 'keypress, keydown', lang.hitch(this, this._keypress)),
+                on(this, 'list-keyup', lang.hitch(this, this.lookup)),
+                on(this, 'list-escape, list-enter', lang.hitch(this, this.hide))
+//                on(this, 'list-escape', lang.hitch(this, "hide")),
+//                on(this, 'list-keyup', lang.hitch(this, this._onListKeyUp))
+            );
             this.inherited(arguments);
+        },
+
+        _mouseenter: function (e) {
+            var li = query(e.target).closest('li');
+            query('.'+this.hoverClass, this.domNode).removeClass(this.hoverClass);
+            li.addClass(this.hoverClass);
         },
 
         show: function () {
@@ -153,7 +165,8 @@ define([
 
         lookup: function () {
             var items;
-            this._query = this.get('value');
+            this._query = this.get('inputValue') || '';
+            console.error('this._query', this._query);
             if (!this._query || this._query.length < this.minLength) {
                 return this.shown ? this.hide() : this;
             }
