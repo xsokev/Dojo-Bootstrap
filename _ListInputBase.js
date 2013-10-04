@@ -60,7 +60,6 @@ define([
         },
 
         _keyup: function (e) {
-            console.error('_keyup');
             var code = e.charCode || e.keyCode;
             switch(code) {
                 case keys.PAGE_UP:

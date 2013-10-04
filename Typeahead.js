@@ -166,7 +166,6 @@ define([
         lookup: function () {
             var items;
             this._query = this.get('inputValue') || '';
-            console.error('this._query', this._query);
             if (!this._query || this._query.length < this.minLength) {
                 return this.shown ? this.hide() : this;
             }
