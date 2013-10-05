@@ -177,6 +177,11 @@ define([
             }, this);
             query(this.listNode).html(items.join(''));
             return this;
+        },
+
+        destroy: function () {
+            domConstruct.destroy(this.listNode);
+            this.inherited(arguments);
         }
     });
 });
