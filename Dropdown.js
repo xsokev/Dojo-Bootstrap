@@ -83,7 +83,8 @@ define([
             this.listNode = query(".dropdown-menu", this.domNode)[0];
             if (this.listNode) {
                 this.list = new ListWidget({
-                    selectable: this.selectable
+                    selectable: this.selectable,
+                    preventDefault: this.preventDefault
                 }, this.listNode);
                 this.own(
                     on(this.list, 'list-select', lang.hitch(this, this._select)),
@@ -105,6 +106,16 @@ define([
 
         _getSelectableAttr: function () {
             return this.list.selectable;
+        },
+
+        _setPreventDefault: function (preventDefault) {
+            if (this.list) {
+                this.list.preventDefault = preventDefault;
+            }
+        },
+
+        _getPreventDefault: function () {
+            return this.list.preventDefault;
         },
 
         _setSelectFirstOnOpen: function (selectFirstOnOpen) {
@@ -141,6 +152,8 @@ define([
                 this.list._first();
             }
             this.shown = true;
+            this.list.domNode.focus();
+
         },
 
         close: function () {
