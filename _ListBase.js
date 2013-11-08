@@ -21,6 +21,7 @@ define([
     "dojo/_base/declare",
     "dojo/_base/lang",
     "dojo/_base/array",
+    "dojo/_base/event",
     "dojo/query",
     "dojo/on",
     "dojo/keys",
@@ -28,7 +29,7 @@ define([
     "dojo/dom-attr",
     "dojo/NodeList-traverse",
     "dojo/NodeList-dom"
-], function (support, declare, lang, array, query, on, keys, domClass, domAttr) {
+], function (support, declare, lang, array, event, query, on, keys, domClass, domAttr) {
     "use strict";
 
     // module:
@@ -38,8 +39,7 @@ define([
             var li = query(e.target).closest('li');
             this._select(li[0]);
             if(this.preventDefault){
-                e.stopPropagation();
-                e.preventDefault();
+                event.stop(e);
             }
         },
         _mouseenter = function (e) {
@@ -207,28 +207,27 @@ define([
                 case keys.TAB:
                 case keys.ENTER:
                 case keys.ESCAPE:
-                    e.preventDefault();
+                    event.stop(e);
                     break;
                 case keys.UP_ARROW:
                 case keys.UP_DPAD:
-                    e.preventDefault();
+                    event.stop(e);
                     this._prev(suppressFocus);
                     break;
                 case keys.DOWN_ARROW:
                 case keys.DOWN_DPAD:
-                    e.preventDefault();
+                    event.stop(e);
                     this._next(suppressFocus);
                     break;
                 case keys.PAGE_UP:
-                    e.preventDefault();
+                    event.stop(e);
                     this._first(suppressFocus);
                     break;
                 case keys.PAGE_DOWN:
-                    e.preventDefault();
+                    event.stop(e);
                     this._last(suppressFocus);
                     break;
             }
-            e.stopPropagation();
         },
 
         _keyup: function (/*Object*/ e) {
@@ -259,7 +258,6 @@ define([
                     this._select(active);
                     if(this.preventDefault){
                         e.stopPropagation();
-                        e.preventDefault();
                     }
                 break;
                 case keys.ESCAPE:
