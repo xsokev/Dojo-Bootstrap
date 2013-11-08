@@ -88,6 +88,10 @@ define([
                 }
                 domAttr.set(a, "tabindex", -1);
             });
+            if (!domAttr.get(this.domNode, "tabindex")) {
+                domAttr.set(this.domNode, "tabindex", -1);
+            }
+
             this.own(
                 on(this.domNode, 'keypress', lang.hitch(this, "_keypress")),
                 on(this.domNode, 'keyup', lang.hitch(this, "_keyup")),
