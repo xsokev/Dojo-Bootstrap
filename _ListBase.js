@@ -113,13 +113,15 @@ define([
                 if(domAttr.get(a, "tabindex")){ return; }
                 domAttr.set(a, "tabindex", -1);
             });
-            this.own(on(this.domNode, 'keypress', lang.hitch(this, "_keypress")));
-            this.own(on(this.domNode, 'keyup', lang.hitch(this, "_keyup")));
+            this.own(
+                on(this.domNode, 'keypress', lang.hitch(this, "_keypress")),
+                on(this.domNode, 'keyup', lang.hitch(this, "_keyup")),
+                on(this.domNode, 'mousedown', lang.hitch(this, _click)),
+                on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, _mouseenter))
+            );
             if(support.eventSupported(this.domNode, "keydown")) {
                 this.own(on(this.domNode, 'keydown', lang.hitch(this, "_keydown")));
             }
-            this.own(on(this.domNode, 'mousedown', lang.hitch(this, _click)));
-            this.own(on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, _mouseenter)));
         },
 
         _select: function (/*HTMLElement*/ li) {
