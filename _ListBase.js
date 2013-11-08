@@ -95,7 +95,7 @@ define([
             this.own(
                 on(this.domNode, 'keypress', lang.hitch(this, "_keypress")),
                 on(this.domNode, 'keyup', lang.hitch(this, "_keyup")),
-                on(this.domNode, 'mousedown', lang.hitch(this, "_click")),
+                on(this.domNode, 'mouseup', lang.hitch(this, "_click")),
                 on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, "_mouseenter"))
             );
             if (support.eventSupported(this.domNode, "keydown")) {
