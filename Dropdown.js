@@ -30,7 +30,6 @@ define([
     "dijit/registry",
     "dojo/NodeList-traverse"
 ], function (_BootstrapWidget, ListWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
-    "use strict";
 
     // module:
     //      Dropdown

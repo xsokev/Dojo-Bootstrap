@@ -30,7 +30,6 @@ define([
     "dojo/NodeList-traverse",
     "dojo/NodeList-dom"
 ], function (support, declare, lang, array, event, query, on, keys, domClass, domAttr) {
-    "use strict";
 
     // module:
     //      _ListBase
