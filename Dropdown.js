@@ -87,7 +87,7 @@ define([
                     preventDefault: this.preventDefault
                 }, this.listNode);
                 this.own(
-                    on(this.list, 'list-select', lang.hitch(this, this._select)),
+                    on(this.list, 'list-select', lang.hitch(this, "_select")),
                     on(this.list, 'list-escape', lang.hitch(this, "close"))
                 );
             }
