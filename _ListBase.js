@@ -35,40 +35,7 @@ define([
     // module:
     //      _ListBase
 
-    var _click = function (e) {
-        var li = query(e.target).closest('li');
-        this._select(li[0]);
-        if (this.preventDefault) {
-            event.stop(e);
-        }
-    },
-        _mouseenter = function (e) {
-            var li = query(e.target).closest('li');
-            query('.' + this.hoverClass, this.domNode).removeClass(this.hoverClass);
-            li.addClass(this.hoverClass);
-        },
-        _isSelectableListItem = function (li) {
-            return domClass.contains(li, "nav-header") || domClass.contains(li, "divider");
-        },
-        _traverse = function (dir, fallback, suppressFocus) {
-            var active = this._getActive();
-            if (!active) {
-                return this[fallback]();
-            }
-            domClass.remove(active, this.activeClass);
-            var target = query(active)[dir]();
-            if (target[0] && _isSelectableListItem(target[0])) {
-                target = target[dir]();
-            }
-            if (!target.length) {
-                target = query('li', this.domNode)[dir === "prev" ? "last" : "first"]();
-                if (target[0] && _isSelectableListItem(target[0])) {
-                    target = target[dir]();
-                }
-            }
-            target.addClass(this.activeClass);
-            !suppressFocus && target.query("a")[0] && target.query("a")[0].focus();
-        };
+
 
     return declare("_ListBase", null, {
         // summary:
@@ -112,8 +79,8 @@ define([
             // tags:
             //      protected extension
             query("li", this.domNode).filter(function (li) {
-                return !_isSelectableListItem(li);
-            }).map(function (li) {
+                return !this._isSelectableListItem(li);
+            }, this).map(function (li) {
                 return query("a", li)[0];
             }).forEach(function (a) {
                 if (domAttr.get(a, "tabindex")) {
@@ -124,8 +91,8 @@ define([
             this.own(
                 on(this.domNode, 'keypress', lang.hitch(this, "_keypress")),
                 on(this.domNode, 'keyup', lang.hitch(this, "_keyup")),
-                on(this.domNode, 'mousedown', lang.hitch(this, _click)),
-                on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, _mouseenter))
+                on(this.domNode, 'mousedown', lang.hitch(this, "_click")),
+                on(this.domNode, on.selector('li', 'mouseover'), lang.hitch(this, "_mouseenter"))
             );
             if (support.eventSupported(this.domNode, "keydown")) {
                 this.own(
@@ -164,7 +131,7 @@ define([
             //      protected
             // suppressFocus:
             //      used to suppress focusing on list item when making the list item active.
-            _traverse.call(this, "next", "_first", suppressFocus);
+            this._traverse("next", "_first", suppressFocus);
         },
 
         _prev: function ( /*Boolean?*/ suppressFocus) {
@@ -174,7 +141,7 @@ define([
             //      protected
             // suppressFocus:
             //      used to suppress focusing on list item when making the list item active.
-            _traverse.call(this, "prev", "_last", suppressFocus);
+            this._traverse("prev", "_last", suppressFocus);
         },
 
         _first: function ( /*Boolean?*/ suppressFocus) {
@@ -189,7 +156,7 @@ define([
                 domClass.remove(active, this.activeClass);
             }
             var prev = query('li', this.domNode).first();
-            if (prev[0] && _isSelectableListItem(prev[0])) {
+            if (prev[0] && this._isSelectableListItem(prev[0])) {
                 prev = prev.next();
             }
             prev.addClass(this.activeClass);
@@ -208,7 +175,7 @@ define([
                 domClass.remove(active, this.activeClass);
             }
             var next = query('li', this.domNode).last();
-            if (next[0] && _isSelectableListItem(next[0])) {
+            if (next[0] && this._isSelectableListItem(next[0])) {
                 next = next.prev();
             }
             next.addClass(this.activeClass);
@@ -339,6 +306,41 @@ define([
                 active = items[0];
             }
             return active; //return Object
-        }
+        },
+
+        _click: function (e) {
+            var li = query(e.target).closest('li');
+            this._select(li[0]);
+            if (this.preventDefault) {
+                event.stop(e);
+            }
+        },
+        _mouseenter: function (e) {
+            var li = query(e.target).closest('li');
+            query('.' + this.hoverClass, this.domNode).removeClass(this.hoverClass);
+            li.addClass(this.hoverClass);
+        },
+        _isSelectableListItem: function (li) {
+            return domClass.contains(li, "nav-header") || domClass.contains(li, "divider");
+        },
+        _traverse: function (dir, fallback, suppressFocus) {
+            var active = this._getActive();
+            if (!active) {
+                return this[fallback]();
+            }
+            domClass.remove(active, this.activeClass);
+            var target = query(active)[dir]();
+            if (target[0] && this._isSelectableListItem(target[0])) {
+                target = target[dir]();
+            }
+            if (!target.length) {
+                target = query('li', this.domNode)[dir === "prev" ? "last" : "first"]();
+                if (target[0] && this._isSelectableListItem(target[0])) {
+                    target = target[dir]();
+                }
+            }
+            target.addClass(this.activeClass);
+            !suppressFocus && target.query("a")[0] && target.query("a")[0].focus();
+        },
     });
 });
