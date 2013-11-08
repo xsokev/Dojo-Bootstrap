@@ -195,11 +195,6 @@ define([
             //      used to suppress focusing on list item when making the list item active.
             var code = e.charCode || e.keyCode;
             switch (code) {
-            case keys.TAB:
-            case keys.ENTER:
-            case keys.ESCAPE:
-                event.stop(e);
-                break;
             case keys.UP_ARROW:
             case keys.UP_DPAD:
                 event.stop(e);
@@ -270,10 +265,7 @@ define([
                 keys.DOWN_ARROW,
                 keys.DOWN_DPAD,
                 keys.UP_ARROW,
-                keys.UP_DPAD,
-                keys.TAB,
-                keys.ENTER,
-                keys.ESCAPE
+                keys.UP_DPAD
             ], code) >= 0;
             this._move(e);
         },
