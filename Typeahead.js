@@ -37,42 +37,6 @@ define([
     // module:
     //      Typeahead
 
-    var _menuTemplate = '<ul class="typeahead dropdown-menu"></ul>',
-        _menuItemTemplate = '<li><a href="#" onclick="return false;"></a></li>',
-        _defaultFunctions = {
-            updater: function (item) {
-                return item;
-            },
-            highlighter: function (item) {
-                var query = this._query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
-                return item.toString().replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-                    return '<strong>' + match + '</strong>';
-                });
-            },
-            matcher: function (item) {
-                return (item.toString().toLowerCase().indexOf(this._query.toLowerCase()))+1;
-            },
-            sorter: function (items) {
-                var beginsWith = [],
-                    caseSensitive = [],
-                    caseInsensitive = [],
-                    item;
-
-                while (item = items.shift()) {
-                    if (!item.toString().toLowerCase().indexOf(this._query.toString().toLowerCase())) { beginsWith.push(item); }
-                    else if (item.toString().indexOf(this._query) >= 0) { caseSensitive.push(item); }
-                    else { caseInsensitive.push(item); }
-                }
-                return beginsWith.concat(caseSensitive, caseInsensitive);
-            }
-        },
-        _select = function(e){
-            var li = e.selected;
-            this.domNode.value = this.updater(domAttr.get(li, 'data-value'));
-            this.emit('change', { });
-            return this.hide();
-        },
-        _keyup = function(e){ this.lookup(e); };
     // summary:
     //      Attach event to dismiss this alert if an immediate child-node has class="close"
     return declare("TypeAhead", [_BootstrapWidget, _ListInputBase], {
@@ -93,40 +57,93 @@ define([
         //          number of characters allowed before displaying the list
         minLength: 1,
 
+        inputNode: null,
+
+        hoverClass: "active",
+
+        _menuTemplate: '<ul class="typeahead dropdown-menu"></ul>',
+        _menuItemTemplate: '<li><a href="#"></a></li>',
+
         // matcher: function
         //
-        matcher: _defaultFunctions.matcher,
+        matcher: function (item) {
+            return (item.toString().toLowerCase().indexOf(this._query.toLowerCase()))+1;
+        },
 
         // sorter: function
         //
-        sorter: _defaultFunctions.sorter,
+        sorter: function (items) {
+            var beginsWith = [],
+                caseSensitive = [],
+                caseInsensitive = [],
+                item;
+
+            while (item = items.shift()) {
+                if (!item.toString().toLowerCase().indexOf(this._query.toString().toLowerCase())) { beginsWith.push(item); }
+                else if (item.toString().indexOf(this._query) >= 0) { caseSensitive.push(item); }
+                else { caseInsensitive.push(item); }
+            }
+            return beginsWith.concat(caseSensitive, caseInsensitive);
+        },
 
         // highlighter: function
         //
-        highlighter: _defaultFunctions.highlighter,
+        highlighter: function (item) {
+            var query = this._query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
+            return item.toString().replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+                return '<strong>' + match + '</strong>';
+            });
+        },
 
         // updater: function
         //
-        updater: _defaultFunctions.updater,
+        updater: function (item) {
+            return item;
+        },
 
-        hoverClass: "active",
+        _blur: function () {
+            var _this = this;
+            setTimeout(function () { _this.hide(); }, 150);
+        },
+
+        _select: function(e){
+            var li = e.selected;
+            this.set('value', this.updater(domAttr.get(li, 'data-value')));
+            this.emit('change', { });
+            return this.hide();
+        },
 
         postCreate:function () {
             // summary:
             //
             // tags:
             //		private
-            this.listNode = domConstruct.toDom(_menuTemplate);
+            this.listNode = domConstruct.toDom(this._menuTemplate);
+            this.inputNode = query('input', this.domNode)[0];
             this.hide();
             domConstruct.place(this.listNode, document.body);
             if(this.listNode){
                 this.list = new ListWidget({ hoverClass: this.hoverClass }, this.listNode);
-                this.own(on(this.list, 'list-select', lang.hitch(this, _select)));
+                this.own(on(this.list, 'list-select', lang.hitch(this, this._select)));
             }
-            this.own(on(this, 'list-escape', lang.hitch(this, "hide")));
-            this.own(on(this, 'list-keyup', lang.hitch(this, _keyup)));
-            this.own(on(this.domNode, 'blur', lang.hitch(this, "hide")));
+            this.own(
+//                on(this.inputNode, 'keyup', lang.hitch(this, this.lookup)),
+                on(this.inputNode, 'blur', lang.hitch(this, this._blur)),
+                // TODO(aramk) since the _ListInputBase superclass assumes .domNode to be the input node, these don't work
+                on(this.inputNode, 'keyup', lang.hitch(this, this._keyup)),
+                on(this.inputNode, 'keypress, keydown', lang.hitch(this, this._keypress)),
+                on(this, 'list-keyup', lang.hitch(this, this.lookup)),
+                on(this, 'list-escape, list-enter', lang.hitch(this, this.hide))
+                on(this.domNode, 'blur', lang.hitch(this, "hide")),
+//                on(this, 'list-keyup', lang.hitch(this, this._onListKeyUp))
+            );
             this.inherited(arguments);
+        },
+
+        _mouseenter: function (e) {
+            var li = query(e.target).closest('li');
+            query('.'+this.hoverClass, this.domNode).removeClass(this.hoverClass);
+            li.addClass(this.hoverClass);
         },
 
         show: function () {
@@ -148,7 +165,7 @@ define([
 
         lookup: function () {
             var items;
-            this._query = this.domNode.value;
+            this._query = this.get('inputValue') || '';
             if (!this._query || this._query.length < this.minLength) {
                 return this.shown ? this.hide() : this;
             }
@@ -169,7 +186,7 @@ define([
 
         render: function (items) {
             items = array.map(items, function (item, i) {
-                var li = domConstruct.toDom(_menuItemTemplate);
+                var li = domConstruct.toDom(this._menuItemTemplate);
                 domAttr.set(li, 'data-value', item);
                 query('a', li).html(this.highlighter(item));
                 if (i === 0) { domClass.add(li, 'active'); }
@@ -179,7 +196,22 @@ define([
             return this;
         },
 
-        destroy: function () {
+        _getValueAttr: function () {
+            return this.get('inputValue');
+        },
+
+        _setValueAttr: function (value) {
+            this.set('inputValue', value);
+        },
+
+        _getInputValueAttr: function () {
+            return this.inputNode.value;
+        },
+
+        _setInputValueAttr: function (value) {
+            this.inputNode.value = value;
+        },
+  destroy: function () {
             domConstruct.destroy(this.listNode);
             this.inherited(arguments);
         }

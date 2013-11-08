@@ -30,34 +30,6 @@ define([
 
     // module:
     //      _ListWidget
-    var _keyup = function (e) {
-            var code = e.charCode || e.keyCode;
-            switch(code) {
-                case keys.PAGE_UP:
-                case keys.PAGE_DOWN:
-                case keys.DOWN_ARROW:
-                case keys.DOWN_DPAD:
-                case keys.UP_ARROW:
-                case keys.UP_DPAD:
-                case keys.SHIFT:
-                case keys.CTRL:
-                case keys.ALT:
-                    break;
-                case keys.TAB:
-                case keys.ENTER:
-                    if (!this.shown) { return; }
-                    var active = this.list._getActive();
-                    this.list.select(active);
-                    break;
-                case keys.ESCAPE:
-                    if (!this.shown) { return; }
-                    this.emit("list-escape", e);
-                    break;
-
-                default:
-                    this.emit("list-keyup", e);
-            }
-        };
 
     return declare("_ListInputBase", null, {
         // summary:
@@ -80,21 +52,55 @@ define([
             // tags:
             //		private extension
             if(this.domNode.tagName === "INPUT"){
-                this.own(on(this.domNode, 'keyup', lang.hitch(this, _keyup)));
-                this.own(on(this.domNode, 'keypress, keydown', lang.hitch(this, function(e){
-                    var code = e.charCode || e.keyCode;
-                    if(this.shown && array.indexOf([
-                        keys.DOWN_ARROW,
-                        keys.DOWN_DPAD,
-                        keys.UP_ARROW,
-                        keys.UP_DPAD,
-                        keys.TAB,
-                        keys.ENTER,
-                        keys.ESCAPE
-                    ], code) >= 0){
-                        this.list && this.list._move(e, true);
-                    }
-                })));
+                this.own(
+                    on(this.domNode, 'keyup', lang.hitch(this, this._keyup)),
+                    on(this.domNode, 'keypress, keydown', lang.hitch(this, this._keypress))
+                );
+            }
+        },
+
+        _keyup: function (e) {
+            var code = e.charCode || e.keyCode;
+            switch(code) {
+                case keys.PAGE_UP:
+                case keys.PAGE_DOWN:
+                case keys.DOWN_ARROW:
+                case keys.DOWN_DPAD:
+                case keys.UP_ARROW:
+                case keys.UP_DPAD:
+                case keys.SHIFT:
+                case keys.CTRL:
+                case keys.ALT:
+                    break;
+                case keys.TAB:
+                case keys.ENTER:
+                    if (!this.shown) { return; }
+                    this.emit && this.emit("list-enter", e);
+                    var active = this.list._getActive();
+                    this.list.select(active);
+                    break;
+                case keys.ESCAPE:
+                    if (!this.shown) { return; }
+                    this.emit("list-escape", e);
+                    break;
+
+                default:
+                    this.emit("list-keyup", e);
+            }
+        },
+
+        _keypress: function (e) {
+            var code = e.charCode || e.keyCode;
+            if(this.shown && array.indexOf([
+                keys.DOWN_ARROW,
+                keys.DOWN_DPAD,
+                keys.UP_ARROW,
+                keys.UP_DPAD,
+                keys.TAB,
+                keys.ENTER,
+                keys.ESCAPE
+            ], code) >= 0){
+                this.list && this.list._move(e, true);
             }
         }
     });

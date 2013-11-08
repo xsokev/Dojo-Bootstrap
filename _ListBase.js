@@ -26,12 +26,14 @@ define([
     "dojo/keys",
     "dojo/dom-class",
     "dojo/dom-attr",
-    "dojo/NodeList-traverse"
+    "dojo/NodeList-traverse",
+    "dojo/NodeList-dom"
 ], function (support, declare, lang, array, query, on, keys, domClass, domAttr) {
     "use strict";
 
     // module:
     //      _ListBase
+
     var _click = function (e) {
             var li = query(e.target).closest('li');
             this._select(li[0]);
@@ -92,6 +94,8 @@ define([
         //      class to use when making items active
         activeClass: "active",
 
+        selectable: true,
+
         _initListEvents: function(){
             // summary:
             //      initialize events for navigating through the list items
@@ -131,7 +135,9 @@ define([
             if(!li){ return; }
             query('.'+this.activeClass, this.domNode).removeClass(this.activeClass);
             query('.'+this.hoverClass, this.domNode).removeClass(this.hoverClass);
-            domClass.add(li, this.activeClass);
+            if (this.selectable) {
+                domClass.add(li, this.activeClass);
+            }
             this.emit && this.emit('list-select', lang.mixin({ selected: li }));
         },
 
