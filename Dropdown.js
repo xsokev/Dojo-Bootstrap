@@ -85,8 +85,10 @@ define([
                 this.list = new ListWidget({
                     selectable: this.selectable
                 }, this.listNode);
-                this.own(on(this.list, 'list-select', lang.hitch(this, this._select)));
-                this.own(on(this.list, 'list-escape', lang.hitch(this, "close")));
+                this.own(
+                    on(this.list, 'list-select', lang.hitch(this, this._select)),
+                    on(this.list, 'list-escape', lang.hitch(this, "close"))
+                );
             }
             this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) {
                 e.stopPropagation();
