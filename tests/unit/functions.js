@@ -31,7 +31,7 @@ require({},[
     };
     functions.contains = function (container, item) {
         return lang.exists(container[item]);
-    }
+    };
 
     return functions;
 });
