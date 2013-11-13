@@ -336,6 +336,6 @@ define([
             }
             target.addClass(this.activeClass);
             !suppressFocus && target.query("a")[0] && target.query("a")[0].focus();
-        },
+        }
     });
 });
