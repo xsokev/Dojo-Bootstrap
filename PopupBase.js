@@ -227,7 +227,8 @@ define([
             //
             // tags:
             //		protected
-            return this._popupNode = (this._popupNode) ? this._popupNode : domConstruct.toDom(this.template);
+            this._popupNode = (this._popupNode) ? this._popupNode : domConstruct.toDom(this.template);
+            return this._popupNode;
         },
 
         _visible: function(){
