@@ -78,7 +78,7 @@ define([
                 caseInsensitive = [],
                 item;
 
-            while (item = items.shift()) {
+            while (item === items.shift()) {
                 if (!item.toString().toLowerCase().indexOf(this._query.toString().toLowerCase())) { beginsWith.push(item); }
                 else if (item.toString().indexOf(this._query) >= 0) { caseSensitive.push(item); }
                 else { caseInsensitive.push(item); }
@@ -133,8 +133,8 @@ define([
                 on(this.inputNode, 'keyup', lang.hitch(this, this._keyup)),
                 on(this.inputNode, 'keypress, keydown', lang.hitch(this, this._keypress)),
                 on(this, 'list-keyup', lang.hitch(this, this.lookup)),
-                on(this, 'list-escape, list-enter', lang.hitch(this, this.hide))
-                on(this.domNode, 'blur', lang.hitch(this, "hide")),
+                on(this, 'list-escape, list-enter', lang.hitch(this, this.hide)),
+                on(this.domNode, 'blur', lang.hitch(this, "hide"))
 //                on(this, 'list-keyup', lang.hitch(this, this._onListKeyUp))
             );
             this.inherited(arguments);
