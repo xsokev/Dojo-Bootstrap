@@ -21,12 +21,11 @@ define([
     "./_BootstrapWidget",
     "dojo/_base/declare",
     "dijit/_TemplatedMixin",
-    "dojo/query",
     "dojo/on",
     "dojo/_base/lang",
     "dojo/dom-class",
     "dojo/dom-style"
-], function (support, _BootstrapWidget, declare, _TemplatedMixin, query, on, lang, domClass, domStyle) {
+], function (support, _BootstrapWidget, declare, _TemplatedMixin, on, lang, domClass, domStyle) {
     "use strict";
 
     // module:
@@ -81,7 +80,7 @@ define([
             //      creates event handler for close button. Handles initial timeout value if not falsey.
             // tags:
             //		private extension
-            query("> .close", this.domNode).on("click", lang.hitch(this, function(){
+            on(this.closeNode, "click", lang.hitch(this, function() {
                 this.close();
             }));
             if(!support.falsey(this.timeout) && typeof parseInt(this.timeout, 10) === "number"){
