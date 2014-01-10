@@ -11,34 +11,34 @@
                 overflow: hidden;
                 position: relative;
             }
-            
+
             .marquee .marquee-item {
                 position: absolute;
-                top: 0px;	
+                top: 0px;
             }
-            
-            .frame { 
-                width: 320px; 
-                height: 260px; 
-                border: 1px solid #bbb; 
-                padding: 3px; 
+
+            .frame {
+                width: 320px;
+                height: 260px;
+                border: 1px solid #bbb;
+                padding: 3px;
             }
-            
+
             .frame h3 {
                 padding: 0px 5px;
                 margin: 0px;
             }
-            
+
             .frame p.caption {
                 padding: 0px 5px;
                 margin: 0px;
             }
-            
+
             #polaroid {
                 height: 180px;
                 width: 100%;
             }
-            
+
             #polaroid .marquee-item {
                 width: 100%;
             }
@@ -57,8 +57,8 @@
         </div>
         <div class="container">
             <div class="row">
-                <section class="sidebar span3"></section>
-                <section id="main" class="main span8">
+                <section class="sidebar col-md-3"></section>
+                <section id="main" class="main col-md-8">
                     <div class="frame">
                         <div data-spy="marquee" class="marquee" id="polaroid" data-blend="true" data-life="5">
                             <div data-label="Bridge" data-caption="Nighttime display of the Memphis/Arkansas Bridge."><img src="assets/marquee-01.jpg"/></div>
@@ -73,10 +73,10 @@
                 </section>
             </div>
         </div>
-        
+
         <script type="text/javascript" src="assets/config.js"></script>
         <script type="text/javascript" src="../vendor/dojo/dojo/dojo.js"></script>
-        
+
         <script>
             require(["dojo/query", "dojo/on", "bootstrap/Marquee", "./assets/tests.js"],
                 function (query, on) {
