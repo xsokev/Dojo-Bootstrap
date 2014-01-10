@@ -30,27 +30,9 @@ define([
     "dijit/registry",
     "dojo/NodeList-traverse"
 ], function (_BootstrapWidget, ListWidget, declare, win, lang, array, query, on, domAttr, domClass, registry) {
-    "use strict";
 
     // module:
     //      Dropdown
-
-    var _clearDropdowns = function() {
-            array.forEach(_getDropdowns(), function(dropdown){
-                dropdown.close();
-            });
-        },
-        _getDropdowns = function(){
-            var allWidgets = registry.findWidgets(document.body);
-            return array.filter(allWidgets, function(widget){
-                return widget instanceof _Dropdown;
-            });
-        },
-        _select = function(e){
-            var li = e.selected;
-            this.close();
-            this.emit("select", { selectedItem: li });
-        };
 
     var _Dropdown = declare("Dropdown", [_BootstrapWidget], {
         // summary:
@@ -85,68 +67,135 @@ define([
         // preventDefault: Boolean
         //          prevent default actions when list items are clicked
         preventDefault: false,
+        selectable: true,
+        selectFirstOnOpen: false,
 
-        postCreate:function () {
+        postCreate: function () {
             // summary:
             //      initializes events needed to display dropdown element. Also initializes list handler.
             // tags:
             //		private extension
             this.toggleNode = query(".dropdown-toggle", this.domNode)[0];
-            if(this.toggleNode){
+            if (this.toggleNode) {
                 this.own(on(this.toggleNode, "click, touchstart", lang.hitch(this, "toggle")));
             }
             this.listNode = query(".dropdown-menu", this.domNode)[0];
-            if(this.listNode){
-                this.list = new ListWidget({}, this.listNode);
-                this.own(on(this.list, 'list-select', lang.hitch(this, _select)));
-                this.own(on(this.list, 'list-escape', lang.hitch(this, "close")));
+            if (this.listNode) {
+                this.list = new ListWidget({
+                    selectable: this.selectable,
+                    preventDefault: this.preventDefault
+                }, this.listNode);
+                this.own(
+                    on(this.list, 'list-select', lang.hitch(this, "_select")),
+                    on(this.list, 'list-escape', lang.hitch(this, "close"))
+                );
             }
-            this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) { e.stopPropagation(); }));
-            this._bodyClickEvent = on(document, 'click', _clearDropdowns);
+            this.own(on(this.domNode, on.selector("form", "click, touchstart"), function (e) {
+                e.stopPropagation();
+            }));
+            this._bodyClickEvent = on(document, 'click', lang.hitch(this, this._clearDropdowns));
             this.shown = false;
         },
 
-        toggle: function(e){
+        _setSelectableAttr: function (selectable) {
+            if (this.list) {
+                this.list.selectable = selectable;
+            }
+        },
+
+        _getSelectableAttr: function () {
+            return this.list.selectable;
+        },
+
+        _setPreventDefault: function (preventDefault) {
+            if (this.list) {
+                this.list.preventDefault = preventDefault;
+            }
+        },
+
+        _getPreventDefault: function () {
+            return this.list.preventDefault;
+        },
+
+        _setSelectFirstOnOpen: function (selectFirstOnOpen) {
+            this.selectFirstOnOpen = selectFirstOnOpen;
+        },
+
+        _getSelectFirstOnOpen: function () {
+            return this.selectFirstOnOpen;
+        },
+
+        toggle: function (e) {
             // summary:
             //      toggles the display of the dropdown
-            if(this.isDisabled()) { return false; }
+            if (this.isDisabled()) {
+                return false;
+            }
             this.isOpen() ? this.close() : this.open();
-            if(e){
+            if (e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
             return this;
         },
 
-        open: function(){
+        open: function () {
             // summary:
             //      shows the dropdown. Hides any other displayed dropdowns on the page.
-            if(this.isDisabled()) { return false; }
-            _clearDropdowns();
+            if (this.isDisabled()) {
+                return false;
+            }
+            this._clearDropdowns();
             this.isOpen() || domClass.add(this.domNode, 'open');
-            this.list._first();
+            if (this.selectFirstOnOpen) {
+                this.list._first();
+            }
             this.shown = true;
+            this.list.domNode.focus();
+
         },
 
-        close: function(){
+        close: function () {
             // summary:
             //      hides the dropdown.
-            if(this.isDisabled()) { return false; }
+            if (this.isDisabled()) {
+                return false;
+            }
             this.isOpen() && domClass.remove(this.domNode, 'open');
             this.shown = false;
         },
 
-        isDisabled: function(){
+        isDisabled: function () {
             // summary:
             //      returns whether the dropdown is currently disabled.
-            return domClass.contains(this.domNode, "disabled") || domAttr.get(this.domNode, "disabled");    //Boolean
+            return domClass.contains(this.domNode, "disabled") || domAttr.get(this.domNode, "disabled"); //Boolean
         },
 
-        isOpen: function(){
+        isOpen: function () {
             // summary:
             //      returns whether the dropdown is currently visible.
             return this.shown;
+        },
+
+        _clearDropdowns: function () {
+            array.forEach(this._getDropdowns(), function (dropdown) {
+                dropdown.close();
+            });
+        },
+        _getDropdowns: function () {
+            var allWidgets = registry.findWidgets(document.body);
+            return array.filter(allWidgets, function (widget) {
+                return widget instanceof _Dropdown;
+            });
+        },
+        _select: function (e) {
+            var li = e.selected;
+            this.close();
+            this.emit("select", {
+                selectedItem: li
+            });
         }
     });
+
     return _Dropdown;
 });

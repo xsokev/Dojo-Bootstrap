@@ -42,7 +42,7 @@ define([
         // |	</ul>
 
 
-    postCreate: function(){
+        postCreate: function(){
             // summary:
             //      calls this._initListEvents to initialize list events.
             // tags:

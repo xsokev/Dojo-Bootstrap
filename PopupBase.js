@@ -35,7 +35,6 @@ define([
     "dojo/NodeList-traverse",
     "dojo/NodeList-manipulate"
 ], function (support, _BootstrapWidget, declare, query, on, mouse, lang, domClass, domAttr, domStyle, domGeom, domConstruct, registry, place, Viewport) {
-    "use strict";
 
     // module:
     //      Popup
@@ -228,7 +227,8 @@ define([
             //
             // tags:
             //		protected
-            return this._popupNode = (this._popupNode) ? this._popupNode : domConstruct.toDom(this.template);
+            this._popupNode = (this._popupNode) ? this._popupNode : domConstruct.toDom(this.template);
+            return this._popupNode;
         },
 
         _visible: function(){

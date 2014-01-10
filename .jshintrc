@@ -9,5 +9,6 @@
     "expr":     true,
     "browser":  true,
     "devel":    true,
-    "dojo":     true
+    "dojo":     true,
+    "es3": true
 }
