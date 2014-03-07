@@ -48,30 +48,31 @@ define([
                 children = this.getChildren(),
                 isCycling = this._intervalTimer,
                 indicators, eventObj;
-            next = next || active._getSibling(type);
+            next = next || active._getSibling(type === 'next' ? 'next' : 'previous');
 
-            this._sliding = true;
             if (isCycling) {
                 this.pause();
             }
 
             if (!(next instanceof CarouselItem)) {
-                next = fallback === "last" ? children[children.length - 1] : children[0];
+                next = fallback === 'last' ? children[children.length - 1] : children[0];
             }
 
             if (next && next.active) {
                 return;
             }
 
+            this._sliding = true;
+
             if (this.indicators) {
-                indicators = query("li", this.indicatorsNode);
+                indicators = query('li', this.indicatorsNode);
                 if (indicators.length) {
-                    query(".active", this.indicatorsNode).removeClass('active');
-                    on.once(this, "slid", lang.hitch(this, function () {
+                    query('.active', this.indicatorsNode).removeClass('active');
+                    on.once(this, 'slid', lang.hitch(this, function () {
                         var active = _active.call(this),
                             nextIndicator = indicators[active ? active.getIndexInParent() : 0];
                         if (nextIndicator) {
-                            domClass.add(nextIndicator, "active");
+                            domClass.add(nextIndicator, 'active');
                         }
                     }));
                 }
@@ -96,7 +97,7 @@ define([
                     next.set('active', true);
                     if (active) {
                         domClass.remove(active.domNode, direction);
-                        active.set("active", false);
+                        active.set('active', false);
                     }
                     this._sliding = false;
                     setTimeout(lang.hitch(this, function () {
@@ -106,9 +107,9 @@ define([
             } else {
                 this.emit('slide', eventObj);
                 if (active) {
-                    active.set("active", false);
+                    active.set('active', false);
                 }
-                next.set("active", true);
+                next.set('active', true);
                 this._sliding = false;
                 this.emit('slid', eventObj);
             }
@@ -181,28 +182,28 @@ define([
                 this.own(on(this.domNode, mouse.leave, lang.hitch(this, 'cycle')));
             }
             if (this.navigatable) {
-                this.own(on(this.prevNode, "click", lang.hitch(this, 'prev')));
-                this.own(on(this.nextNode, "click", lang.hitch(this, 'next')));
+                this.own(on(this.prevNode, 'click', lang.hitch(this, 'prev')));
+                this.own(on(this.nextNode, 'click', lang.hitch(this, 'next')));
             } else {
-                domClass.add(this.prevNode, "hide");
-                domClass.add(this.nextNode, "hide");
+                domClass.add(this.prevNode, 'hide');
+                domClass.add(this.nextNode, 'hide');
             }
 
             if (this.indicators) {
-                query("[data-dojo-type*='CarouselItem']", this.domNode).forEach(function (item, index) {
+                query('[data-dojo-type*="CarouselItem"]', this.domNode).forEach(function (item, index) {
                     var indicator = domConstruct.toDom("<li></li>");
-                    domAttr.set(indicator, "data-slide-to", index);
-                    if (domClass.contains(item, "active")) {
-                        domClass.add(indicator, "active");
+                    domAttr.set(indicator, 'data-slide-to', index);
+                    if (domClass.contains(item, 'active')) {
+                        domClass.add(indicator, 'active');
                     }
                     domConstruct.place(indicator, this.indicatorsNode);
                 }, this);
-                this.own(on(this.indicatorsNode, "click", lang.hitch(this, function (e) {
-                    this.pause().to(domAttr.get(e.target, "data-slide-to"));
+                this.own(on(this.indicatorsNode, 'click', lang.hitch(this, function (e) {
+                    this.pause().to(parseInt(domAttr.get(e.target, 'data-slide-to')));
                     this.cycle();
                 })));
             } else {
-                domClass.add(this.indicatorsNode, "hide");
+                domClass.add(this.indicatorsNode, 'hide');
             }
 
             this._paused = false;
@@ -217,7 +218,7 @@ define([
             //		private extension
             this.inherited(arguments);
             this.to(this.currentSlide, true);
-            domClass.remove(this.domNode, "hide");
+            domClass.remove(this.domNode, 'hide');
             this.cycle();
         },
 
@@ -227,6 +228,9 @@ define([
             e = e || false;
             if (e !== true) {
                 this._paused = false;
+            }
+            if (this._intervalTimer) {
+                clearInterval(this._intervalTimer);
             }
             if (this.interval && !this._paused) {
                 this._intervalTimer = setInterval(lang.hitch(this, 'next'), this.interval);
