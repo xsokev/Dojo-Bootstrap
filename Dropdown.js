@@ -46,23 +46,31 @@ define([
         //      selected. Returns event.selectedItem.
         //
         // example:
-        // |    <input value="21-12-2012" class="date" type="text"
-        // |           data-dojo-type="Datepicker" data-dojo-props="format:'dd-M-yyyy'">
+        // |        <span id="dd1" class="dropdown" data-dojo-type="bootstrap/Dropdown">
+        // |            <a class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+        // |            <ul class="dropdown-menu" role="menu">
+        // |                <li><a href="http://google.com">one</a></li>
+        // |                <li><a href="#">two</a></li>
+        // |                <li><a href="#">three</a></li>
+        // |            </ul>
+        // |        </span>
         // example:
-        // |    <div class="input-append" id="mydate">
-        // |        <input value="21-12-2012" class="date" type="text" />
-        // |        <span class="add-on"><i class="icon-th"></i></span>
-        // |    </div>
-        // |    new Datepicker({
-        // |        format:'dd-M-yyyy',
-        // |        selector: '.add-on',
-        // |        trigger: 'click'
-        // |    }, dojo.byId("#mydate"));
-        // example:
-        // |    <button class="btn" id="dateBtn">...</button>
-        // |    new Datepicker({
-        // |        trigger: 'click'
-        // |    }, dojo.byId("#dateBtn"));
+        // |        <span id="dd1" class="dropdown">
+        // |            <a class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+        // |            <ul class="dropdown-menu" role="menu">
+        // |                <li><a href="http://google.com">one</a></li>
+        // |                <li><a href="#">two</a></li>
+        // |                <li><a href="#">three</a></li>
+        // |            </ul>
+        // |        </span>
+        // |
+        // |    require(["dojo/query"], function(query) {
+        // |        new Dropdown({
+        // |           preventDefault: false,
+        // |           selectable: true,
+        // |           selectFirstOnOpen: false
+        // |        }, query("#dd1")[0]);
+        // |    });
 
         // preventDefault: Boolean
         //          prevent default actions when list items are clicked
@@ -152,7 +160,6 @@ define([
             }
             this.shown = true;
             this.list.domNode.focus();
-
         },
 
         close: function () {
