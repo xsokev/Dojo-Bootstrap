@@ -75,7 +75,11 @@ define([
         // preventDefault: Boolean
         //          prevent default actions when list items are clicked
         preventDefault: false,
+        // selectable: Boolean
         selectable: true,
+        // selectFirstOnOpen: Boolean
+        //          If true, the first list element will be marked as active
+        //          by adding the css-class "active" to the element.
         selectFirstOnOpen: false,
 
         postCreate: function () {
