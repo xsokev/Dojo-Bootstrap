@@ -67,10 +67,12 @@ define([
 
         process: function () {
             var domPos = domGeom.position(this.domNode, false);
-            var scrollTop = this.domNode.scrollTop + parseInt(this.offset, 10);
+            // how many pixels are already scrolled?
+            var scrollTop    = this.domNode.scrollTop + parseInt(this.offset, 10);
             var scrollHeight = this.domNode.scrollHeight || win.body().scrollHeight;
             //TODO: Test across all browsers
             var domHeight = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
+            // How many pixels are made visible by scrolling?
             var maxScroll = scrollHeight - domHeight;
             var activeTarget = this.activeTarget;
             var i;
@@ -84,10 +86,17 @@ define([
             }
         },
 
+        // summary:
+        //      Find all navigation control items and respective items within the attached
+        //      scrollspy container.
         refresh: function () {
             _offsets = [];
             _targets = [];
             var container_offset = domGeom.position(this.domNode, false).y;
+
+            // for every navigation control item, get the corresponding
+            // item within our scrollspy container plus the y-coords of that
+            // item within that scrollspy container
             query(this.target).map(function (node) {
                 var href = support.getData(node, 'target') || domAttr.get(node, 'href');
                 var target = /^#\w/.test(href) && query(href);
