@@ -74,13 +74,12 @@ define([
             var domHeight = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
             // How many pixels are made visible by scrolling?
             var maxScroll = scrollHeight - domHeight;
-            var activeTarget = this.activeTarget;
             var i;
             if (scrollTop >= maxScroll) {
-                return activeTarget !== (i = _targets[_targets.length - 1]) && this.activate(i);
+                return this.activeTarget !== (i = _targets[_targets.length - 1]) && this.activate(i);
             }
-            for (i = _offsets.length; i--;) {
-                if (activeTarget !== _targets[i] && scrollTop >= _offsets[i] && (!_offsets[i + 1] || scrollTop <= _offsets[i + 1])) {
+            for (i = _offsets.length; i >= 0; i--) {
+                if (this.activeTarget !== _targets[i] && scrollTop >= _offsets[i] && (!_offsets[i + 1] || scrollTop <= _offsets[i + 1])) {
                     this.activate(_targets[i]);
                 }
             }
