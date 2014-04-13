@@ -66,14 +66,14 @@ define([
         },
 
         process: function () {
-            var domPos = domGeom.position(this.domNode, false);
+            var domPos       = domGeom.position(this.domNode, false);
             // how many pixels are already scrolled?
             var scrollTop    = this.domNode.scrollTop + parseInt(this.offset, 10);
             var scrollHeight = this.domNode.scrollHeight || win.body().scrollHeight;
             //TODO: Test across all browsers
-            var domHeight = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
+            var domHeight    = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
             // How many pixels are made visible by scrolling?
-            var maxScroll = scrollHeight - domHeight;
+            var maxScroll    = scrollHeight - domHeight;
             var i;
             if (scrollTop >= maxScroll) {
                 return this.activeTarget !== (i = _targets[_targets.length - 1]) && this.activate(i);
@@ -120,8 +120,10 @@ define([
         activate: function (elm) {
             this.activeTarget = elm;
             query(this.target).parent('.active').removeClass('active');
+
             var selector = this.target + '[data-target="' + elm + '"],' + this.target + '[href="' + elm + '"]';
-            var active = query(selector).parent('li').addClass('active');
+            var active   = query(selector).parent('li').addClass('active');
+
             if (active.parent('.dropdown-menu').length) {
                 active = active.closest('li.dropdown').addClass('active');
             }
