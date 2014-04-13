@@ -65,6 +65,10 @@ define([
             this.process();
         },
 
+        // summary:
+        //      This method is called when the user scrolls down the container and
+        //      calculates which navigation control needs
+        //      to be activated.
         process: function () {
             var domPos       = domGeom.position(this.domNode, false);
             // how many pixels are already scrolled?
@@ -117,6 +121,10 @@ define([
             }, this);
         },
 
+        // summary:
+        //      Adds and removes CSS classes from the DomNodes
+        //      Additionally, sets the currently active element
+        //      and triggers the 'activate' event.
         activate: function (elm) {
             this.activeTarget = elm;
             query(this.target).parent('.active').removeClass('active');
