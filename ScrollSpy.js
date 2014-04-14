@@ -26,7 +26,8 @@ define([
     "dojo/_base/window",
     "dojo/dom-attr",
     "dojo/dom-geometry",
-    "dojo/NodeList-traverse"
+    "dojo/NodeList-traverse",
+    "dojo/NodeList-dom"
 ], function (support, _BootstrapWidget, declare, query, on, lang, win, domAttr, domGeom) {
     "use strict";
 
