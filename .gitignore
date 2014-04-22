@@ -4,3 +4,5 @@
 .idea/*.iml
 .idea/*.xml
 .idea/*/*.xml
+
+vendor/
