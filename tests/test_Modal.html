@@ -21,19 +21,27 @@
             <div class="row">
                 <section class="sidebar col-md-3"></section>
                 <section id="main" class="main col-md-8">
-                    <div id="my-modal" class="modal hide fade">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3>Header</h3>
-                        </div>
-                        <div class="modal-body">
-                            <p>Body (Hit ESC to close)</p>
-                        </div>
-                        <div class="modal-footer">
-                            Footer
-                        </div>
-                    </div>
-                    <button id="my-opener" type="button" class="btn" data-toggle="button" >Open</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="my-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Body (Hit ESC to close)</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+
+                    <button id="my-opener" type="button" class="btn" data-target="#my-modal" data-toggle="modal" >Open</button>
                 </section>
             </div>
         </div>
@@ -42,13 +50,6 @@
         <script>
             require(["dojo/query","dojo/on", "bootstrap/Modal", "./assets/tests.js"],
                 function (query, on) {
-                    on(query('#my-opener')[0], 'click', function (e) {
-                        query('#my-modal').modal({
-                            show: true,
-                            keyboard: true
-                        });
-                    });
-
                     query('#my-modal').on('show', function () {
                         console.info('show');
                     });
