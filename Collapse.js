@@ -77,7 +77,7 @@ define([
             if (support.trans) { domStyle.set(this.domNode, dimension, this.domNode[scroll] + 'px'); }
         },
         hide:function () {
-            if (this.transitioning) {
+            if (this.transitioning || !domClass.contains(this.domNode, 'in')) {
                 return;
             }
             if(this.parent && this.options.target) {
@@ -102,22 +102,45 @@ define([
         },
         transition:function (method, startEvent, completeEvent) {
             var _complete = lang.hitch(this, function () {
-                if (startEvent === 'show') {
+                if (startEvent === 'show')
+                {
                     this.reset();
                 }
                 this.transitioning = 0;
+
+                if(method === 'add')
+                {
+                    domClass.add(this.domNode, 'in');
+                }
+                else if(method === 'remove')
+                {
+                    domClass.add(this.domNode, 'collapse')
+                }
+
+                domClass.remove(this.domNode, 'collapsing');
+
                 on.emit(this.domNode, completeEvent, {bubbles:false, cancelable:false});
             });
 
             on.emit(this.domNode, startEvent, {bubbles:false, cancelable:false});
 
+            domClass.remove(this.domNode, 'collapse');
+            domClass.add(this.domNode, 'collapsing');
+
+            if(method === 'remove')
+            {
+                domClass.remove(this.domNode, 'in');
+            }
+
             this.transitioning = 1;
 
-            domClass[method](this.domNode, 'in');
-
-            if (support.trans && domClass.contains(this.domNode, 'collapse')) {
+            if (support.trans)
+            {
                 on.once(this.domNode, support.trans.end, _complete);
-            } else {
+                support.emulateTransitionEnd(this.domNode, 350);
+            }
+            else
+            {
                 _complete();
             }
         },
