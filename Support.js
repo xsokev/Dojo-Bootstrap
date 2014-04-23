@@ -22,9 +22,10 @@ define([
     "dojo/_base/array",
     "dojo/json",
     "dojo/has",
+    "dojo/on",
     "dojo/NodeList-data"
 ],
-function (query, lang, attr, array, json, has) {
+function (query, lang, attr, array, json, has, on) {
     "use strict";
 
     lang.extend(query.NodeList, {
@@ -116,7 +117,22 @@ function (query, lang, attr, array, json, has) {
 
         element = null;
         return isSupported;
-    }
+    };
+
+    //http://blog.alexmaccaw.com/css-transitions
+    function emulateTransitionEnd(element, duration)
+    {
+        var called = false;
+        on.once(element, _transition.end, function(){called = true;});
+        var callback = function()
+        {
+            if(!called) on.emit(element,  _transition.end, {
+                bubbles: true,
+                cancelable: true
+            });
+        }
+        setTimeout(callback, duration);
+    };
 
     return {
         trans: _transition,
@@ -161,6 +177,7 @@ function (query, lang, attr, array, json, has) {
             }
             return href || '';
         },
-        eventSupported: isEventSupported
+        eventSupported: isEventSupported,
+        emulateTransitionEnd: emulateTransitionEnd
     };
 });
