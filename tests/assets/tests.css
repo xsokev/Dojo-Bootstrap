@@ -43,7 +43,7 @@ body .sidebar .nav li.nav-header {
 }
 body .sidebar .nav li.nav-header i {
   margin-right: 10px;
-  font-size: 150%;
+  margin-left: 10px;
 }
 body .sidebar .nav li a {
   color: #999;
@@ -51,17 +51,10 @@ body .sidebar .nav li a {
 }
 body .sidebar .nav li.active a {
   color: #FFFFFF;
+  background-color: #428bca;
 }
 body .main {
   background-color: #FFFFFF;
   padding: 10px;
   height: auto;
-}
-
-/*scrollspy*/
-.scrollspy-example {
-  position: relative;
-  height: 200px;
-  margin-top: 10px;
-  overflow: auto;
 }
