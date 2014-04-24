@@ -1,6 +1,6 @@
 {
     "name":"dojo-bootstrap",
-    "version":"1.0",
+    "version":"3.0.0",
     "main":"main",
     "dependencies":{
         "dojo":"current",
