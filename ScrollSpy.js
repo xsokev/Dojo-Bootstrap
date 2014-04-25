@@ -26,7 +26,8 @@ define([
     "dojo/_base/window",
     "dojo/dom-attr",
     "dojo/dom-geometry",
-    "dojo/NodeList-traverse"
+    "dojo/NodeList-traverse",
+    "dojo/NodeList-dom"
 ], function (support, _BootstrapWidget, declare, query, on, lang, win, domAttr, domGeom) {
     "use strict";
 
@@ -65,29 +66,41 @@ define([
             this.process();
         },
 
+        // summary:
+        //      This method is called when the user scrolls down the container and
+        //      calculates which navigation control needs
+        //      to be activated.
         process: function () {
-            var domPos = domGeom.position(this.domNode, false);
-            var scrollTop = this.domNode.scrollTop + parseInt(this.offset, 10);
+            var domPos       = domGeom.position(this.domNode, false);
+            // how many pixels are already scrolled?
+            var scrollTop    = this.domNode.scrollTop + parseInt(this.offset, 10);
             var scrollHeight = this.domNode.scrollHeight || win.body().scrollHeight;
             //TODO: Test across all browsers
-            var domHeight = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
-            var maxScroll = scrollHeight - domHeight;
-            var activeTarget = this.activeTarget;
+            var domHeight    = (this.domNode.tagName === "BODY") ? this.scrollNode.innerHeight : domPos.h;
+            // How many pixels are made visible by scrolling?
+            var maxScroll    = scrollHeight - domHeight;
             var i;
             if (scrollTop >= maxScroll) {
-                return activeTarget !== (i = _targets[_targets.length - 1]) && this.activate(i);
+                return this.activeTarget !== (i = _targets[_targets.length - 1]) && this.activate(i);
             }
-            for (i = _offsets.length; i--;) {
-                if (activeTarget !== _targets[i] && scrollTop >= _offsets[i] && (!_offsets[i + 1] || scrollTop <= _offsets[i + 1])) {
+            for (i = _offsets.length; i >= 0; i--) {
+                if (this.activeTarget !== _targets[i] && scrollTop >= _offsets[i] && (!_offsets[i + 1] || scrollTop <= _offsets[i + 1])) {
                     this.activate(_targets[i]);
                 }
             }
         },
 
+        // summary:
+        //      Find all navigation control items and respective items within the attached
+        //      scrollspy container.
         refresh: function () {
             _offsets = [];
             _targets = [];
             var container_offset = domGeom.position(this.domNode, false).y;
+
+            // for every navigation control item, get the corresponding
+            // item within our scrollspy container plus the y-coords of that
+            // item within that scrollspy container
             query(this.target).map(function (node) {
                 var href = support.getData(node, 'target') || domAttr.get(node, 'href');
                 var target = /^#\w/.test(href) && query(href);
@@ -109,11 +122,17 @@ define([
             }, this);
         },
 
+        // summary:
+        //      Adds and removes CSS classes from the DomNodes
+        //      Additionally, sets the currently active element
+        //      and triggers the 'activate' event.
         activate: function (elm) {
             this.activeTarget = elm;
             query(this.target).parent('.active').removeClass('active');
+
             var selector = this.target + '[data-target="' + elm + '"],' + this.target + '[href="' + elm + '"]';
-            var active = query(selector).parent('li').addClass('active');
+            var active   = query(selector).parent('li').addClass('active');
+
             if (active.parent('.dropdown-menu').length) {
                 active = active.closest('li.dropdown').addClass('active');
             }
