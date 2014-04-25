@@ -1,6 +1,6 @@
 # Dojo-Bootstrap
 
-An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using the [Dojo Toolkit](http://dojotoolkit.org). This project replaces the Twitter Bootstrap Javascript components with AMD-compatible Dojo modules. Tested with Dojo 1.8 and Twitter Bootstrap 2.1.
+An implementation of the excellent [Twitter Bootstrap](http://twitter.github.com/bootstrap/) framework using the [Dojo Toolkit](http://dojotoolkit.org). This project replaces the Twitter Bootstrap Javascript components with AMD-compatible Dojo modules. Tested with Dojo 1.9.3 and Twitter Bootstrap 3.1.1.
 
 ## Quick Start
 
@@ -57,7 +57,7 @@ See examples in test/test_*.html
 + [Dojo-Bootstrap Website with examples for all the modules](http://dojobootstrap.com)
 + [Dojo Reference Guide (latest release version)](http://dojotoolkit.org/reference-guide/)
 + [Dojo Reference Guide (Dojo trunk)](http://livedocs.dojotoolkit.org/)
-+ [Twitter Bootstrap](http://twitter.github.com/bootstrap/)
++ [Twitter Bootstrap](http://getbootstrap.com/)
 
 ## License
 
