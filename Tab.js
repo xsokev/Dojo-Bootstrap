@@ -44,7 +44,7 @@ define([
             }
             var previous = query('.active a', ul[0]).last()[0];
 
-            on.emit(this.domNode, 'show', {bubbles:false, cancelable:false, relatedTarget:previous});
+            on.emit(this.domNode, 'show.bs.tab', {bubbles:false, cancelable:false, relatedTarget:previous});
 
             if (e && e.defaultPrevented) { return; }
 
@@ -61,18 +61,20 @@ define([
                 target = query(selector);
                 if (target[0] && target.parent()[0]) {
                     this.activate(target[0], target.parent()[0], function () {
-                        on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false, relatedTarget:previous});
+                        on.emit(_this.domNode, 'shown.bs.tab', {bubbles:false, cancelable:false, relatedTarget:previous});
                     });
                 }
             }
         },
         activate:function (element, container, callback) {
             var active = query('> .active', container)[0];
-            var transition = callback && support.trans && domClass.contains(active, 'fade');
+            var transition = callback && support.trans && active && domClass.contains(active, 'fade');
 
             function next() {
-                domClass.remove(active, 'active');
-                query('> .dropdown-menu > .active', active).removeClass('active');
+                if (active) {
+                    domClass.remove(active, 'active');
+                    query('> .dropdown-menu > .active', active).removeClass('active');                    
+                }
                 domClass.add(element, 'active');
 
                 if (transition) {
@@ -89,7 +91,9 @@ define([
             }
 
             if (transition) { on.once(active, support.trans.end, next); } else { next(); }
-            domClass.remove(active, 'in');
+            if (active) {
+                domClass.remove(active, 'in');                
+            }
         }
     });
 

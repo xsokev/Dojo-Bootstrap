@@ -108,7 +108,7 @@ define([
             if (domClass.contains(next[0], 'active')) { return; }
 
             if (support.trans && domClass.contains(this.domNode, 'slide')) {
-                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false, relatedTarget: next[0] });
+                on.emit(this.domNode, 'slide.bs.carousel', { bubbles:false, cancelable:false, relatedTarget: next[0] });
                 //if (e && e.defaultPrevented) { return; }
                 domClass.add(next[0], type);
                 next[0].offsetWidth;
@@ -121,15 +121,15 @@ define([
                     domClass.remove(active[0], ['active', direction].join(' '));
                     _this.sliding = false;
                     setTimeout(function () {
-                        on.emit(_this.domNode, 'slid', { bubbles:false, cancelable:false });
+                        on.emit(_this.domNode, 'slid.bs.carousel', { bubbles:false, cancelable:false });
                     }, 0);
                 });
             } else {
-                on.emit(this.domNode, 'slide', { bubbles:false, cancelable:false, relatedTarget: next[0] });
+                on.emit(this.domNode, 'slide.bs.carousel', { bubbles:false, cancelable:false, relatedTarget: next[0] });
                 domClass.remove(active[0], 'active');
                 domClass.add(next[0], 'active');
                 this.sliding = false;
-                on.emit(_this.domNode, 'slid', { bubbles:false, cancelable:false });
+                on.emit(_this.domNode, 'slid.bs.carousel', { bubbles:false, cancelable:false });
             }
 
             if (isCycling) { this.cycle(); }

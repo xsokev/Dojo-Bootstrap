@@ -119,10 +119,10 @@ define([
 
                 domClass.remove(this.domNode, 'collapsing');
 
-                on.emit(this.domNode, completeEvent, {bubbles:false, cancelable:false});
+                on.emit(this.domNode, completeEvent + '.bs.collapse', {bubbles:false, cancelable:false});
             });
 
-            on.emit(this.domNode, startEvent, {bubbles:false, cancelable:false});
+            on.emit(this.domNode, startEvent + '.bs.collapse', {bubbles:false, cancelable:false});
 
             domClass.remove(this.domNode, 'collapse');
             domClass.add(this.domNode, 'collapsing');

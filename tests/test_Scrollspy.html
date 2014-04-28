@@ -79,9 +79,9 @@
         <script>
             require(["dojo/query", "dojo/on", "bootstrap/Scrollspy", "bootstrap/Dropdown", "./assets/tests.js"],
                 function (query, on) {
-                    // todo: doesn't trigger - probably i'm doing something wrong but not sure what...
-                    query('#my-navbar li').on('activate', function(ev){
-                        console.log('asdf');
+                    query('#navbar-example2 li').on('activate.bs.scrollspy', function(evt){
+                        var a = query('a', evt.target)[0];
+                        console.log(a.hash + ' activated');
                     });
                 }
             );
