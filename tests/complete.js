@@ -1,7 +1,7 @@
 require({
     cacheBust: true,
     packages: [
-        { name: 'bootstrap', location: '../../' }
+        { name: 'bootstrap', location: '../../../' }
     ]
 },[
     'bootstrap/tests/support',

@@ -1,6 +1,6 @@
 var dojoConfig = {
     async: 1,
-    cacheBust: 1,
+    // cacheBust: 1,
     parseOnLoad: true,
     tlmSiblingOfDojo: false,
     packages: [

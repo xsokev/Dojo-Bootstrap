@@ -58,7 +58,7 @@ define([
         },
         show:function (e) {
             var _this = this;
-            on.emit(this.domNode, 'show', {bubbles:false, cancelable:false});
+            on.emit(this.domNode, 'show.bs.modal', {bubbles:false, cancelable:false});
             if (this.isShown && e.defaultPrevented) { return; }
             this.isShown = true;
 
@@ -79,17 +79,17 @@ define([
                 if (transition) {
                     on.once(_this.domNode, support.trans.end, function () {
                         _this.domNode.focus();
-                        on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
+                        on.emit(_this.domNode, 'shown.bs.modal', {bubbles:false, cancelable:false});
                     });
                 } else {
                     _this.domNode.focus();
-                    on.emit(_this.domNode, 'shown', {bubbles:false, cancelable:false});
+                    on.emit(_this.domNode, 'shown.bs.modal', {bubbles:false, cancelable:false});
                 }
             });
         },
         hide:function (e) {
             var _this = this;
-            on.emit(this.domNode, 'hide', {bubbles:false, cancelable:false});
+            on.emit(this.domNode, 'hide.bs.modal', {bubbles:false, cancelable:false});
             if (e) { e.preventDefault(); }
             if (!this.isShown && e.defaultPrevented) {
                 return;
@@ -134,7 +134,7 @@ define([
     function _hideModal() {
         var _this = this;
         domStyle.set(_this.domNode, 'display', 'none');
-        on.emit(_this.domNode, 'hidden', {bubbles:false, cancelable:false});
+        on.emit(_this.domNode, 'hidden.bs.modal', {bubbles:false, cancelable:false});
         _backdrop.call(_this);
     }
 

@@ -50,19 +50,19 @@
         <script>
             require(["dojo/query","dojo/on", "bootstrap/Modal", "./assets/tests.js"],
                 function (query, on) {
-                    query('#my-modal').on('show', function () {
+                    query('#my-modal').on('show.bs.modal', function () {
                         console.info('show');
                     });
 
-                    query('#my-modal').on('shown', function () {
+                    query('#my-modal').on('shown.bs.modal', function () {
                         console.info('modal is now shown');
                     });
 
-                    query('#my-modal').on('hide', function () {
+                    query('#my-modal').on('hide.bs.modal', function () {
                         console.info('hide');
                     });
 
-                    query('#my-modal').on('hidden', function () {
+                    query('#my-modal').on('hidden.bs.modal', function () {
                         console.info('modal is now hidden');
                     });
                 }

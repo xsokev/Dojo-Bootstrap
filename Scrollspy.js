@@ -103,7 +103,7 @@ define([
             if (active.parent('.dropdown-menu').length) {
                 active = active.closest('li.dropdown').addClass('active');
             }
-            on.emit(active, 'activate', {bubbles:false, cancelable:false});
+            on.emit(active[0], 'activate.bs.scrollspy', {bubbles:false, cancelable:false});
         }
     });
 

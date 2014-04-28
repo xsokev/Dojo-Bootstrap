@@ -77,19 +77,19 @@
             require([ "dojo/_base/array", "dojo/query", "dojo/on", "bootstrap/Collapse", "./assets/tests.js" ],
                 function ( array, query, on ) {
                     ['#one', '#two', '#three'].forEach(function (id) {
-                        query(id).on('show', function () {
+                        query(id).on('show.bs.collapse', function () {
                             console.info(id + ': show');
                         });
 
-                        query(id).on('shown', function () {
+                        query(id).on('shown.bs.collapse', function () {
                             console.info(id + ' is now shown');
                         });
 
-                        query(id).on('hide', function () {
+                        query(id).on('hide.bs.collapse', function () {
                             console.info(id + ': hide');
                         });
 
-                        query(id).on('hidden', function () {
+                        query(id).on('hidden.bs.collapse', function () {
                             console.info(id + 'is now hidden');
                         });
                     });

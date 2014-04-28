@@ -39,7 +39,7 @@ require({},[
             },
             runTest:function () {
                 var d = new doh.Deferred();
-                q(this.n).on('shown', d.getTestCallback(function () {
+                q(this.n).on('shown.bs.modal', d.getTestCallback(function () {
                     doh.t(q('#myModal').length);
                 }));
                 q(this.n).modal('show');
@@ -55,7 +55,7 @@ require({},[
             },
             runTest:function () {
                 var d = new doh.Deferred();
-                q(this.n).on('show', d.getTestCallback(function () {
+                q(this.n).on('show.bs.modal', d.getTestCallback(function () {
                     doh.t(true);
                 }));
                 q(this.n).modal('show');
@@ -71,13 +71,12 @@ require({},[
             },
             runTest:function () {
                 var d = new doh.Deferred();
-                q(this.n).on('show', d.getTestCallback(function (e) {
+                q(this.n).on('show.bs.modal', d.getTestCallback(function (e) {
                     e.preventDefault();
                     doh.t(true);
                 }));
-                //fix: shown event should not fire
-                q(this.n).on('shown', function (e) {
-                    //doh.f(true);
+                q(this.n).on('shown.bs.modal', function (e) {
+                    doh.t(false);
                 });
                 q(this.n).modal('show');
                 return d;

@@ -57,11 +57,11 @@ define([
 
         if (e) { e.stopPropagation(); }
 
-        on.emit(targetNode[0], 'close', {bubbles:true, cancelable:true});
+        on.emit(targetNode[0], 'close.bs.modal', {bubbles:true, cancelable:true});
         domClass.remove(targetNode[0], 'in');
 
         function _remove() {
-            on.emit(targetNode[0], 'closed', {bubbles:true, cancelable:true});
+            on.emit(targetNode[0], 'closed.bs.modal', {bubbles:true, cancelable:true});
             domConstruct.destroy(targetNode[0]);
         }
         var transition = support.trans && domClass.contains(targetNode[0], 'fade');

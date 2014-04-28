@@ -73,14 +73,8 @@
         "bootstrap/Tab",
         "bootstrap/Dropdown",
         "./assets/tests.js"
-    ], function(query, on, Tab){
+    ], function(query, on){
         var tab;
-        // parser.parse().then(function(){
-        //     tab = registry.byId("myTab");
-        //     on(tab, "shown", function(evt){
-        //         console.log(evt.target.innerHTML + " activated");
-        //     });
-        // });
         query("#btn1").on("click", function(){
             var first = query("#myTab > li a")[0];
             query(first).tab("show");
@@ -89,7 +83,7 @@
             var links = query("#myTab > li a");
             query(links[links.length-1]).tab("show");
         });
-        query("#myTab > li a").on("shown", function(evt) {
+        query("#myTab > li a").on("shown.bs.tab", function(evt) {
             console.log(evt.target.innerHTML, " tab shown");
         });
     });
