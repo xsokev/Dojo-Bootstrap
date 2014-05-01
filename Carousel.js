@@ -31,6 +31,7 @@ define([
     "dojo/_base/array",
     "./Support",
     "dojo/NodeList-traverse",
+    "dojo/NodeList-dom",
     "dojo/domReady!"
 ], function (declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, mouse, domGeom, domStyle, array, support) {
     "use strict";
@@ -44,6 +45,7 @@ define([
         constructor: function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
+            this.indicators = query('.carousel-indicators', this.domNode)
             if (this.options.slide) { this.slide(this.options.slide); }
             if (this.options.pause === 'hover') {
                 on(this.domNode, mouse.enter, lang.hitch(this, 'pause'));
@@ -92,6 +94,11 @@ define([
             if (this.sliding) { return; }
             return this.slide('prev');
         },
+        getActiveIndex: function () {
+            this.active = query('.item.active', this.domNode);
+            this.items  = this.active.parent().children('.item');
+            return this.items.indexOf(this.active[0]);
+        },
         slide: function (type, next) {
             var active = query('.item.active', this.domNode),
                 isCycling = this.interval,
@@ -102,6 +109,14 @@ define([
 
             this.sliding = true;
             if (isCycling) { this.pause(); }
+
+            if (this.indicators.length) {
+                query('.active', this.indicators[0]).removeClass('active');
+                on.once(this.domNode, 'slid.bs.carousel', function() {
+                    var nextIndicator = _this.indicators.children()[_this.getActiveIndex()];
+                    nextIndicator && domClass.add(nextIndicator, 'active');
+                });
+            }
 
             next = next.length ? next : query('.item', this.domNode)[fallback]();
 
