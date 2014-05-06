@@ -1,6 +1,6 @@
 {
     "name": "xsokev/dojo-bootstrap",
-    "description": "Twitter bootstrap ported to dojo AMD modules",
+    "description": "Bootstrap ported to dojo AMD modules",
     "type": "zend-extra",
     "keywords": ["dojo", "bootstrap"],
     "homepage": "http://github.com/xsokev/Dojo-Bootstrap",
