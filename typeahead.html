@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Typeahead - Dojo Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Kevin Armstrong">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css">
+    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css">
+    
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- fav and touch icons -->
+    <link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png">
+</head>
+<body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a>
+            </div>
+            <ul class="nav navbar-nav"></ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master">
+                    <i class="icon-download-alt"></i>Download v3.0</a></li>
+            </ul>
+        </div>
+        <header class="jumbotron jumbotron-page subhead">
+            <h2>Typeahead Module</h2>
+        </header>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div style="position: relative;">
+                    <div class="nav-header">Modules</div>
+                    <ul id="menu" class="nav nav-list bs-docs-sidenav">
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/button.html">Button</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/datepicker.html">DatePicker</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/dropdown.html">Dropdown</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li>
+                        
+                        
+                        
+                        <li class="active"><a href="#">Typeahead</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row-fluid">
+                    <div class="col-md-9 container-body">
+                    
+<div class="marker" id="usage">
+    <h3>Usage</h3>
+
+    <h4>Via data attributes</h4>
+    <p>Add data attributes to register an element with typeahead.</p>
+    <pre class="prettyprint linenums">&lt;input type="text" data-provide="typeahead" data-items="10"&gt;</pre>
+
+    <h4>Via JavaScript</h4>
+    <p>Call the typeahead manually with:</p>
+    <pre class="prettyprint linenums">query('.typeahead').typeahead()</pre>
+</div>
+
+<div class="marker" id="options">
+    <h3>Options</h3>
+    <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-source=""</code>.</p>
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+        <tr>
+            <th style="width: 100px;">Name</th>
+            <th style="width: 50px;">type</th>
+            <th style="width: 100px;">default</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>source</td>
+            <td>array, function</td>
+            <td>[ ]</td>
+            <td>The data source to query against. May be an array of strings or a function. The function is passed two arguments, the <code>query</code> value in the input field and the <code>process</code> callback. The function may be used synchronously by returning the data source directly or asynchronously via the <code>process</code> callback's single argument.</td>
+        </tr>
+        <tr>
+            <td>items</td>
+            <td>number</td>
+            <td>8</td>
+            <td>The max number of items to display in the dropdown.</td>
+        </tr>
+        <tr>
+            <td>minLength</td>
+            <td>number</td>
+            <td>1</td>
+            <td>The minimum character length needed before triggering autocomplete suggestions</td>
+        </tr>
+        <tr>
+            <td>matcher</td>
+            <td>function</td>
+            <td>case insensitive</td>
+            <td>The method used to determine if a query matches an item. Accepts a single argument, the <code>item</code> against which to test the query. Access the current query with <code>this.query</code>. Return a boolean <code>true</code> if query is a match.</td>
+        </tr>
+        <tr>
+            <td>sorter</td>
+            <td>function</td>
+            <td>exact match,<br> case sensitive,<br> case insensitive</td>
+            <td>Method used to sort autocomplete results. Accepts a single argument <code>items</code> and has the scope of the typeahead instance. Reference the current query with <code>this.query</code>.</td>
+        </tr>
+        <tr>
+            <td>highlighter</td>
+            <td>function</td>
+            <td>highlights all default matches</td>
+            <td>Method used to highlight autocomplete results. Accepts a single argument <code>item</code> and has the scope of the typeahead instance. Should return html.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="marker" id="methods">
+    <h3>Methods</h3>
+    <p>To use the Typeahead methods, you must get an instance of the Typeahead class which is stored in the element's data store.</p>
+<pre class="prettyprint">var typeahead = query("#aNode").data("typeahead");</pre>
+    <br/>
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+        <tr>
+            <th style="width: 100px;">Method</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>hide</td>
+            <td>Hides the typeahead list.</td>
+        </tr>
+        <tr>
+            <td>show</td>
+            <td>Shows the typeahead list.</td>
+        </tr>
+        <tr>
+            <td>process</td>
+            <td>Shows the typeahead list.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="marker" id="examples">
+    <h3>Examples</h3>
+    <p>A basic, easily extended plugin for quickly creating elegant typeaheads with any form text input.</p>
+    <div class="bs-docs-example well">
+        <label for="state">State: </label>
+        <input type="text" class="span4" data-provide="typeahead" data-items="4" data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
+    </div>
+
+    <pre class="prettyprint">&lt;input type="text" data-provide="typeahead"&gt;</pre>
+
+    <h4>Example with Ajax</h4>
+    <p>This example uses ajax to feed the source for typeahead</p>
+    <div class="bs-docs-example well">
+        <label>Zip code:</label>
+        <input type="text" id="zipcode" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="10">
+        <span id="zipcode_citystate" class="help-block" style="color: #999;">&nbsp;</span>
+    </div>
+    <pre class="prettyprint">&lt;input id="zipcode" type="text" data-provide="typeahead" data-items="10"&gt;</pre>
+    <br/>
+<pre class="prettyprint linenums">query('#zipcode').typeahead({
+    minLength: 3,
+    source: function (query, process) {
+        return request('/zipcodes/'+query, {handleAs:'json'})
+                .then(function (data) {
+                    process(data);
+                });
+        }
+});</pre>
+</div>
+
+                    </div>
+                    <div id="page-nav" class="col-md-3">
+                        <ul class="nav nav-pills nav-stacked bs-page-sidenav affix">
+                            <li><h1>Typeahead.js</h1></li>
+                            <li class="menu-link-top"><a href="#"><i class="icon-arrow-up"></i>back to top</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
+    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script>
+    
+<script type="text/javascript" charset="utf-8">
+    require([ 'dojo/request', 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Typeahead' ], function(request){
+        var q = dojo.query;
+        q('#zipcode').typeahead({
+            minLength: 3,
+            source: function (query, process) {
+                return request('http://xsokev.github.io/Dojo-Bootstrap/zipcode/query/'+query, {handleAs:'json'}).then(function (data) {
+                    process(data);
+                });
+            }
+        }).on('change', function(){
+            q('#zipcode_citystate')[0].innerHTML = '&nbsp;';
+            request('http://xsokev.github.io/Dojo-Bootstrap/zipcode/citystate/'+this.value).then(function (data) {
+                q('#zipcode_citystate')[0].innerHTML = data;
+            });
+        });
+    });
+</script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-5131920-5']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

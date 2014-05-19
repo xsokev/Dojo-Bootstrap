@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Datepicker - Dojo Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Kevin Armstrong">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css">
+    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css">
+    
+        <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/datepicker.css">
+    
+    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- fav and touch icons -->
+    <link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72"
+          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png">
+</head>
+<body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a>
+            </div>
+            <ul class="nav navbar-nav"></ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master">
+                    <i class="icon-download-alt"></i>Download v3.0</a></li>
+            </ul>
+        </div>
+        <header class="jumbotron jumbotron-page subhead">
+            <h2>DatePicker Module</h2>
+        </header>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div style="position: relative;">
+                    <div class="nav-header">Modules</div>
+                    <ul id="menu" class="nav nav-list bs-docs-sidenav">
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/button.html">Button</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li>
+                        
+                        
+                        
+                        <li class="active"><a href="#">DatePicker</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/dropdown.html">Dropdown</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li>
+                        
+                        
+                        
+                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/typeahead.html">Typeahead</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row-fluid">
+                    <div class="col-md-9 container-body">
+                    
+    <div class="marker" id="usage">
+        <h3>Usage</h3>
+        <h4>Via Markup</h4>
+<pre class="prettyprint linenums">
+&lt;div class=&quot;input-append date&quot; id=&quot;dp3&quot; data-date=&quot;12-02-2012&quot; data-date-format=&quot;dd-mm-yyyy&quot;&gt;
+  &lt;input class=&quot;span2&quot; size=&quot;16&quot; type=&quot;text&quot; value=&quot;12-02-2012&quot;&gt;
+  &lt;span class=&quot;add-on&quot;&gt;&lt;i class=&quot;icon-th&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+&lt;/div&gt;</pre>
+
+        <h4>Via Javascript</h4>
+        <pre class="prettyprint linenums">query('.datepicker').datepicker(options)</pre>
+        <br/>
+    </div>
+
+    <div class="marker" id="options">
+        <h3>Options</h3>
+        <table class="table table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th style="width: 100px;">Name</th>
+                <th style="width: 50px;">Type</th>
+                <th style="width: 100px;">Default</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>format</td>
+                <td>string</td>
+                <td>'mm/dd/yyyy'</td>
+                <td>the date format, combination of  d, dd, m, mm, yy, yyy and separators: -, /, .</td>
+            </tr>
+            <tr>
+                <td>weekStart</td>
+                <td>integer</td>
+                <td>0</td>
+                <td>day of the week start. 0 for Sunday -  6 for Saturday</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="marker" id="methods">
+        <h3>Methods</h3>
+        <table class="table table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th style="width: 100px;">Method</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>hide</td>
+                <td>Hides the Datepicker.</td>
+            </tr>
+            <tr>
+                <td>show</td>
+                <td>Shows the Datepicker.</td>
+            </tr>
+            <tr>
+                <td>destroy</td>
+                <td>Remove the Datepicker from the element</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <pre class="prettyprint linenums">query('.datepicker').datepicker("destroy")</pre>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="marker" id="events">
+        <h3>Events</h3>
+        <p>Datepicker class exposes a few events for manipulating the dates.</p>
+        <table class="table table-bordered table-condensed">
+            <thead>
+            <tr>
+                <th style="width: 100px;">Event</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>show</td>
+                <td>This event fires immediately when the date picker is displayed.</td>
+            </tr>
+            <tr>
+                <td>hide</td>
+                <td>This event is fired immediately when the date picker is hidden.</td>
+            </tr>
+            <tr>
+                <td>changeDate</td>
+                <td>This event is fired when the date is changed.</td>
+            </tr>
+            <td colspan="2">
+<pre class="prettyprint linenums">
+query(&#039;#dp5&#039;).datepicker()
+    .on(&#039;changeDate&#039;, function(ev){
+        if (ev.date.valueOf() &lt; startDate.valueOf()){
+            ....
+        }
+    });
+</pre>
+            </td>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="marker" id="examples">
+        <h3>Examples</h3>
+        <p>Attached to a field with the format specified via options. (default format: mm-dd-yyyy)</p>
+        <div class="well">
+            <input type="text" class="span4" value="" id="dp1" >
+        </div>
+        <p>Attachet to a field with the format specified via data tag. (mm/dd/yy)</p>
+        <div class="well">
+            <input type="text" class="span4" value="02/16/12" data-date-format="mm/dd/yy" id="dp2" >
+        </div>
+        <p>As component. (dd-mm-yyyy)</p>
+        <div class="well form-inline">
+            <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                <input class="span8" size="16" type="text" value="12-02-2012" readonly>
+                <span class="add-on"><i class="icon-th"></i></span>
+            </div>
+        </div>
+        <p>Attached to other element then field and using events to work with the date values. (yyyy-mm-dd)</p>
+        <div class="well">
+            <div class="alert alert-error" id="alert">
+                <strong>Oh snap!</strong>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Start date<br/><a href="#" class="btn small" id="dp4" data-date-format="yyyy-mm-dd" data-date="2012-02-20">Change</a></th>
+                    <th>End date<br/><a href="#" class="btn small" id="dp5" data-date-format="yyyy-mm-dd" data-date="2012-02-25">Change</a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="startDate">2012-02-20</td>
+                    <td id="endDate">2012-02-25</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+                    </div>
+                    <div id="page-nav" class="col-md-3">
+                        <ul class="nav nav-pills nav-stacked bs-page-sidenav affix">
+                            <li><h1>Datepicker.js</h1></li>
+                            <li class="menu-link-top"><a href="#"><i class="icon-arrow-up"></i>back to top</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
+    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script>
+    
+<script type="text/javascript" charset="utf-8">
+    require([ 'dojo/query', 'dojo/on', 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Datepicker' ], function(q, on){
+        q('#alert').hide();
+        q('#dp1').datepicker({
+            format: 'mm-dd-yyyy'
+        });
+        q('#dp2').datepicker();
+        q('#dp3').datepicker();
+
+        var startDate = new Date(2012,1,20);
+        var endDate = new Date(2012,1,25);
+        q('#dp4').datepicker().on('changeDate', function(ev){
+            if (ev.date.valueOf() > endDate.valueOf()){
+                q('#alert').show();
+                q('strong', q('#alert')[0])[0].innerHTML = 'The start date can not be greater then the end date';
+            } else {
+                q('#alert').hide();
+                startDate = new Date(ev.date);
+                q('#startDate')[0].innerHTML = q('#dp4').data('date');
+            }
+            q('#dp4').datepicker('hide');
+        });
+        q('#dp5').datepicker().on('changeDate', function(ev){
+            if (ev.date.valueOf() < endDate.valueOf()){
+                q('#alert').show();
+                q('strong', q('#alert')[0])[0].innerHTML = 'The end date can not be less then the start date';
+            } else {
+                q('#alert').hide();
+                startDate = new Date(ev.date);
+                q('#endDate')[0].innerHTML = q('#dp5').data('date');
+            }
+            q('#dp5').datepicker('hide');
+        });
+    });
+</script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-5131920-5']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

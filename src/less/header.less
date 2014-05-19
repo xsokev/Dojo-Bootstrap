@@ -1,0 +1,62 @@
+.jumbotron {
+  position: relative;
+  padding: 40px 0;
+  color: @white;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+  margin-bottom: 0px;
+  background: url(../img/congruent_outline.png) #eeeeee;
+}
+.jumbotron-page {
+  padding: 10px 0;
+}
+.jumbotron h1 {
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.jumbotron p {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 30px;
+  margin-bottom: 30px;
+}
+.jumbotron .container {
+  position: relative;
+  z-index: 2;
+}
+
+.jumbotron a {
+  color: @white;
+  color: rgba(255,255,255,.5);
+  -webkit-transition: all .2s ease-in-out;
+  -moz-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out;
+}
+.jumbotron a:hover {
+  color: @white;
+  text-shadow: 0 0 10px rgba(255,255,255,.25);
+}
+.jumbotron a.btn {
+  font-weight: normal;
+  color: @white;
+
+  background-color: @primary;
+  background-image: -moz-linear-gradient(top, @primary, darken(@primary, 10%));
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@primary), to(darken(@primary, 10%)));
+  background-image: -webkit-linear-gradient(top, @primary, darken(@primary, 10%));
+  background-image: -o-linear-gradient(top, @primary, darken(@primary, 10%));
+  background-image: linear-gradient(to bottom, @primary, darken(@primary, 10%));
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=@primary, endColorstr=darken(@primary, 10%), GradientType=0);
+  border-color: @primary @primary darken(@primary, 10%);
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: @primary;
+
+}
+.jumbotron a.btn-primary:hover {
+  background-position: 0;
+  background-color: @primary;
+  *background-color: @primary;
+}

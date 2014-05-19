@@ -5,4 +5,4 @@
 .idea/*.xml
 .idea/*/*.xml
 
-vendor/
+node_modules/

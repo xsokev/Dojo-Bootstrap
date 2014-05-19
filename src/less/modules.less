@@ -1,0 +1,20 @@
+.backcolor (@a) when (lightness(@a) >= 50%) {
+  color: @font_color;
+}
+.backcolor (@a) when (lightness(@a) < 50%) {
+  color: @white;
+}
+.backcolor (@a) {
+  background-color: @a;
+}
+.link (@a) {
+  color: @a;
+  -webkit-transition: all .4s ease-in-out;
+  -moz-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  &:hover {
+    color: spin(@a, 180);
+    text-decoration: none;
+    border-bottom: 1px dotted darken(spin(@a, 180), 5%);
+  }
+}

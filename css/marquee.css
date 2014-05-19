@@ -1,0 +1,8 @@
+.marquee {
+	overflow: hidden;
+	position: relative;
+}
+.marquee .marquee-item {
+	position: absolute;
+	top: 0px;	
+}

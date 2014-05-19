@@ -1,0 +1,90 @@
+@import "theme";
+@import "modules";
+@import "nav";
+@import "fonts";
+@import "header";
+
+html, body {
+  background-color: darken(@white, 5%);
+}
+
+body.page {
+  margin-top: 138px;
+}
+
+i.icon-download-alt {
+  color: #FFFFFF;
+  margin-right: 3px;
+}
+.navbar {
+  border-bottom: 5px solid @primary;
+
+  .brand {
+    font-weight: bold;
+  }
+
+}
+.container {
+  h3 a {
+    .link(@link);
+  }
+}
+.container-body {
+  .backcolor(@white);
+  padding: 10px;
+
+  h3 {
+    a {
+      color: @secondary;
+    }
+  }
+}
+.page-header h1 {
+  text-align: center;
+}
+.page-header h1 a {
+  margin-top: 10px;
+}
+.container-body > * {
+  margin: 10px;
+}
+.container-body > table {
+  width: 560px;
+  margin: 0 auto;
+}
+.marker {
+  margin: 15px 0;
+  padding: 10px 0;
+  border-bottom: 10px solid darken(@white, 5%);
+}
+pre.prettyprint,
+table .alert {
+  margin: 0px;
+}
+pre.prettyprint {
+  font-size: .8em;
+}
+#navbar-example {
+  border-bottom: 0px;
+}
+.bs-docs-example-popover {
+  padding-bottom: 24px;
+  background-color: #f9f9f9;
+}
+.bs-docs-example-popover .popover {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 20px;
+}
+
+.scrollspy-example {
+  height: 200px;
+  overflow: auto;
+  border: 1px solid #cccccc;
+  padding: 5px;
+}
+
+#usage {
+  margin-top: -20px;
+}

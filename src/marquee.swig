@@ -1,0 +1,345 @@
+{% set selected = "Marquee" %}
+{% extends "layouts/page.swig" %}
+{% block title %}{{selected|capitalize}}{% endblock %}
+{% block content %}
+<div class="marker" id="usage">
+    <h3>Usage</h3>
+    <h4>Via data attributes</h4>
+    <p>To easily add marquee behavior to any element, just add <code>data-spy="marquee"</code> to the element you want to use as a marquee. You can use <code>data-<em>option</em></code> to specify options for the marquee.</p>
+
+    <pre class="prettyprint linenums">&lt;div data-spy="marquee" data-life="2"&gt;...&lt;/div&gt;</pre>
+    <br/>
+    <div class="alert alert-info">
+        <strong>Heads up!</strong>
+        Elements that are immediately positioned under the marquee element will be used to create the marquee messages. During creation, the marquee element is emptied and the messages are created using data attribute options of those elements.
+    </div>
+
+    <h4>Via JavaScript</h4>
+    <p>Call the marquee plugin via JavaScript:</p>
+    <pre class="prettyprint linenums">query().marquee({
+    anim: "scroll", duration: 1, life: 2.5,
+    messages: [...]
+})</pre>
+</div>
+
+<div class="marker" id="options">
+    <h3>Options</h3>
+    <p>Options can be passed via data attributes or JavaScript. For data attributes, append the option name to <code>data-</code>, as in <code>data-duration="2"</code>.</p>
+    <h4>Marquee Options</h4>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 100px;">option</th>
+            <th style="width: 100px;">type</th>
+            <th style="width: 50px;">default</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>autostart</td>
+            <td>boolean</td>
+            <td>true</td>
+            <td>Automatically start the Marquee after loading. Mostly useful when initially creating the Marquee. This can be overwritten by passing the boolean value directly to the load method.</td>
+        </tr>
+        <tr>
+            <td>blend</td>
+            <td>boolean</td>
+            <td>false</td>
+            <td>Animation of the messages are simultaneous. Otherwise, the next message is animated <em>in</em> at the end of the current message's animation <em>out</em>.</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-info">Marquee also accepts all options available for Messages. These options will be applied to every Message created unless overwritten by passing the option to the Message directly.</div>
+    <h4>Message Options</h4>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 100px;">option</th>
+            <th style="width: 100px;">type</th>
+            <th style="width: 50px;">default</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>anim</td>
+            <td>string</td>
+            <td>fade</td>
+            <td>The <a href="#animations">animation</a> to use when transitioning the message in and out. <a href="#customanimations">See below</a> for creating custom animations.</td>
+        </tr>
+        <tr>
+            <td>className</td>
+            <td>string</td>
+            <td></td>
+            <td>The CSS class to apply to the message.</td>
+        </tr>
+        <tr>
+            <td>duration</td>
+            <td>number</td>
+            <td>1</td>
+            <td>The number of seconds the animation should last. This can be a float or integer.</td>
+        </tr>
+        <tr>
+            <td>life</td>
+            <td>number</td>
+            <td>2</td>
+            <td>The length of time a message should remain visible.</td>
+        </tr>
+        <tr>
+            <td>link</td>
+            <td>string</td>
+            <td></td>
+            <td>The URL link associated with the message. Links created using this method will open in the current page.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="marker" id="methods">
+    <h3>Methods</h3>
+    <h4>.marquee(method, args)</h4>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 80px;">method</th>
+            <th style="width: 110px;">args</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>add</td>
+            <td>string | object</td>
+            <td>Add a new message and its options to the display queue.</td>
+        </tr>
+        <tr>
+            <td>clear</td>
+            <td></td>
+            <td>Clear the marquee display. Messages remain in the display queue.</td>
+        </tr>
+        <tr>
+            <td>empty</td>
+            <td></td>
+            <td>Clears the marquee display and removes all messages from the display queue.</td>
+        </tr>
+        <tr>
+            <td>load</td>
+            <td>array, boolean</td>
+            <td>Load a list of messages and their options to be displayed in a container. Clears existing messages from the display queue. The optional boolean argument allows the Marquee to automatically start.</td>
+        </tr>
+        <tr>
+            <td>remove</td>
+            <td>number</td>
+            <td>Removes a message from the display queue using a passed index. If you are attempting to remove the current message, the marquee displays the next message first, then deletes the current.</td>
+        </tr>
+        <tr>
+            <td>start</td>
+            <td>number</td>
+            <td>Start the marquee displaying messages. Optional index allows specific message to be displayed when starting the display queue.</td>
+        </tr>
+        <tr>
+            <td>stop</td>
+            <td>boolean</td>
+            <td>Stop the marquee from displaying messages. The optional boolean argument <code>quiet</code> tells Marquee whether to suppress the stop event. True suppresses the stop event.</td>
+        </tr>
+        <tr>
+            <td>first</td>
+            <td></td>
+            <td>Displays the first message in the display queue.</td>
+        </tr>
+        <tr>
+            <td>last</td>
+            <td></td>
+            <td>Displays the last message in the display queue.</td>
+        </tr>
+        <tr>
+            <td>next</td>
+            <td></td>
+            <td>Displays the next message in the display queue. If the last message is being displayed then the first message is displayed.</td>
+        </tr>
+        <tr>
+            <td>previous</td>
+            <td></td>
+            <td>Displays the previous message in the display queue. If the first message is being displayed then the last message is displayed.</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="alert alert-info"><code>first</code>, <code>last</code>, <code>next</code>, <code>previous</code> will not work while the messages are transitioning from one to another.</div>
+</div>
+
+<div class="marker" id="events">
+    <h3>Events</h3>
+    <p>Events are applied to the Marquee element, not on individual messages.</p>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 100px;">event</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>loaded</td>
+            <td>triggered when finished loading messages.</td>
+        </tr>
+        <tr>
+            <td>changed</td>
+            <td>triggered when finished transitioning from one message to another.</td>
+        </tr>
+        <tr>
+            <td>after</td>
+            <td>triggered after transitioning a message out.</td>
+        </tr>
+        <tr>
+            <td>before</td>
+            <td>triggered before transitioning a message in.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="marker" id="animations">
+    <h3>Animations</h3>
+    <p>Marquee has three predefined animations.</p>
+    <table class="table table-bordered table-condensed">
+        <thead>
+        <tr>
+            <th style="width: 100px;">animation</th>
+            <th>description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>fade</td>
+            <td>Fades the message in and out.</td>
+        </tr>
+        <tr>
+            <td>scroll</td>
+            <td>Scrolls the message from bottom to top.</td>
+        </tr>
+        <tr>
+            <td>slide</td>
+            <td>Slides the message from right to left.</td>
+        </tr>
+        </tbody>
+    </table>
+    {#<h4 id="customanimations">Custom Animations</h4>#}
+</div>
+
+<div class="marker" id="examples">
+    <h3>Examples</h3>
+    <h4>via Markup</h4>
+    <div class="well">
+        <div class="marquee" data-spy="marquee" id="mq1">
+            <div data-life="1" class="google">Browse the web with the power of Google!</div>
+            <div data-life=".6">Searching just got faster...</div>
+            <div data-life=".4">...easier...</div>
+            <div data-life=".7">...and safer.</div>
+            <div data-life="4"><a href="http://google.com" target="_blank">Visit Today</a></div>
+        </div>
+    </div>
+
+    <h4>via Javascript</h4>
+    <div class="well"><div class="marquee" id="mq2"></div></div>
+
+    <h4>using Methods</h4>
+    <div class="well well-center">
+        <div class="btn-group">
+            <button id="bfirst" class="btn"><i class="icon-step-backward"></i></button>
+            <button id="bprev" class="btn"><i class="icon-backward"></i></button>
+            <button id="bplay" class="btn disabled"><i class="icon-play"></i></button>
+            <button id="bstop" class="btn"><i class="icon-stop"></i></button>
+            <button id="bnext" class="btn"><i class="icon-forward"></i></button>
+            <button id="blast" class="btn"><i class="icon-step-forward"></i></button>
+        </div><br/>
+        <h4 class="example3">Javascript Frameworks</h4>
+        <div class="marquee" id="mq3"></div>
+    </div>
+
+    <h4>using Events</h4>
+    <div class="frame">
+        <div data-spy="marquee" class="marquee" id="polaroid" data-blend="true" data-life="5">
+            <div data-label="Bridge" data-caption="Nighttime display of the Memphis/Arkansas Bridge."><img src="http://dojobootstrap.com/img/pics/img1.jpg"/></div>
+            <div data-label="Concert" data-caption="Young the Giant in concert at Minglewood Hall."><img src="http://dojobootstrap.com/img/pics/img2.jpg"/></div>
+            <div data-label="Reflection" data-caption="Chicago skyscrapers reflecting in a building."><img src="http://dojobootstrap.com/img/pics/img3.jpg"/></div>
+            <div data-label="Carnival" data-caption="A shot of the carnival from a ferris wheel."><img src="http://dojobootstrap.com/img/pics/img4.jpg"/></div>
+            <div data-label="Bean" data-caption="The Bean in Chicago."><img src="http://dojobootstrap.com/img/pics/img5.jpg"/></div>
+        </div>
+        <h3>Bridge</h3>
+        <p class="caption">Nighttime display of the Memphis/Arkansas Bridge.</p>
+    </div>
+    <br/>
+
+</div>
+{% endblock %}
+
+{% block initscript %}
+<script type="text/javascript" charset="utf-8">
+    require([ 'dojo/query', 'dojo/dom-class', '{{baseUrl}}/js/application.js', 'bootstrap/Marquee', 'dojo/domReady!' ], function(q, dc){
+        q('#mq2').marquee({
+            anim:"scroll", duration: .3,
+            messages: [
+                { message: "AP - A wintry blast of ice, snow and heavy wind blasted the upper Plains states, knocking out power and forcing highways to close.", link: "#", life: 3
+                },
+                { message: "AP - Wall Street recoiled again Thursday, sending stocks lower for a second straight day as new readings on retail sales and jobless claims fanned investors' worries that the economy is in recession.", anim: "fade"
+                },
+                { message: "AP - The efficiency of U.S. workers slowed sharply in the summer as a huge pull back by American consumers threw the national economy into reverse.", anim: "slide"
+                }
+            ]
+        });
+        q('#bfirst').on('click', function(){
+            q('#mq3').marquee('first');
+        });
+        q('#bprev').on('click', function(){
+            q('#mq3').marquee('previous');
+        });
+        q('#bplay').on('click', function(){
+            q('#mq3').marquee('start');
+            dc.add(q('#bplay')[0], 'disabled');
+            dc.remove(q('#bstop')[0], 'disabled');
+
+            dc.remove(q('#bfirst')[0], 'disabled');
+            dc.remove(q('#bprev')[0], 'disabled');
+            dc.remove(q('#bnext')[0], 'disabled');
+            dc.remove(q('#blast')[0], 'disabled');
+        });
+        q('#bstop').on('click', function(){
+            q('#mq3').marquee('stop');
+            dc.add(q('#bstop')[0], 'disabled');
+            dc.remove(q('#bplay')[0], 'disabled');
+
+            dc.add(q('#bfirst')[0], 'disabled');
+            dc.add(q('#bprev')[0], 'disabled');
+            dc.add(q('#bnext')[0], 'disabled');
+            dc.add(q('#blast')[0], 'disabled');
+        });
+        q('#bnext').on('click', function(){
+            q('#mq3').marquee('next');
+        });
+        q('#blast').on('click', function(){
+            q('#mq3').marquee('last');
+        });
+        q('#mq3').marquee({
+            anim:"fade",
+            duration: .3,
+            blend: true,
+            life: 4,
+            messages: [
+                { message: "Dojo Toolkit", link: "http://dojotoolkit.org/" },
+                { message: "jQuery", link: "http://jquery.com/" },
+                { message: "MooTools", link: "http://mootools.net/" },
+                { message: "Yahoo", link: "http://yuilibrary.com/" },
+                { message: "ExtJS", link: "http://www.sencha.com/" },
+                { message: "Prototype JS", link: "http://prototypejs.org/" },
+                { message: "Qooxdoo", link: "http://qooxdoo.org/" }
+            ]
+        });
+        q('#polaroid').on('before', function(evt){
+            var messageData = evt.currentMessage.options;
+            q('.frame h3')[0].innerHTML = messageData.label;
+            q('.frame p.caption')[0].innerHTML = messageData.caption;
+        });
+    });
+</script>
+{% endblock %}
