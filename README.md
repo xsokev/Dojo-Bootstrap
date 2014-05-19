@@ -54,7 +54,7 @@ See examples in test/test_*.html
 
 ## Useful resources
 
-+ [Dojo-Bootstrap Website with examples for all the modules](http://dojobootstrap.com)
++ [Dojo-Bootstrap Website with examples for all the modules](http://xsokev.github.io/Dojo-Bootstrap/)
 + [Dojo Reference Guide (latest release version)](http://dojotoolkit.org/reference-guide/)
 + [Dojo Reference Guide (Dojo trunk)](http://livedocs.dojotoolkit.org/)
 + [Bootstrap](http://getbootstrap.com/)
