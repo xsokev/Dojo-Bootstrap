@@ -120,12 +120,12 @@ query(&#039;#dp5&#039;).datepicker()
         </div>
         <p>Attachet to a field with the format specified via data tag. (mm/dd/yy)</p>
         <div class="well">
-            <input type="text" class="span4" value="02/16/12" data-date-format="mm/dd/yy" id="dp2" >
+            <input type="text" class="span4" value="02/16/14" data-date-format="mm/dd/yy" id="dp2" >
         </div>
         <p>As component. (dd-mm-yyyy)</p>
         <div class="well form-inline">
-            <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                <input class="span8" size="16" type="text" value="12-02-2012" readonly>
+            <div class="input-append date" id="dp3" data-date="12-02-2014" data-date-format="dd-mm-yyyy">
+                <input class="span8" size="16" type="text" value="12-02-2014" readonly>
                 <span class="add-on"><i class="icon-th"></i></span>
             </div>
         </div>
@@ -137,14 +137,14 @@ query(&#039;#dp5&#039;).datepicker()
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Start date<br/><a href="#" class="btn small" id="dp4" data-date-format="yyyy-mm-dd" data-date="2012-02-20">Change</a></th>
-                    <th>End date<br/><a href="#" class="btn small" id="dp5" data-date-format="yyyy-mm-dd" data-date="2012-02-25">Change</a></th>
+                    <th>Start date<br/><a href="#" class="btn small" id="dp4" data-date-format="yyyy-mm-dd" data-date="2014-02-20">Change</a></th>
+                    <th>End date<br/><a href="#" class="btn small" id="dp5" data-date-format="yyyy-mm-dd" data-date="2014-02-25">Change</a></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td id="startDate">2012-02-20</td>
-                    <td id="endDate">2012-02-25</td>
+                    <td id="startDate">2014-02-20</td>
+                    <td id="endDate">2014-02-25</td>
                 </tr>
                 </tbody>
             </table>
@@ -162,8 +162,8 @@ query(&#039;#dp5&#039;).datepicker()
         q('#dp2').datepicker();
         q('#dp3').datepicker();
 
-        var startDate = new Date(2012,1,20);
-        var endDate = new Date(2012,1,25);
+        var startDate = new Date(2014,4,20);
+        var endDate = new Date(2014,1,25);
         q('#dp4').datepicker().on('changeDate', function(ev){
             if (ev.date.valueOf() > endDate.valueOf()){
                 q('#alert').show();

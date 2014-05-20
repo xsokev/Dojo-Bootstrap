@@ -67,19 +67,19 @@ query('#my-alert').bind('closed', function () {
         <h3>Examples</h3>
         <p>Add dismiss functionality to all alerge messages with this plugin.</p>
         <div class="bs-docs-example">
-            <div class="alert fade in">
+            <div class="alert alert-warning fade in">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
             </div>
         </div>
 
         <div class="bs-docs-example">
-            <div class="alert alert-block alert-error fade in">
+            <div class="alert alert-block alert-danger fade in">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <h4 class="alert-heading">Oh snap! You got an error!</h4>
                 <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
                 <p>
-                    <a class="btn btn-danger" href="#">Take this action</a> <a class="btn" href="#">Or do this</a>
+                    <a class="btn btn-danger" href="#">Take this action</a> <a class="btn btn-default" href="#">Or do this</a>
                 </p>
             </div>
         </div>

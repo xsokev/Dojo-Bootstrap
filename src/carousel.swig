@@ -123,6 +123,13 @@
         <p>The slideshow below shows a generic plugin and component for cycling through elements like a carousel.</p>
         <div class="bs-docs-example">
             <div id="myCarousel" class="carousel slide">
+			    <!-- Indicators -->
+			    <ol class="carousel-indicators">
+			      <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+			      <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+			      <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+			      <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+			    </ol>
                 <div class="carousel-inner">
                     <div class="item active">
                         <img src="{{baseUrl}}/img/carousel-01.jpg" alt="">
@@ -153,14 +160,9 @@
                         </div>
                     </div>
                 </div>
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
-        </div>
-
-        <div class="alert alert-warning">
-            <strong>Heads up!</strong>
-            When implementing this carousel, remove the images we have provided and replace them with your own.
         </div>
     </div>
 {% endblock %}

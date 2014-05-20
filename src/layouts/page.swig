@@ -7,7 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="Kevin Armstrong">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{baseUrl}}/css/prettify.css">
     <link rel="stylesheet" href="{{baseUrl}}/css/styles.css">
     {% if selected == 'DatePicker' %}
@@ -37,19 +36,15 @@
             <div class="navbar-header">
                 <a class="navbar-brand" href="{{baseUrl}}">Dojo Bootstrap</a>
             </div>
-            <ul class="nav navbar-nav"></ul>
             <ul class="nav navbar-nav pull-right">
                 <li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master">
-                    <i class="icon-download-alt"></i>Download v3.0</a></li>
+                    <i class="glyphicon glyphicon-download-alt"></i>Download v3.0</a></li>
             </ul>
         </div>
-        <header class="jumbotron jumbotron-page subhead">
-            <h2>{{ selected }} Module</h2>
-        </header>
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-3">
                 <div style="position: relative;">
                     <div class="nav-header">Modules</div>
                     <ul id="menu" class="nav nav-list bs-docs-sidenav">
@@ -63,18 +58,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-10">
-                <div class="row-fluid">
-                    <div class="col-md-9 container-body">
-                    {% block content %}{% endblock %}
-                    </div>
-                    <div id="page-nav" class="col-md-3">
-                        <ul class="nav nav-pills nav-stacked bs-page-sidenav affix">
-                            <li><h1>{{ selected|title }}.js</h1></li>
-                            <li class="menu-link-top"><a href="#"><i class="icon-arrow-up"></i>back to top</a></li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-md-10 col-sm-9 container-body">
+		        <header>
+		            <h2>{{ selected }} Module</h2>
+		        </header>
+                {% block content %}{% endblock %}
             </div>
         </div>
     </div>

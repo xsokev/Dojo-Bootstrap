@@ -1,101 +1,37 @@
 .nav-header {
-  .backcolor(@primary);
-  width: 138px;
+  .backcolor(@secondary);
   padding: 5px 10px;
   font-size: 1.2em;
   text-shadow: none;
 }
 .bs-docs-sidenav {
-  width: 148px;
-  margin: 5px 0 0;
+  margin: 5px 0 10px;
   padding: 0;
   .backcolor(@white);
   -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
   -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
   box-shadow: 0 1px 4px rgba(0,0,0,.065);
-}
-.bs-docs-sidenav > li > a {
-  display: block;
-  margin: 0 0 -1px;
-  padding: 8px 14px;
-  border: 1px solid darken(@white, 10%);
-  color: @font_color;
-}
-.bs-docs-sidenav > .active > a,
-.bs-docs-sidenav > .hover > a,
-.bs-docs-sidenav > li:hover > a,
-.bs-docs-sidenav > li:hover.active > a {
-  position: relative;
-  z-index: 2;
-  padding: 9px 15px;
-  border: 0;
-  .backcolor(@primary);
-  text-shadow: none;
-}
-.bs-docs-sidenav > li > a:hover {
-  .backcolor(@primary_hover);
-}
 
-.bs-page-sidenav {
-  width: 140px;
-  margin: 5px 0 0;
-  padding: 0 0 0 25px;
+	li > a {
+	  display: block;
+	  margin: 0 0 -1px;
+	  padding: 8px 14px;
+	  border: 1px solid darken(@white, 10%);
+	  color: @font_color;
 
-  li {
-    h1 {
-      font-size: 1.4em;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    a {
-      display: block;
-      margin: 0 0 -1px;
-      padding: 8px 14px;
-      .backcolor(@white);
-      border: 1px solid lighten(@white, 10%);
-
-      &:hover {
-        .backcolor(@secondary_hover);
-      }
-    }
-
-    &.active, &.hover, &:hover, &:hover.active {
-      a {
-        position: relative;
-        z-index: 2;
-        padding: 9px 15px;
-        border: 0;
-        .backcolor(@secondary);
-        text-shadow: none;
-      }
-    }
-
-    &.menu-link-top {
-      margin: 20px auto;
-      padding: 5px 5px 5px 10px;
-      text-shadow: none;
-      display: none;
-
-      a {
-        font-weight: bold;
-        color: @secondary;
-        background-color: transparent;
-        border: 0px;
-        padding: 5px 5px 5px 10px;
-
-        i {
-          display: none;
-        }
-        &:hover {
-          background-color: inherit;
-          border: inherit;
-
-          i {
-            display: none;
-          }
-        }
-      }
-    }
-  }
+		&:hover {
+		  .backcolor(@primary_hover);
+		}
+	}
+	.active > a,
+	.hover > a,
+	li:hover > a,
+	li:hover.active > a {
+	  position: relative;
+	  z-index: 2;
+	  padding: 9px 15px;
+	  border: 0;
+	  .backcolor(@primary);
+	  text-shadow: none;
+	}
 }

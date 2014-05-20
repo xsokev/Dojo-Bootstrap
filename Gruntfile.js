@@ -12,7 +12,7 @@ module.exports = function(grunt) {
                 src: ['src/*.swig'],
                 generateSitemap: false,
                 generateRobotstxt: false,
-                baseUrl: 'http://localhost:8000',
+                baseUrl: '',
                 production: false,
                 sitemap_priorities: {
                     '_DEFAULT_': '0.5',
@@ -53,16 +53,45 @@ module.exports = function(grunt) {
                     "css/styles.css": "src/less/styles.less"
                 }
             }
-        }
+        },
+				htmlmin: {
+					dist: {
+						options: {
+							removeComments: true,
+							collapseWhitespace: true
+						},
+						files: {
+							'./index.html': './index.html',
+							'./affix.html': './affix.html',
+							'./alert.html': './alert.html',
+							'./button.html': './button.html',
+							'./carousel.html': './carousel.html',
+							'./collapse.html': './collapse.html',
+							'./datepicker.html': './datepicker.html',
+							'./dropdown.html': './dropdown.html',
+							'./marquee.html': './marquee.html',
+							'./modal.html': './modal.html',
+							'./popover.html': './popover.html',
+							'./scrollspy.html': './scrollspy.html',
+							'./tab.html': './tab.html',
+							'./tooltip.html': './tooltip.html',
+							'./typeahead.html': './typeahead.html',
+						}
+					}
+				}
     });
 
     // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-swig');
+		grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
     // Default task(s).
 //    grunt.registerTask('default', ['uglify', 'concat']);
+    grunt.registerTask('min', ['htmlmin:dist']);
+    grunt.registerTask('css', ['less:dev']);
+    grunt.registerTask('html', ['swig:dev']);
     grunt.registerTask('dev', ['swig:dev', 'less:dev']);
-    grunt.registerTask('default', ['swig:prod', 'less:prod']);
+    grunt.registerTask('default', ['swig:prod', 'less:prod', 'htmlmin:dist']);
 
 };

@@ -60,7 +60,8 @@
                 </td>
             </tr>
             <tr><td colspan="2">
-<pre class="prettyprint linenums">&lt;button class="btn" data-complete-text="done!"&gt;...&lt;/button&gt;
+<pre class="prettyprint">&lt;button class="btn" data-complete-text="done!"&gt;...&lt;/button&gt;</pre>
+<pre class="prettyprint linenums">
 &lt;script&gt;
   query('.btn').button('complete')
 &lt;/script&gt;

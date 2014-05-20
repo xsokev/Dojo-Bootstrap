@@ -2,27 +2,26 @@
 @import "modules";
 @import "nav";
 @import "fonts";
-@import "header";
+/* @import "header"; */
 
 html, body {
   background-color: darken(@white, 5%);
 }
 
 body.page {
-  margin-top: 138px;
+	margin-top: 60px;
 }
 
-i.icon-download-alt {
-  color: #FFFFFF;
-  margin-right: 3px;
-}
 .navbar {
   border-bottom: 5px solid @primary;
 
-  .brand {
-    font-weight: bold;
-  }
-
+	ul.nav {
+		@media (max-width: 768px) { display: none; }
+		i.glyphicon-download-alt {
+		  color: #FFFFFF;
+		  margin-right: 3px;
+		}
+	}
 }
 .container {
   h3 a {
@@ -31,8 +30,15 @@ i.icon-download-alt {
 }
 .container-body {
   .backcolor(@white);
-  padding: 10px;
+  padding: 10px 20px;
 
+	header {
+		h2 {
+			padding: 0px;
+			margin: 0px;
+			display: inline-block;
+		}
+	}
   h3 {
     a {
       color: @secondary;
@@ -45,9 +51,6 @@ i.icon-download-alt {
 .page-header h1 a {
   margin-top: 10px;
 }
-.container-body > * {
-  margin: 10px;
-}
 .container-body > table {
   width: 560px;
   margin: 0 auto;
@@ -55,7 +58,7 @@ i.icon-download-alt {
 .marker {
   margin: 15px 0;
   padding: 10px 0;
-  border-bottom: 10px solid darken(@white, 5%);
+  border-bottom: 5px solid darken(@white, 5%);
 }
 pre.prettyprint,
 table .alert {
@@ -65,7 +68,7 @@ pre.prettyprint {
   font-size: .8em;
 }
 #navbar-example {
-  border-bottom: 0px;
+  border-bottom: 1px solid #e7e7e7;
 }
 .bs-docs-example-popover {
   padding-bottom: 24px;

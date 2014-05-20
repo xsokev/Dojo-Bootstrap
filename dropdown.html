@@ -1,277 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Dropdown - Dojo Bootstrap</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Kevin Armstrong">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css">
-    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css">
-    
-    
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- fav and touch icons -->
-    <link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png">
-</head>
-<body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a>
-            </div>
-            <ul class="nav navbar-nav"></ul>
-            <ul class="nav navbar-nav pull-right">
-                <li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master">
-                    <i class="icon-download-alt"></i>Download v3.0</a></li>
-            </ul>
-        </div>
-        <header class="jumbotron jumbotron-page subhead">
-            <h2>Dropdown Module</h2>
-        </header>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <div style="position: relative;">
-                    <div class="nav-header">Modules</div>
-                    <ul id="menu" class="nav nav-list bs-docs-sidenav">
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/button.html">Button</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/datepicker.html">DatePicker</a></li>
-                        
-                        
-                        
-                        <li class="active"><a href="#">Dropdown</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/typeahead.html">Typeahead</a></li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="row-fluid">
-                    <div class="col-md-9 container-body">
-                    
-    <div class="marker" id="usage">
-        <h3>Usage</h3>
-        <h4>Via data attributes</h4>
-        <p>Add <code>data-toggle="dropdown"</code> to a link or button to toggle a dropdown.</p>
-    <pre class="prettyprint linenums">
-    &lt;div class="dropdown"&gt;
-      &lt;a class="dropdown-toggle" href="#"&gt;Dropdown trigger&lt;/a&gt;
-      &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-        ...
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </pre>
-        <p>To keep URLs intact, use the <code>data-target</code> attribute instead of <code>href="#"</code>.</p>
-    <pre class="prettyprint linenums">
-    &lt;div class="dropdown"&gt;
-      &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
-        Dropdown
-        &lt;b class="caret"&gt;&lt;/b&gt;
-      &lt;/a&gt;
-      &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-        ...
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </pre>
-
-        <h4>Via JavaScript</h4>
-        <p>Call the dropdowns via JavaScript:</p>
-        <pre class="prettyprint linenums">query('.dropdown-toggle').dropdown()</pre>
-    </div>
-
-    <div class="marker" id="events">
-        <h3>Events</h3>
-        <table class="table table-bordered table-condensed">
-            <thead>
-            <tr>
-                <th style="width: 100px;">Event</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>select</td>
-                <td>Fires when an item from the associated list is selected. Returns <code>event</code> with <code>selectedItem</code> that corresponds to the selected <code>li</code> node</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="marker" id="examples">
-        <h3>Examples</h3>
-        <p>Add dropdown menus to nearly anything with this simple plugin, including the navbar, tabs, and pills.</p>
-
-        <h4>Within a navbar</h4>
-        <div class="bs-docs-example">
-            <div id="navbar-example" class="navbar navbar-static">
-                <div class="navbar-inner">
-                    <div class="container" style="width: auto;">
-                        <a class="brand" href="#">Project Name</a>
-                        <ul class="nav" role="navigation">
-                            <li class="dropdown">
-                                <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                                    <li><a tabindex="-1" href="http://google.com">Action</a></li>
-                                    <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
-                                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a tabindex="-1" href="#">Separated link</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                                    <li><a tabindex="-1" href="#">Action</a></li>
-                                    <li><a tabindex="-1" href="#">Another action</a></li>
-                                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a tabindex="-1" href="#">Separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div> <!-- /navbar-example -->
-        </div>
-
-        <h4>Within tabs</h4>
-        <div class="bs-docs-example">
-            <ul class="nav nav-pills">
-                <li class="active"><a href="#">Regular link</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a>
-                    <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-                        <li><a tabindex="-1" href="#">Action</a></li>
-                        <li><a tabindex="-1" href="#">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" id="drop5" role="button" data-toggle="dropdown" href="#">Dropdown 2 <b class="caret"></b></a>
-                    <ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="drop5">
-                        <li><a tabindex="-1" href="#">Action</a></li>
-                        <li><a tabindex="-1" href="#">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" id="drop6" role="button" data-toggle="dropdown" href="#">Dropdown 3 <b class="caret"></b></a>
-                    <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
-                        <li><a tabindex="-1" href="#">Action</a></li>
-                        <li><a tabindex="-1" href="#">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                    </ul>
-                </li>
-            </ul> <!-- /tabs -->
-        </div>
-
-        <h4>Handling Events</h4>
-        <div class="row-fluid">
-            <div class="span2">
-                <div class="btn-group">
-                    <a href="#" id="dropfonts" role="button" class="btn dropdown-toggle" data-toggle="dropdown">Fonts&nbsp;<b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropfonts">
-                        <li><a tabindex="-1" href="#" class="font-arial">Arial</a></li>
-                        <li><a tabindex="-1" href="#" class="font-tahoma">Tahoma</a></li>
-                        <li><a tabindex="-1" href="#" class="font-times">Times</a></li>
-                        <li><a tabindex="-1" href="#" class="font-verdana">Verdana</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div id="dropfontstext" class="span10 font-arial">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elementum cursus sapien et pellentesque. Phasellus egestas eros eu nulla consequat et vehicula nisl hendrerit. Cras laoreet magna et arcu consequat a iaculis risus condimentum. Aenean sit amet posuere tellus. Integer ac nunc eget odio dictum rutrum laoreet a velit. Sed eget sapien a mi luctus volutpat. Proin dignissim congue lectus, quis fermentum est aliquet nec.</p>
-                <p>Quisque in erat at lorem pharetra tincidunt. Aliquam erat volutpat. Vestibulum cursus commodo imperdiet. Curabitur sit amet auctor lectus. Vivamus nec vehicula tortor. Maecenas sodales velit in metus tempor in pharetra arcu consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas at nibh ac urna vestibulum hendrerit.</p>
-            </div>
-        </div>
-    </div>
-
-                    </div>
-                    <div id="page-nav" class="col-md-3">
-                        <ul class="nav nav-pills nav-stacked bs-page-sidenav affix">
-                            <li><h1>Dropdown.js</h1></li>
-                            <li class="menu-link-top"><a href="#"><i class="icon-arrow-up"></i>back to top</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
-    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script>
-    
-<script type="text/javascript" charset="utf-8">
-    require([ 'dojo/query', 'dojo/dom-class', 'dojo/_base/array', 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Dropdown', 'bootstrap/Button', 'dojo/domReady!' ], function(q, domClass, array){
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Dropdown - Dojo Bootstrap</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content=""><meta name="author" content="Kevin Armstrong"><link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css"><link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css"><!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]--><link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png"><link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png"></head><body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0"><div class="navbar navbar-inverse navbar-fixed-top"><div class="container"><div class="navbar-header"><a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a></div><ul class="nav navbar-nav pull-right"><li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master"><i class="glyphicon glyphicon-download-alt"></i>Download v3.0</a></li></ul></div></div><div class="container"><div class="row"><div class="col-md-2 col-sm-3"><div style="position: relative"><div class="nav-header">Modules</div><ul id="menu" class="nav nav-list bs-docs-sidenav"><li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/button.html">Button</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/datepicker.html">DatePicker</a></li><li class="active"><a href="#">Dropdown</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/typeahead.html">Typeahead</a></li></ul></div></div><div class="col-md-10 col-sm-9 container-body"><header><h2>Dropdown Module</h2></header><div class="marker" id="usage"><h3>Usage</h3><h4>Via data attributes</h4><p>Add <code>data-toggle="dropdown"</code> to a link or button to toggle a dropdown.</p><pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" href="#"&gt;Dropdown trigger&lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre><p>To keep URLs intact, use the <code>data-target</code> attribute instead of <code>href="#"</code>.</p><pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
+    Dropdown
+    &lt;b class="caret"&gt;&lt;/b&gt;
+  &lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre><h4>Via JavaScript</h4><p>Call the dropdowns via JavaScript:</p><pre class="prettyprint linenums">query('.dropdown-toggle').dropdown()</pre></div><div class="marker" id="events"><h3>Events</h3><table class="table table-bordered table-condensed"><thead><tr><th style="width: 100px">Event</th><th>Description</th></tr></thead><tbody><tr><td>select</td><td>Fires when an item from the associated list is selected. Returns <code>event</code> with <code>selectedItem</code> that corresponds to the selected <code>li</code> node</td></tr></tbody></table></div><div class="marker" id="examples"><h3>Examples</h3><p>Add dropdown menus to nearly anything with this simple plugin, including the navbar, tabs, and pills.</p><h4>Within a navbar</h4><div class="bs-docs-example"><div id="navbar-example" class="navbar navbar-default navbar-static"><div class="container-fluid"><div class="navbar-header"><button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-example-js-navbar-collapse"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#">Project Name</a></div><div class="collapse navbar-collapse bs-example-js-navbar-collapse"><ul class="nav navbar-nav" role="navigation"><li class="dropdown"><a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a><ul class="dropdown-menu" role="menu" aria-labelledby="drop1"><li><a tabindex="-1" href="http://google.com">Action</a></li><li><a tabindex="-1" href="#anotherAction">Another action</a></li><li><a tabindex="-1" href="#">Something else here</a></li><li class="divider"></li><li><a tabindex="-1" href="#">Separated link</a></li></ul></li><li class="dropdown"><a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a><ul class="dropdown-menu" role="menu" aria-labelledby="drop2"><li><a tabindex="-1" href="#">Action</a></li><li><a tabindex="-1" href="#">Another action</a></li><li><a tabindex="-1" href="#">Something else here</a></li><li class="divider"></li><li><a tabindex="-1" href="#">Separated link</a></li></ul></li></ul></div></div></div></div><h4>Within pills</h4><div class="bs-docs-example"><ul class="nav nav-pills"><li class="active"><a href="#">Regular link</a></li><li class="dropdown"><a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">Dropdown <b class="caret"></b></a><ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4"><li><a tabindex="-1" href="#">Action</a></li><li><a tabindex="-1" href="#">Another action</a></li><li><a tabindex="-1" href="#">Something else here</a></li><li class="divider"></li><li><a tabindex="-1" href="#">Separated link</a></li></ul></li><li class="dropdown"><a class="dropdown-toggle" id="drop5" role="button" data-toggle="dropdown" href="#">Dropdown 2 <b class="caret"></b></a><ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="drop5"><li><a tabindex="-1" href="#">Action</a></li><li><a tabindex="-1" href="#">Another action</a></li><li><a tabindex="-1" href="#">Something else here</a></li><li class="divider"></li><li><a tabindex="-1" href="#">Separated link</a></li></ul></li><li class="dropdown pull-right"><a class="dropdown-toggle" id="drop6" role="button" data-toggle="dropdown" href="#">Dropdown 3 <b class="caret"></b></a><ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6"><li><a tabindex="-1" href="#">Action</a></li><li><a tabindex="-1" href="#">Another action</a></li><li><a tabindex="-1" href="#">Something else here</a></li><li class="divider"></li><li><a tabindex="-1" href="#">Separated link</a></li></ul></li></ul></div><h4>Handling Events</h4><div class="row-fluid"><div class="span2"><div class="btn-group"><a href="#" id="dropfonts" role="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Fonts&nbsp;<b class="caret"></b></a><ul class="dropdown-menu" role="menu" aria-labelledby="dropfonts"><li><a tabindex="-1" href="#" class="font-arial">Arial</a></li><li><a tabindex="-1" href="#" class="font-tahoma">Tahoma</a></li><li><a tabindex="-1" href="#" class="font-times">Times</a></li><li><a tabindex="-1" href="#" class="font-verdana">Verdana</a></li></ul></div></div><div id="dropfontstext" class="span10 font-arial"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elementum cursus sapien et pellentesque. Phasellus egestas eros eu nulla consequat et vehicula nisl hendrerit. Cras laoreet magna et arcu consequat a iaculis risus condimentum. Aenean sit amet posuere tellus. Integer ac nunc eget odio dictum rutrum laoreet a velit. Sed eget sapien a mi luctus volutpat. Proin dignissim congue lectus, quis fermentum est aliquet nec.</p><p>Quisque in erat at lorem pharetra tincidunt. Aliquam erat volutpat. Vestibulum cursus commodo imperdiet. Curabitur sit amet auctor lectus. Vivamus nec vehicula tortor. Maecenas sodales velit in metus tempor in pharetra arcu consectetur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas at nibh ac urna vestibulum hendrerit.</p></div></div></div></div></div></div><script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script><script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script><script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script><script type="text/javascript" charset="utf-8">require([ 'dojo/query', 'dojo/dom-class', 'dojo/_base/array', 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Dropdown', 'bootstrap/Button', 'dojo/domReady!' ], function(q, domClass, array){
         var text = q('#dropfontstext'),
             drop = q('#dropfonts');
         drop.on('select', function(e){
@@ -282,11 +26,7 @@
             });
             text.addClass(cls);
         });
-    });
-</script>
-
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
+    });</script><script type="text/javascript">var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-5131920-5']);
       _gaq.push(['_trackPageview']);
 
@@ -294,7 +34,4 @@
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-</body>
-</html>
+      })();</script></body></html>

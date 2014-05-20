@@ -7,7 +7,7 @@
 
     <h4>Via data attributes</h4>
     <p>Add data attributes to register an element with typeahead.</p>
-    <pre class="prettyprint linenums">&lt;input type="text" data-provide="typeahead" data-items="10"&gt;</pre>
+    <pre class="prettyprint">&lt;input type="text" data-provide="typeahead" data-items="10"&gt;</pre>
 
     <h4>Via JavaScript</h4>
     <p>Call the typeahead manually with:</p>
@@ -70,7 +70,7 @@
 <div class="marker" id="methods">
     <h3>Methods</h3>
     <p>To use the Typeahead methods, you must get an instance of the Typeahead class which is stored in the element's data store.</p>
-<pre class="prettyprint">var typeahead = query("#aNode").data("typeahead");</pre>
+<pre class="prettyprint linenums">var typeahead = query("#aNode").data("typeahead");</pre>
     <br/>
     <table class="table table-bordered table-condensed table-striped">
         <thead>
@@ -110,7 +110,7 @@
     <p>This example uses ajax to feed the source for typeahead</p>
     <div class="bs-docs-example well">
         <label>Zip code:</label>
-        <input type="text" id="zipcode" class="span3" style="margin: 0 auto;" data-provide="typeahead" data-items="10">
+        <input type="text" id="zipcode" class="span3" style="margin: 0 auto;" autocomplete='off' data-provide="typeahead" data-items="10">
         <span id="zipcode_citystate" class="help-block" style="color: #999;">&nbsp;</span>
     </div>
     <pre class="prettyprint">&lt;input id="zipcode" type="text" data-provide="typeahead" data-items="10"&gt;</pre>
@@ -129,19 +129,19 @@
 
 {% block initscript %}
 <script type="text/javascript" charset="utf-8">
-    require([ 'dojo/request', '{{baseUrl}}/js/application.js', 'bootstrap/Typeahead' ], function(request){
+    require([ 'dojo/request/script', '{{baseUrl}}/js/application.js', 'bootstrap/Typeahead' ], function(request){
         var q = dojo.query;
         q('#zipcode').typeahead({
             minLength: 3,
             source: function (query, process) {
-                return request('{{baseUrl}}/zipcode/query/'+query, {handleAs:'json'}).then(function (data) {
+                return request('http://dojobootstrap.com/zipcode/query/'+query, {jsonp:'callback'}).then(function (data) {
                     process(data);
                 });
             }
         }).on('change', function(){
             q('#zipcode_citystate')[0].innerHTML = '&nbsp;';
-            request('{{baseUrl}}/zipcode/citystate/'+this.value).then(function (data) {
-                q('#zipcode_citystate')[0].innerHTML = data;
+            request('http://dojobootstrap.com/zipcode/citystate/'+this.value, {jsonp:'callback'}).then(function (data) {
+                q('#zipcode_citystate')[0].innerHTML = data.location;
             });
         });
     });

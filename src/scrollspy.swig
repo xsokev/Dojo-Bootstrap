@@ -91,11 +91,19 @@ query('[data-spy="scroll"]').forEach(function () {
     <h3>Example</h3>
     <p>The ScrollSpy plugin is for automatically updating nav targets based on scroll position. Scroll the area below the navbar and watch the active class change. The dropdown sub items will be highlighted as well.</p>
     <div class="bs-docs-example">
-        <div id="navbar-example" class="navbar navbar-static">
-            <div class="navbar-inner">
-                <div class="container" style="width: auto;">
-                    <a class="brand" href="#">Project Name</a>
-                    <ul class="nav">
+        <div id="navbar-example" class="navbar navbar-default navbar-static">
+            <div class="container-fluid">
+				<div class="navbar-header">
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-example-js-navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+		  			<a class="navbar-brand" href="#">Project Name</a>
+				</div>
+				<div class="collapse navbar-collapse bs-example-js-navbar-collapse">
+                    <ul class="nav navbar-nav" role="navigation">
                         <li><a href="#fat">@fat</a></li>
                         <li><a href="#mdo">@mdo</a></li>
                         <li class="dropdown">
@@ -108,7 +116,7 @@ query('[data-spy="scroll"]').forEach(function () {
                             </ul>
                         </li>
                     </ul>
-                </div>
+				</div>
             </div>
         </div>
         <div data-spy="scroll" data-target="#navbar-example" data-offset="0" class="scrollspy-example">
@@ -126,8 +134,6 @@ query('[data-spy="scroll"]').forEach(function () {
             </p>
         </div>
     </div>
-    <br/>
-    <div class="alert alert-info">The nav list on the right also uses the Scrollspy module.</div>
 </div>
 
 

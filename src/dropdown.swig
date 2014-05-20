@@ -6,26 +6,26 @@
         <h3>Usage</h3>
         <h4>Via data attributes</h4>
         <p>Add <code>data-toggle="dropdown"</code> to a link or button to toggle a dropdown.</p>
-    <pre class="prettyprint linenums">
-    &lt;div class="dropdown"&gt;
-      &lt;a class="dropdown-toggle" href="#"&gt;Dropdown trigger&lt;/a&gt;
-      &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-        ...
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </pre>
+<pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" href="#"&gt;Dropdown trigger&lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
         <p>To keep URLs intact, use the <code>data-target</code> attribute instead of <code>href="#"</code>.</p>
-    <pre class="prettyprint linenums">
-    &lt;div class="dropdown"&gt;
-      &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
-        Dropdown
-        &lt;b class="caret"&gt;&lt;/b&gt;
-      &lt;/a&gt;
-      &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
-        ...
-      &lt;/ul&gt;
-    &lt;/div&gt;
-    </pre>
+<pre class="prettyprint linenums">
+&lt;div class="dropdown"&gt;
+  &lt;a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"&gt;
+    Dropdown
+    &lt;b class="caret"&gt;&lt;/b&gt;
+  &lt;/a&gt;
+  &lt;ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"&gt;
+    ...
+  &lt;/ul&gt;
+&lt;/div&gt;
+</pre>
 
         <h4>Via JavaScript</h4>
         <p>Call the dropdowns via JavaScript:</p>
@@ -56,38 +56,46 @@
 
         <h4>Within a navbar</h4>
         <div class="bs-docs-example">
-            <div id="navbar-example" class="navbar navbar-static">
-                <div class="navbar-inner">
-                    <div class="container" style="width: auto;">
-                        <a class="brand" href="#">Project Name</a>
-                        <ul class="nav" role="navigation">
-                            <li class="dropdown">
-                                <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                                    <li><a tabindex="-1" href="http://google.com">Action</a></li>
-                                    <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
-                                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a tabindex="-1" href="#">Separated link</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                                    <li><a tabindex="-1" href="#">Action</a></li>
-                                    <li><a tabindex="-1" href="#">Another action</a></li>
-                                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a tabindex="-1" href="#">Separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+            <div id="navbar-example" class="navbar navbar-default navbar-static">
+                <div class="container-fluid">
+					<div class="navbar-header">
+						<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-example-js-navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+			  			<a class="navbar-brand" href="#">Project Name</a>
+					</div>
+					<div class="collapse navbar-collapse bs-example-js-navbar-collapse">
+	                    <ul class="nav navbar-nav" role="navigation">
+	                        <li class="dropdown">
+	                            <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+	                            <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+	                                <li><a tabindex="-1" href="http://google.com">Action</a></li>
+	                                <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
+	                                <li><a tabindex="-1" href="#">Something else here</a></li>
+	                                <li class="divider"></li>
+	                                <li><a tabindex="-1" href="#">Separated link</a></li>
+	                            </ul>
+	                        </li>
+	                        <li class="dropdown">
+	                            <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 <b class="caret"></b></a>
+	                            <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+	                                <li><a tabindex="-1" href="#">Action</a></li>
+	                                <li><a tabindex="-1" href="#">Another action</a></li>
+	                                <li><a tabindex="-1" href="#">Something else here</a></li>
+	                                <li class="divider"></li>
+	                                <li><a tabindex="-1" href="#">Separated link</a></li>
+	                            </ul>
+	                        </li>
+	                    </ul>
+					</div>
                 </div>
             </div> <!-- /navbar-example -->
         </div>
 
-        <h4>Within tabs</h4>
+        <h4>Within pills</h4>
         <div class="bs-docs-example">
             <ul class="nav nav-pills">
                 <li class="active"><a href="#">Regular link</a></li>
@@ -111,7 +119,7 @@
                         <li><a tabindex="-1" href="#">Separated link</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown pull-right">
                     <a class="dropdown-toggle" id="drop6" role="button" data-toggle="dropdown" href="#">Dropdown 3 <b class="caret"></b></a>
                     <ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="drop6">
                         <li><a tabindex="-1" href="#">Action</a></li>
@@ -128,7 +136,7 @@
         <div class="row-fluid">
             <div class="span2">
                 <div class="btn-group">
-                    <a href="#" id="dropfonts" role="button" class="btn dropdown-toggle" data-toggle="dropdown">Fonts&nbsp;<b class="caret"></b></a>
+                    <a href="#" id="dropfonts" role="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Fonts&nbsp;<b class="caret"></b></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropfonts">
                         <li><a tabindex="-1" href="#" class="font-arial">Arial</a></li>
                         <li><a tabindex="-1" href="#" class="font-tahoma">Tahoma</a></li>

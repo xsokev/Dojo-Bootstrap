@@ -38,9 +38,9 @@
         </tr>
         <tr><td colspan="2">
     <pre class="prettyprint linenums">
-    query('[data-spy="affix"]').forEach(function(elm){
-        query(elm).affix('refresh')
-    });</pre>
+query('[data-spy="affix"]').forEach(function(elm){
+    query(elm).affix('refresh')
+});</pre>
         </td></tr>
         </tbody>
     </table>
@@ -67,11 +67,6 @@
         </tr>
         </tbody>
     </table>
-</div>
-
-<div class="marker" id="examples">
-    <h3>Example</h3>
-    <p>The subnavigation on the right is a live demo of the affix module.</p>
 </div>
 {% endblock %}
 

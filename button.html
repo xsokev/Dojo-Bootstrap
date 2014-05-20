@@ -1,258 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Button - Dojo Bootstrap</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Kevin Armstrong">
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css">
-    <link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css">
-    
-    
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!-- fav and touch icons -->
-    <link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72"
-          href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png">
-</head>
-<body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a>
-            </div>
-            <ul class="nav navbar-nav"></ul>
-            <ul class="nav navbar-nav pull-right">
-                <li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master">
-                    <i class="icon-download-alt"></i>Download v3.0</a></li>
-            </ul>
-        </div>
-        <header class="jumbotron jumbotron-page subhead">
-            <h2>Button Module</h2>
-        </header>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-2">
-                <div style="position: relative;">
-                    <div class="nav-header">Modules</div>
-                    <ul id="menu" class="nav nav-list bs-docs-sidenav">
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li>
-                        
-                        
-                        
-                        <li class="active"><a href="#">Button</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/datepicker.html">DatePicker</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/dropdown.html">Dropdown</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li>
-                        
-                        
-                        
-                        <li><a href="http://xsokev.github.io/Dojo-Bootstrap/typeahead.html">Typeahead</a></li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="row-fluid">
-                    <div class="col-md-9 container-body">
-                    
-    <div class="marker" id="usage">
-        <h3>Usage</h3>
-        <p>Enable buttons via JavaScript:</p>
-        <pre class="prettyprint linenums">query('.nav-tabs').button()</pre>
-
-        <h4>Markup</h4>
-        <p>Data attributes are integral to the button plugin. Check out the example code below for the various markup types.</p>
-    </div>
-
-    <div class="marker" id="methods">
-        <h3>Methods</h3>
-        <table class="table table-bordered table-condensed">
-            <thead>
-            <tr>
-                <th style="width: 100px;">Method</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>loading</td>
-                <td>
-                    <p>Sets button state to loading - disables button and swaps text to loading text. Loading text should be defined on the button element using the data attribute <code>data-loading-text</code>.</p>
-                    <div class="alert alert-info">
-                        <strong>Heads up!</strong>
-                        <a href="https://github.com/twitter/bootstrap/issues/793">Firefox persists the disabled state across page loads</a>. A workaround for this is to use <code>autocomplete="off"</code>.
-                    </div>
-                </td>
-            </tr>
-            <tr><td colspan="2">
-                    <pre class="prettyprint">&lt;button class="btn" data-loading-text="loading..." &gt;...&lt;/button&gt;</pre>
-            </td></tr>
-            <tr>
-                <td>reset</td>
-                <td>
-                    <p>Resets button state - swaps text to original text.</p>
-                </td>
-            </tr>
-            <tr>
-                <td>toggle</td>
-                <td>
-                    <p>Toggles push state. Gives the button the appearance that it has been activated.</p>
-                    <div class="alert alert-info">
-                        <strong>Heads up!</strong>
-                        You can enable auto toggling of a button by using the <code>data-toggle</code> attribute.
-                    </div>
-                </td>
-            </tr>
-            <tr><td colspan="2">
-                    <pre class="prettyprint">&lt;button class="btn" data-toggle="button" &gt;…&lt;/button&gt;</pre>
-            </td></tr>
-            <tr>
-                <td>&lt;string&gt;</td>
-                <td>
-                    <p>Resets button state - swaps text to any data defined text state.</p>
-                </td>
-            </tr>
-            <tr><td colspan="2">
-<pre class="prettyprint linenums">&lt;button class="btn" data-complete-text="done!"&gt;...&lt;/button&gt;
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Button - Dojo Bootstrap</title><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content=""><meta name="author" content="Kevin Armstrong"><link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/prettify.css"><link rel="stylesheet" href="http://xsokev.github.io/Dojo-Bootstrap/css/styles.css"><!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]--><link rel="shortcut icon" href="http://xsokev.github.io/Dojo-Bootstrap/img/ico/favicon.ico"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-144-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-114-precomposed.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-72-precomposed.png"><link rel="apple-touch-icon-precomposed" href="http://xsokev.github.io/Dojo-Bootstrap/css/img/ico/apple-touch-icon-57-precomposed.png"></head><body class="page" data-spy="scroll" data-target="#page-nav" data-offset="0"><div class="navbar navbar-inverse navbar-fixed-top"><div class="container"><div class="navbar-header"><a class="navbar-brand" href="http://xsokev.github.io/Dojo-Bootstrap">Dojo Bootstrap</a></div><ul class="nav navbar-nav pull-right"><li><a href="https://github.com/xsokev/Dojo-Bootstrap/zipball/master"><i class="glyphicon glyphicon-download-alt"></i>Download v3.0</a></li></ul></div></div><div class="container"><div class="row"><div class="col-md-2 col-sm-3"><div style="position: relative"><div class="nav-header">Modules</div><ul id="menu" class="nav nav-list bs-docs-sidenav"><li><a href="http://xsokev.github.io/Dojo-Bootstrap/affix.html">Affix</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/alert.html">Alert</a></li><li class="active"><a href="#">Button</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/carousel.html">Carousel</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/collapse.html">Collapse</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/datepicker.html">DatePicker</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/dropdown.html">Dropdown</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/marquee.html">Marquee</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/modal.html">Modal</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/popover.html">Popover</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/scrollspy.html">Scrollspy</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/tab.html">Tab</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/tooltip.html">Tooltip</a></li><li><a href="http://xsokev.github.io/Dojo-Bootstrap/typeahead.html">Typeahead</a></li></ul></div></div><div class="col-md-10 col-sm-9 container-body"><header><h2>Button Module</h2></header><div class="marker" id="usage"><h3>Usage</h3><p>Enable buttons via JavaScript:</p><pre class="prettyprint linenums">query('.nav-tabs').button()</pre><h4>Markup</h4><p>Data attributes are integral to the button plugin. Check out the example code below for the various markup types.</p></div><div class="marker" id="methods"><h3>Methods</h3><table class="table table-bordered table-condensed"><thead><tr><th style="width: 100px">Method</th><th>Description</th></tr></thead><tbody><tr><td>loading</td><td><p>Sets button state to loading - disables button and swaps text to loading text. Loading text should be defined on the button element using the data attribute <code>data-loading-text</code>.</p><div class="alert alert-info"><strong>Heads up!</strong> <a href="https://github.com/twitter/bootstrap/issues/793">Firefox persists the disabled state across page loads</a>. A workaround for this is to use <code>autocomplete="off"</code>.</div></td></tr><tr><td colspan="2"><pre class="prettyprint">&lt;button class="btn" data-loading-text="loading..." &gt;...&lt;/button&gt;</pre></td></tr><tr><td>reset</td><td><p>Resets button state - swaps text to original text.</p></td></tr><tr><td>toggle</td><td><p>Toggles push state. Gives the button the appearance that it has been activated.</p><div class="alert alert-info"><strong>Heads up!</strong> You can enable auto toggling of a button by using the <code>data-toggle</code> attribute.</div></td></tr><tr><td colspan="2"><pre class="prettyprint">&lt;button class="btn" data-toggle="button" &gt;…&lt;/button&gt;</pre></td></tr><tr><td>&lt;string&gt;</td><td><p>Resets button state - swaps text to any data defined text state.</p></td></tr><tr><td colspan="2"><pre class="prettyprint">&lt;button class="btn" data-complete-text="done!"&gt;...&lt;/button&gt;</pre><pre class="prettyprint linenums">
 &lt;script&gt;
   query('.btn').button('complete')
 &lt;/script&gt;
-</pre>
-            </td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="marker" id="examples">
-        <h3>Examples</h3>
-        <p>Do more with buttons. Control button states or create groups of buttons for more components like toolbars.</p>
-
-        <h4>Stateful</h4>
-        <p>Add data-loading-text="Loading..." to use a loading state on a button.</p>
-        <div class="bs-docs-example" style="padding-bottom: 24px;">
-            <button type="button" id="fat-btn" data-loading-text="loading..." class="btn btn-primary">
-                Loading state
-            </button>
-        </div>
-<pre class="prettyprint">&lt;button class="btn btn-primary" data-loading-text="Loading..."&gt;Loading state&lt;/button&gt;</pre>
-
-        <h4>Single toggle</h4>
-        <p>Add data-toggle="button" to activate toggling on a single button.</p>
-        <div class="bs-docs-example" style="padding-bottom: 24px;">
-            <button type="button" class="btn btn-primary" data-toggle="button">Single Toggle</button>
-        </div>
-<pre class="prettyprint">&lt;button class="btn" data-toggle="button"&gt;Single Toggle&lt;/button&gt;</pre>
-
-        <h4>Checkbox</h4>
-        <p>Add data-toggle="buttons-checkbox" for checkbox style toggling on btn-group.</p>
-        <div class="bs-docs-example" style="padding-bottom: 24px;">
-            <div class="btn-group" data-toggle="buttons-checkbox">
-                <button type="button" class="btn btn-primary">Left</button>
-                <button type="button" class="btn btn-primary">Middle</button>
-                <button type="button" class="btn btn-primary">Right</button>
-            </div>
-        </div>
-<pre class="prettyprint">
+</pre></td></tr></tbody></table></div><div class="marker" id="examples"><h3>Examples</h3><p>Do more with buttons. Control button states or create groups of buttons for more components like toolbars.</p><h4>Stateful</h4><p>Add data-loading-text="Loading..." to use a loading state on a button.</p><div class="bs-docs-example" style="padding-bottom: 24px"><button type="button" id="fat-btn" data-loading-text="loading..." class="btn btn-primary">Loading state</button></div><pre class="prettyprint">&lt;button class="btn btn-primary" data-loading-text="Loading..."&gt;Loading state&lt;/button&gt;</pre><h4>Single toggle</h4><p>Add data-toggle="button" to activate toggling on a single button.</p><div class="bs-docs-example" style="padding-bottom: 24px"><button type="button" class="btn btn-primary" data-toggle="button">Single Toggle</button></div><pre class="prettyprint">&lt;button class="btn" data-toggle="button"&gt;Single Toggle&lt;/button&gt;</pre><h4>Checkbox</h4><p>Add data-toggle="buttons-checkbox" for checkbox style toggling on btn-group.</p><div class="bs-docs-example" style="padding-bottom: 24px"><div class="btn-group" data-toggle="buttons-checkbox"><button type="button" class="btn btn-primary">Left</button> <button type="button" class="btn btn-primary">Middle</button> <button type="button" class="btn btn-primary">Right</button></div></div><pre class="prettyprint">
 &lt;div class="btn-group" data-toggle="buttons-checkbox"&gt;
   &lt;button class="btn"&gt;Left&lt;/button&gt;
   &lt;button class="btn"&gt;Middle&lt;/button&gt;
   &lt;button class="btn"&gt;Right&lt;/button&gt;
 &lt;/div&gt;
-</pre>
-
-        <h4>Radio</h4>
-        <p>Add data-toggle="buttons-radio" for radio style toggling on btn-group.</p>
-        <div class="bs-docs-example" style="padding-bottom: 24px;">
-            <div class="btn-group" data-toggle="buttons-radio">
-                <button type="button" class="btn btn-primary">Left</button>
-                <button type="button" class="btn btn-primary">Middle</button>
-                <button type="button" class="btn btn-primary">Right</button>
-            </div>
-        </div>
-<pre class="prettyprint">
+</pre><h4>Radio</h4><p>Add data-toggle="buttons-radio" for radio style toggling on btn-group.</p><div class="bs-docs-example" style="padding-bottom: 24px"><div class="btn-group" data-toggle="buttons-radio"><button type="button" class="btn btn-primary">Left</button> <button type="button" class="btn btn-primary">Middle</button> <button type="button" class="btn btn-primary">Right</button></div></div><pre class="prettyprint">
 &lt;div class="btn-group" data-toggle="buttons-radio"&gt;
   &lt;button class="btn"&gt;Left&lt;/button&gt;
   &lt;button class="btn"&gt;Middle&lt;/button&gt;
   &lt;button class="btn"&gt;Right&lt;/button&gt;
 &lt;/div&gt;
-</pre>
-    </div>
-
-                    </div>
-                    <div id="page-nav" class="col-md-3">
-                        <ul class="nav nav-pills nav-stacked bs-page-sidenav affix">
-                            <li><h1>Button.js</h1></li>
-                            <li class="menu-link-top"><a href="#"><i class="icon-arrow-up"></i>back to top</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script>
-    <script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script>
-    
-<script type="text/javascript" charset="utf-8">
-    require([ 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Button' ], function(){
+</pre></div></div></div></div><script src="http://xsokev.github.io/Dojo-Bootstrap/js/config.js"></script><script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.3/dojo/dojo.js"></script><script src="http://xsokev.github.io/Dojo-Bootstrap/js/prettify.js"></script><script type="text/javascript" charset="utf-8">require([ 'http://xsokev.github.io/Dojo-Bootstrap/js/application.js', 'bootstrap/Button' ], function(){
         var q = dojo.query;
         q("#fat-btn").on("click", function(e){
             q(e.target).button('loading');
@@ -260,11 +22,7 @@
                 q(e.target).button('reset');
             }, 3000);
         });
-    });
-</script>
-
-    <script type="text/javascript">
-      var _gaq = _gaq || [];
+    });</script><script type="text/javascript">var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-5131920-5']);
       _gaq.push(['_trackPageview']);
 
@@ -272,7 +30,4 @@
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-    </script>
-</body>
-</html>
+      })();</script></body></html>
