@@ -46,6 +46,7 @@ define([
         constructor: function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
+            domAttr.set(element, "autocomplete", "off");
             this.matcher = this.options.matcher || this.matcher;
             this.sorter = this.options.sorter || this.sorter;
             this.highlighter = this.options.highlighter || this.highlighter;
