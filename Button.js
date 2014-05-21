@@ -65,6 +65,7 @@ define([
                 query('.active', $parent[0]).removeClass('active');
             }
             domClass.toggle(this.domNode, 'active');
+            this.domNode.blur();
         }
     });
 
