@@ -64,8 +64,7 @@ define([
                 var isActive = domClass.contains(targetNode, 'open');
                 clearMenus();
                 if (!isActive) {
-                    alert('ontouchstart' in document.documentElement);
-                    alert(query(targetNode).closest('.navbar-nav'));
+                    alert(!query(targetNode).closest('.navbar-nav'));
                     if('ontouchstart' in document.documentElement && !query(targetNode).closest('.navbar-nav')){
                         alert('test mobile');
                         var backdrop = domConstruct.toDom('<div class="dropdown-backdrop" />');
