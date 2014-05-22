@@ -180,6 +180,47 @@ function (query, lang, attr, array, json, has, on) {
                 bubbles: true,
                 cancelable: true
             });
+        },
+        hide:function () {
+            return this.forEach(function (node) {
+                node.style.display = 'none';
+            });
+        },
+        offset: function(options){
+            if(arguments.length){
+                return options === undefined ?
+                    this :
+                    this.forEach(function(elm, i){
+                        setOffset(elm, options, i);
+                    });
+            }
+            var docElem, win,
+                elem = this[ 0 ],
+                box = { y: 0, x: 0 },
+                doc = elem && elem.ownerDocument;
+
+            if ( !doc ) {
+                return;
+            }
+
+            docElem = doc.documentElement;
+
+            // Make sure it's not a disconnected DOM node
+            if ( query( elem, docElem).length === 0 ) {
+                return box;
+            }
+
+            // If we don't have gBCR, just use 0,0 rather than error
+            // BlackBerry 5, iOS 3 (original iPhone)
+            if ( typeof elem.getBoundingClientRect === 'function' ) {
+                var rect = elem.getBoundingClientRect();
+                box = { y: rect.top, x: rect.left };
+            }
+            win = getWindow( doc );
+            return {
+                y: box.y + win.pageYOffset - docElem.clientTop,
+                x: box.x + win.pageXOffset - docElem.clientLeft
+            };
         }
         setTimeout(callback, duration);
     };
