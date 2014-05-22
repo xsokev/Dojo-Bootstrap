@@ -39,9 +39,8 @@ define([
         constructor:function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
-            if (this.options.parent) {
-                this.parent = query(this.options.parent);
-            }
+            this.transitioning = null;
+            if (this.options.parent) { this.parent = query(this.options.parent); }
             if (this.options.toggle) { this.toggle(); }
         },
         dimension:function () {
@@ -50,9 +49,7 @@ define([
         show:function () {
             var dimension, scroll, actives, hasData;
 
-            if (this.transitioning) {
-                return;
-            }
+            if (this.transitioning || domClass.con) { return; }
             if(this.parent && this.options.target) {
                 query('[data-target=' + this.options.target + ']', this.parent[0]).forEach(function(el) {
                     domClass.remove(el, 'collapsed');
@@ -61,7 +58,7 @@ define([
 
             dimension = this.dimension();
             scroll = support.toCamel(['scroll', dimension].join('-'));
-            actives = this.parent && query('> .accordion-group > .in', this.parent[0]);
+            actives = this.parent && query('> .panel > .in', this.parent[0]);
 
             if (actives && actives.length) {
                 hasData = support.getData(actives[0], 'collapse');
@@ -102,23 +99,18 @@ define([
         },
         transition:function (method, startEvent, completeEvent) {
             var _complete = lang.hitch(this, function () {
-                if (startEvent === 'show')
-                {
+                if (startEvent === 'show'){
                     this.reset();
                 }
                 this.transitioning = 0;
 
-                if(method === 'add')
-                {
+                if(method === 'add'){
                     domClass.add(this.domNode, 'in');
-                }
-                else if(method === 'remove')
-                {
-                    domClass.add(this.domNode, 'collapse')
+                } else if(method === 'remove') {
+                    domClass.add(this.domNode, 'collapse');
                 }
 
                 domClass.remove(this.domNode, 'collapsing');
-
                 on.emit(this.domNode, completeEvent + '.bs.collapse', {bubbles:false, cancelable:false});
             });
 
@@ -127,20 +119,16 @@ define([
             domClass.remove(this.domNode, 'collapse');
             domClass.add(this.domNode, 'collapsing');
 
-            if(method === 'remove')
-            {
+            if(method === 'remove'){
                 domClass.remove(this.domNode, 'in');
             }
 
             this.transitioning = 1;
 
-            if (support.trans)
-            {
+            if (support.trans){
                 on.once(this.domNode, support.trans.end, _complete);
                 support.emulateTransitionEnd(this.domNode, 350);
-            }
-            else
-            {
+            } else {
                 _complete();
             }
         },
