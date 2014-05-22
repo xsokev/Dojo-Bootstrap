@@ -92,6 +92,56 @@ function (query, lang, attr, array, json, has, on) {
         'error': 'img', 'load': 'img', 'abort': 'img'
     };
 
+    var setOffset = function( elem, options, i ) {
+        var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
+            position = domStyle.get( elem, "position" ),
+            curElem = query( elem ),
+            props = {};
+
+        // Set position first, in-case top/left are set even on static elem
+        if ( position === "static" ) {
+            elem.style.position = "relative";
+        }
+
+        curOffset = curElem.offset();
+        curCSSTop = domStyle.get( elem, "top" );
+        curCSSLeft = domStyle.get( elem, "left" );
+        calculatePosition = ( position === "absolute" || position === "fixed" ) &&
+            ( curCSSTop + curCSSLeft ).toString().indexOf("auto") > -1;
+
+        // Need to be able to calculate position if either top or left is auto and position is either absolute or fixed
+        if ( calculatePosition ) {
+            curPosition = curElem.position();
+            curTop = curPosition.y;
+            curLeft = curPosition.x;
+
+        } else {
+            curTop = parseFloat( curCSSTop ) || 0;
+            curLeft = parseFloat( curCSSLeft ) || 0;
+        }
+
+        if ( typeof options === 'function' ) {
+            options = options.call( elem, i, curOffset );
+        }
+
+        if ( options.y !== null ) {
+            props.y = ( options.y - curOffset.y ) + curTop;
+        }
+        if ( options.x !== null ) {
+            props.x = ( options.x - curOffset.x ) + curLeft;
+        }
+
+        if ( "using" in options ) {
+            options.using.call( elem, props );
+        } else {
+            domStyle.set(elem, { top: props.y+'px', left: props.x+'px' });
+        }
+    };
+
+    function getWindow( elem ) {
+        return (elem !== null && elem === elem.window) ? elem : elem.nodeType === 9 && elem.defaultView;
+    }
+
     function isEventSupported( element, eventName ) {
         element = element || document.createElement(TAGNAMES[eventName] || 'div');
         eventName = 'on' + eventName;
