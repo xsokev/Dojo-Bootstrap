@@ -66,13 +66,9 @@ define([
                 clearMenus();
                 if (!isActive) {
                     if('ontouchstart' in document.documentElement && !inNav){
-                        alert(1);
                         var backdrop = domConstruct.toDom('<div class="dropdown-backdrop" />');
-                        alert(2);
                         domConstruct.place(backdrop, this, "after");
-                        alert(3);
-                        on(win.body(), on.selector(backDropSelector, 'click'), clearMenus);
-                        alert(4);
+                        on(win.body(), on.selector(backDropSelector, 'click'), function(){ alert(1); });
                     }
                     on.emit(targetNode, 'show.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: this });
                     domClass.toggle(targetNode, 'open');
