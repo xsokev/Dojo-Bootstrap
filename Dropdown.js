@@ -65,9 +65,10 @@ define([
                 clearMenus();
                 if (!isActive) {
                     if('ontouchstart' in document.documentElement && !query(targetNode).closest('.navbar-nav')){
+                        alert('test mobile');
                         var backdrop = domConstruct.toDom('<div class="dropdown-backdrop" />');
                         domConstruct.place(backdrop, this.domNode, "after");
-                        on(win.body(), on.selector(backDropSelector, 'click'), clearMenus);
+                        on(win.body(), on.selector(backDropSelector, 'click'), function(){ alert('backdrop touched'); });
                     }
                     on.emit(targetNode, 'show.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: this });
                     domClass.toggle(targetNode, 'open');
