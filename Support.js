@@ -19,27 +19,15 @@ define([
     "dojo/query",
     "dojo/_base/lang",
     "dojo/dom-attr",
+    "dojo/dom-style",
     "dojo/_base/array",
     "dojo/json",
     "dojo/has",
     "dojo/on",
     "dojo/NodeList-data"
 ],
-function (query, lang, attr, array, json, has, on) {
+function (query, lang, attr, domStyle, array, json, has, on) {
     "use strict";
-
-    lang.extend(query.NodeList, {
-        show:function () {
-            return this.forEach(function (node) {
-                node.style.display = 'block';
-            });
-        },
-        hide:function () {
-            return this.forEach(function (node) {
-                node.style.display = 'none';
-            });
-        }
-    });
 
     var _transition = (function () {
         var transitionEnd = (function () {
@@ -167,18 +155,27 @@ function (query, lang, attr, array, json, has, on) {
 
         element = null;
         return isSupported;
-    };
+    }
 
     //http://blog.alexmaccaw.com/css-transitions
-    function emulateTransitionEnd(element, duration)
-    {
+    function emulateTransitionEnd(element, duration){
         var called = false;
         on.once(element, _transition.end, function(){called = true;});
-        var callback = function()
-        {
-            if(!called) on.emit(element,  _transition.end, {
-                bubbles: true,
-                cancelable: true
+        var callback = function(){
+            if(!called) {
+                on.emit(element, _transition.end, {
+                    bubbles: true,
+                    cancelable: true
+                });
+            }
+        };
+        setTimeout(callback, duration);
+    }
+
+    lang.extend(query.NodeList, {
+        show:function () {
+            return this.forEach(function (node) {
+                node.style.display = 'block';
             });
         },
         hide:function () {
@@ -222,8 +219,7 @@ function (query, lang, attr, array, json, has, on) {
                 x: box.x + win.pageXOffset - docElem.clientLeft
             };
         }
-        setTimeout(callback, duration);
-    };
+    });
 
     return {
         trans: _transition,
@@ -269,6 +265,7 @@ function (query, lang, attr, array, json, has, on) {
             return href || '';
         },
         eventSupported: isEventSupported,
-        emulateTransitionEnd: emulateTransitionEnd
+        emulateTransitionEnd: emulateTransitionEnd,
+        setOffset: setOffset
     };
 });

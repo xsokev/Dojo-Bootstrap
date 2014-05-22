@@ -41,12 +41,15 @@ define([
             items: 8,
             menu: '<ul class="typeahead dropdown-menu"></ul>',
             item: '<li><a href="#"></a></li>',
-            minLength: 1
+            minLength: 1,
+            autocomplete: false
         },
         constructor: function (element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
-            domAttr.set(element, "autocomplete", "off");
+            if(this.options.autocomplete === false){
+                domAttr.set(element, "autocomplete", "off");
+            }
             this.matcher = this.options.matcher || this.matcher;
             this.sorter = this.options.sorter || this.sorter;
             this.highlighter = this.options.highlighter || this.highlighter;

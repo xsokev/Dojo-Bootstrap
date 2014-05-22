@@ -21,6 +21,7 @@ define([
     "dojo/_base/declare",
     "dojo/query",
     "dojo/_base/lang",
+    "dojo/_base/array",
     'dojo/_base/window',
     'dojo/on',
     'dojo/mouse',
@@ -34,7 +35,7 @@ define([
     'dojo/NodeList-manipulate',
     'dojo/NodeList-traverse',
     "dojo/domReady!"
-], function (support, declare, query, lang, win, on, mouse, domClass, domAttr, domStyle, domGeom, domConstruct, html) {
+], function (support, declare, query, lang, array, win, on, mouse, domClass, domAttr, domStyle, domGeom, domConstruct, html) {
     "use strict";
 
     var toggleSelector = '[data-toggle=tooltip]';
@@ -44,45 +45,46 @@ define([
             placement:'top',
             selector:false,
             template:'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-            trigger:'hover',
+            trigger:'hover focus',
             title:'',
             delay:0,
-            html: true
+            html: false,
+            container: false
         },
         constructor:function (element, options) {
             this.init('tooltip', element, options);
         },
         init:function (type, element, options) {
-            var _this = this;
-            this.domNode = element;
+            var _this = this, eventIn, eventOut,
+                _modalHide = function(){
+                    _this.hide(false);
+                };
 
-            var eventIn, eventOut;
+            this.domNode = element;
             this.type = type;
             this.options = this.getOptions(options);
             this.enabled = true;
 
-            if (this.options.trigger === 'click') {
-                query(this.domNode).parents('.modal').on('hide', function(){
-                    _this.hide(false);
-                });
-                if (this.options.selector) {
-                    this.eventActivate = on(this.domNode, on.selector(this.options.selector, 'click'), lang.hitch(this, 'toggle'));
-                } else {
-                    this.eventActivate = on(this.domNode, 'click', lang.hitch(this, 'toggle'));
+            var triggers = this.options.trigger.split(' ');
+            for(var i=triggers.length; i--;){
+                var trigger = triggers[i];
+                if (trigger === 'click') {
+                    query(this.domNode).parents('.modal').on('hide', _modalHide);
+                    if (this.options.selector) {
+                        this.eventActivate = on(this.domNode, on.selector(this.options.selector, 'click'), lang.hitch(this, 'toggle'));
+                    } else {
+                        this.eventActivate = on(this.domNode, 'click', lang.hitch(this, 'toggle'));
+                    }
+                } else if (trigger !== 'manual') {
+                    eventIn = trigger === 'hover' ? mouse.enter : 'focusin';
+                    eventOut = trigger === 'hover' ? mouse.leave : 'focusout';
+                    if (this.options.selector) {
+                        eventIn = on.selector(this.options.selector, eventIn);
+                        eventOut = on.selector(this.options.selector, eventOut);
+                    }
+                    this.eventActivate = on(this.domNode, eventIn, lang.hitch(_this, 'enter'));
+                    this.eventDeactivate = on(this.domNode, eventOut, lang.hitch(_this, 'leave'));
                 }
-            } else if (this.options.trigger !== 'manual') {
-                eventIn = this.options.trigger === 'hover' ? mouse.enter : 'focusin';
-                eventOut = this.options.trigger === 'hover' ? mouse.leave : 'focusout';
-                if (this.options.selector) {
-                    eventIn = on.selector(this.options.selector, eventIn);
-                    eventOut = on.selector(this.options.selector, eventOut);
-                }
-                this.eventActivate = on(this.domNode, eventIn, function(e){
-                    _this.enter.call(_this, this);
-                });
-                this.eventDeactivate = on(this.domNode, eventOut, function(e){
-                    _this.leave.call(_this, this);
-                });
             }
 
             if (this.options.selector) {
@@ -103,43 +105,51 @@ define([
             }
             return options;
         },
-        enter:function (eventTarget) {
-            var self = support.getData(eventTarget, this.type);
+        getDelegateOptions: function(){
+            var options = {},
+                defaults = this.defaultOptions;
+            if(this._options){
+                array.forEach(this._options, function(key, value){
+                    if(defaults[key] !== value){
+                        options[key] = value;
+                    }
+                });
+            }
+            return options;
+        },
+        enter:function (e) {
+            var self = support.getData(e.target, this.type);
             if (!self) {
-                query(eventTarget)[this.type](this._options);
-                self = support.getData(eventTarget, this.type);
+                query(e.target)[this.type](this.getDelegateOptions());
+                self = support.getData(e.target, this.type);
             }
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-            }
+            self && self.timeout && clearTimeout(self.timeout);
             if (self) {
                 if (!self.options.delay || !self.options.delay.show) {
                     return self.show();
                 }
                 self.hoverState = 'in';
-                this.timeout = setTimeout(function () {
+                self.timeout = setTimeout(function () {
                     if (self.hoverState === 'in') {
                         self.show();
                     }
                 }, self.options.delay.show);
             }
-            return this;
+            return self;
         },
-        leave:function (eventTarget) {
-            var self = support.getData(eventTarget, this.type);
+        leave:function (e) {
+            var self = support.getData(e.target, this.type);
             if (!self) {
-                query(eventTarget)[this.type](this._options);
-                self = support.getData(eventTarget, this.type);
+                query(e.target)[this.type](this.getDelegateOptions());
+                self = support.getData(e.target, this.type);
             }
-            if (this.timeout) {
-                clearTimeout(this.timeout);
-            }
+            self && self.timeout && clearTimeout(this.timeout);
             if (self) {
                 if (!self.options.delay || !self.options.delay.hide) {
                     return self.hide();
                 }
                 self.hoverState = 'out';
-                this.timeout = setTimeout(function () {
+                self.timeout = setTimeout(function () {
                     if (self.hoverState === 'out') {
                         self.hide();
                     }
@@ -147,52 +157,80 @@ define([
             }
             return this;
         },
-        show:function () {
-            var tip, inside, pos, actualWidth, actualHeight, placement, tp;
+        show:function (animate) {
+            var _this = this,
+                tip, inside, pos, actualWidth, actualHeight, placement, tp, tipPos, calculatedOffset;
+            animate = animate || true;
             if (this.hasContent() && this.enabled) {
+                on.emit(this.domNode, 'show.bs.'+this.type, { bubbles:false, cancelable:false });
                 tip = this.tip();
                 this.setContent();
-                //fix: passing data-animation as boolean false should work the same as passing a string ('false')
-                if (this.options.animation && (this.options.animation !== 'false' && this.options.animation !== false)) {
+                if (this.options.animation === true) {
                     domClass.add(tip, 'fade');
                 }
                 placement = typeof this.options.placement === 'function' ?
                     this.options.placement.call(this, tip, this.domNode) :
                     this.options.placement;
 
-                inside = /in/.test(placement);
-
-                domConstruct.place(tip, win.body());
-                domStyle.set(tip, {top:0, left:0, display:'block'});
-
-                pos = this.getPosition(inside);
-                var tipPos = domGeom.position(tip);
-                actualWidth = tipPos.w;
-                actualHeight = tipPos.h;
-
-                switch (inside ? placement.split(' ')[1] : placement) {
-                    case 'bottom':
-                        tp = {top:(pos.top + pos.height) + "px", left:(pos.left + pos.width / 2 - actualWidth / 2) + "px"};
-                        break;
-                    case 'top':
-                        tp = {top:(pos.top - actualHeight) + "px", left:(pos.left + pos.width / 2 - actualWidth / 2) + "px"};
-                        break;
-                    case 'left':
-                        tp = {top:(pos.top + pos.height / 2 - actualHeight / 2) + "px", left:(pos.left - actualWidth) + "px"};
-                        break;
-                    case 'right':
-                        tp = {top:(pos.top + pos.height / 2 - actualHeight / 2) + "px", left:(pos.left + pos.width) + "px"};
-                        break;
+                var autoToken = /\s?auto?\s?/i,
+                    autoPlace = autoToken.test(placement);
+                if (autoPlace) {
+                    placement = placement.replace(autoToken, '') || 'top';
                 }
-                domStyle.set(tip, tp);
-                domClass.add(tip, [placement, 'in'].join(" "));
+
+                query(tip).remove().addClass(placement);
+                domStyle.set(tip, {top:0, left:0, display:'block'});
+//                domClass.add(tip, placement);
+                this.options.container ? domConstruct.place(tip, this.options.container) :
+                    domConstruct.place(tip, this.domNode, "after");
+
+                pos = this.getPosition();
+                actualWidth = tip.offsetWidth;
+                actualHeight = tip.offsetHeight;
+
+                if(autoPlace){
+                    var parent = this.domNode.parentNode,
+                        parentPos = domGeom.position(parent, true),
+                        docScroll = document.documentElement.scrollTop || document.body.scrollTop,
+                        origPlacement = placement,
+                        parentWidth = this.options.container === 'body' ? window.innerWidth : parentPos.w,
+                        parentHeight = this.options.container === 'body' ? window.innerHeight : parentPos.h,
+                        parentLeft = this.options.container === 'body' ? 0 : parentPos.x;
+
+                    placement = placement === 'bottom' && pos.y   + pos.height  + actualHeight - docScroll > parentHeight  ? 'top'    :
+                                placement === 'top'    && pos.y   - docScroll   - actualHeight < 0                         ? 'bottom' :
+                                placement === 'right'  && (pos.x + pos.w) + actualWidth > parentWidth                      ? 'left'   :
+                                placement === 'left'   && pos.x  - actualWidth < parentLeft                                ? 'right'  :
+                        placement;
+                    domClass.remove(tip, origPlacement);
+                    domClass.add(tip, placement);
+                }
+
+                calculatedOffset = this.getCalculatedOffset(placement, pos, actualWidth, actualHeight);
+                this.applyPlacement(calculatedOffset, placement);
+                this.hoverState = null;
+
+                var complete = function() {
+                    on.emit(_this.domNode, 'shown.bs.'+_this.type, { bubbles:false, cancelable:false });
+                };
+
+                if (support.trans && domClass.contains(tip, 'fade') && animate) {
+                    on.once(tip, support.trans.end, function () {
+                        complete();
+                    });
+                } else {
+                    complete();
+                }
             }
         },
         hide:function (animate) {
-            var _this = this;
+            var _this = this,
+                tip = this.tip();
             animate = animate || true;
-            var tip = this.tip();
+
+            on.emit(this.domNode, 'hide.bs.'+this.type, { bubbles:false, cancelable:false });
             domClass.remove(tip, 'in');
+
             function _removeWithAnimation() {
                 var timeout = setTimeout(function () {
                     _this.hideEvent.remove();
@@ -206,6 +244,7 @@ define([
             function _destroyTip() {
                 domConstruct.destroy(tip);
                 _this.tipNode = null;
+                on.emit(_this.domNode, 'hidden.bs.'+_this.type, { bubbles:false, cancelable:false });
             }
 
             if (support.trans && domClass.contains(tip, 'fade') && animate) {
@@ -214,6 +253,66 @@ define([
                 _destroyTip();
             }
             return this;
+        },
+        getCalculatedOffset: function (placement, pos, actualWidth, actualHeight) {
+            return placement === 'bottom' ? { y: pos.y + pos.h, x: pos.x + pos.w / 2 - actualWidth / 2  } :
+                   placement === 'top'    ? { y: pos.y - actualHeight, x: pos.x + pos.w / 2 - actualWidth / 2  } :
+                   placement === 'left'   ? { y: pos.y + pos.h / 2 - actualHeight / 2, x: pos.x - actualWidth } :
+                { y: pos.y + pos.h / 2 - actualHeight / 2, x: pos.x + pos.w };
+        },
+        applyPlacement: function(offset, placement){
+            var replace, actualWidth, actualHeight,
+                tip = this.tip(),
+                width  = tip.offsetWidth,
+                height = tip.offsetHeight,
+                marginTop = parseInt(domStyle.get(tip, 'margin-top'), 10),
+                marginLeft = parseInt(domStyle.get(tip, 'margin-left'), 10);
+
+            // we must check for NaN for ie 8/9
+            if (isNaN(marginTop)){ marginTop  = 0; }
+            if (isNaN(marginLeft)){ marginLeft = 0; }
+
+            offset.y  = offset.y  + marginTop;
+            offset.x = offset.x + marginLeft;
+
+            support.setOffset(tip, lang.mixin({
+                using: function (props) {
+                    domStyle.set(tip, {
+                        top: Math.round(props.y)+'px',
+                        left: Math.round(props.x)+'px'
+                    });
+                }
+            }, offset), 0);
+
+            domClass.add(tip, 'in');
+
+            // check to see if placing tip in new offset caused the tip to resize itself
+            actualWidth  = tip.offsetWidth;
+            actualHeight = tip.offsetHeight;
+
+            if (placement === 'top' && actualHeight !== height) {
+                replace = true;
+                offset.y = offset.y + height - actualHeight;
+            }
+
+            if (/bottom|top/.test(placement)) {
+                var delta = 0;
+                if (offset.x < 0) {
+                    delta       = offset.x * -2;
+                    offset.x = 0;
+                    query(tip).offset(offset);
+                    actualWidth  = tip.offsetWidth;
+                }
+                this.replaceArrow(delta - width + actualWidth, actualWidth, 'left');
+            } else {
+                this.replaceArrow(actualHeight - height, actualHeight, 'top');
+            }
+            if (replace) {
+                query(tip).offset(offset);
+            }
+        },
+        replaceArrow: function (delta, dimension, position) {
+            domStyle.set(this.arrow(), position, delta ? (50 * (1 - delta / dimension) + '%') : '');
         },
         setContent:function () {
             var tip = this.tip();
@@ -233,18 +332,33 @@ define([
         getTitle:function () {
             return domAttr.get(this.domNode, 'data-original-title') || (typeof this.options.title === 'function' ? this.options.title.call(this.domNode) : this.options.title);
         },
-        getPosition:function (inside) {
-            var pos = domGeom.position(this.domNode, true);
-            return lang.mixin({},
-                lang.mixin(inside ? {top:0, left:0} : {top:pos.y, left:pos.x}, {
-                    width:pos.w, height:pos.h }));
+        getPosition:function () {
+            var el = this.domNode, pos = {};
+            if(typeof el.getBoundingClientRect === 'function'){
+                var rect = el.getBoundingClientRect();
+                pos.w = rect.width;
+                pos.h = rect.height;
+                pos.y = rect.top;
+                pos.x = rect.left;
+                pos.b = rect.bottom;
+                pos.r = rect.right;
+            } else {
+                pos.w = el.offsetWidth;
+                pos.h = el.offsetHeight;
+            }
+            return lang.mixin({}, pos, query(el).offset());
         },
         tip:function () {
-            return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
+            this.tipNode = this.tipNode ? this.tipNode : domConstruct.toDom(this.options.template);
+            return this.tipNode;
+        },
+        arrow:function () {
+            this.arrowNode = this.arrowNode ? this.arrowNode : query('.tooltip-arrow', this.tip())[0];
+            return this.arrowNode;
         },
         validate:function () {
             if (!this.domNode.parentNode) {
-                domStyle.set(this.domNode, "display", "none");
+                this.hide(false);
                 this.domNode = null;
                 this.options = null;
             }
