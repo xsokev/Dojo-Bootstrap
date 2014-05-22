@@ -61,12 +61,11 @@ define([
             }
             var targetNode = _getParent(this)[0];
             if (targetNode) {
-                var isActive = domClass.contains(targetNode, 'open');
+                var isActive = domClass.contains(targetNode, 'open'),
+                    inNav = query(targetNode).closest('.navbar-nav').length > 0;
                 clearMenus();
                 if (!isActive) {
-                    alert(query(targetNode).closest('.navbar-nav').length > 0);
-                    if('ontouchstart' in document.documentElement && !query(targetNode).closest('.navbar-nav')){
-                        alert('test mobile');
+                    if('ontouchstart' in document.documentElement && !inNav){
                         var backdrop = domConstruct.toDom('<div class="dropdown-backdrop" />');
                         domConstruct.place(backdrop, this.domNode, "after");
                         on(win.body(), on.selector(backDropSelector, 'click'), clearMenus);
