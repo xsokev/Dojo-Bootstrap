@@ -77,11 +77,21 @@ define([
         },
         process:function () {
             var dompos = domGeom.position(this.element, false);
-            var scrollTop = this.element.scrollTop + parseInt(this.options.offset, 10);
+
+            // scrollTop determines how much the element is scrolled.
+            //
+            // In firefox, body has scrollTop set to 0 even when scrolled - hence we use dompos.y
+            if (this.element.tagName === "BODY") {
+                var scrollTop = Math.abs(Math.round(dompos.y));
+            }
+            else {
+                var scrollTop = this.element.scrollTop;
+            }
+            scrollTop += parseInt(this.options.offset, 10)
             var scrollHeight = this.element.scrollHeight || win.body().scrollHeight;
             //TODO: innerHeight may not work across browsers
             var domHeight = (this.element.tagName === "BODY") ? this.domNode.innerHeight : dompos.h;
-            var maxScroll = scrollHeight - domHeight;
+            var maxScroll = Math.abs(scrollHeight - domHeight);
             var offsets = this.offsets;
             var targets = this.targets;
             var activeTarget = this.activeTarget;
