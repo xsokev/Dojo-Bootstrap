@@ -55,7 +55,7 @@ define([
             return this.getTitle() || this.getContent();
         },
         getContent:function () {
-            return domAttr.get(this.domNode, 'data-content') || (typeof this.options.content === 'function' ? this.options.content.call(this.domNode) : this.options.content);
+            return domAttr.get(this.domNode, 'data-content') || (typeof this.options.content === 'function' ? this.options.content.call(this, this.domNode) : this.options.content);
         },
         tip:function () {
             return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
