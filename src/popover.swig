@@ -64,7 +64,7 @@
             <td>content</td>
             <td>string | function</td>
             <td>''</td>
-            <td>default content value if `data-content` attribute isn't present</td>
+            <td>default content value if `data-content` attribute isn't present. If a callback function is provided, the scope will be the DOM-Node. There are no other parameters.</td>
         </tr>
         <tr>
             <td>delay</td>
