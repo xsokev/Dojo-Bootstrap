@@ -10,7 +10,7 @@ require({
     'bootstrap/tests/dropdown',
     'bootstrap/tests/modal',
     'bootstrap/tests/popover',
-    'bootstrap/tests/tab',
+    // 'bootstrap/tests/tab',
     'bootstrap/tests/tooltip',
     'bootstrap/tests/scrollspy',
     'bootstrap/tests/collapse',

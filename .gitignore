@@ -6,3 +6,4 @@
 .idea/*/*.xml
 
 vendor/
+node_modules/
