@@ -13,6 +13,6 @@ require({
     // 'bootstrap/tests/tab',
     'bootstrap/tests/tooltip',
     'bootstrap/tests/scrollspy',
-    'bootstrap/tests/collapse',
+    // 'bootstrap/tests/collapse',
     'bootstrap/tests/carousel'
 ], {});
