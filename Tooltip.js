@@ -118,10 +118,10 @@ define([
             return options;
         },
         enter:function (e) {
-            var self = support.getData(e.target, this.type);
+            var self = support.getData(e.target, 'bs.' + this.type);
             if (!self) {
                 query(e.target)[this.type](this.getDelegateOptions());
-                self = support.getData(e.target, this.type);
+                self = support.getData(e.target, 'bs.' + this.type);
             }
             self && self.timeout && clearTimeout(self.timeout);
             if (self) {
@@ -138,10 +138,10 @@ define([
             return self;
         },
         leave:function (e) {
-            var self = support.getData(e.target, this.type);
+            var self = support.getData(e.target, 'bs.' + this.type);
             if (!self) {
                 query(e.target)[this.type](this.getDelegateOptions());
-                self = support.getData(e.target, this.type);
+                self = support.getData(e.target, 'bs.' + this.type);
             }
             self && self.timeout && clearTimeout(this.timeout);
             if (self) {
@@ -181,6 +181,7 @@ define([
                 query(tip).remove().addClass(placement);
                 domStyle.set(tip, {top:0, left:0, display:'block'});
 //                domClass.add(tip, placement);
+                support.setData(tip, 'bs.' + this.type, this);
                 this.options.container ? domConstruct.place(tip, this.options.container) :
                     domConstruct.place(tip, this.domNode, "after");
 
@@ -387,9 +388,9 @@ define([
         tooltip:function (option) {
             var options = (lang.isObject(option)) ? option : {};
             return this.forEach(function (node) {
-                var data = support.getData(node, 'tooltip');
+                var data = support.getData(node, 'bs.tooltip');
                 if (!data) {
-                    support.setData(node, 'tooltip', (data = new Tooltip(node, options)));
+                    support.setData(node, 'bs.tooltip', (data = new Tooltip(node, options)));
                 }
                 if (lang.isString(option)) {
                     data[option].call(data);

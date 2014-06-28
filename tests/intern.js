@@ -64,7 +64,8 @@ define({
 	},
 
 	// Non-functional test suite(s) to run in each browser
-	suites: [ 'tests/tab', 'tests/collapse' ],
+	// TODO: use 'tests/unit' to define list instead
+	suites: [ 'tests/tab', 'tests/collapse', 'tests/popover' ],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
 	functionalSuites: [ /* 'myPackage/tests/functional' */ ],
