@@ -1,10 +1,7 @@
 {
   "name": "dojo-bootstrap",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "main",
-  "dependencies": {
-    "dojo": "1.9.3"
-  },
   "description": "Implementation of Bootstrap using the Dojo Toolkit.",
   "repository": "xsokev/Dojo-Bootstrap",
   "licenses": [
@@ -22,7 +19,6 @@
   "homepage": "https://github.com/xsokev/Dojo-Bootstrap",
   "dojoBuild": "bootstrap.profile.js",
   "devDependencies": {
-    "intern": "^1.7.0",
-    "dojo": "1.9.3"
+    "intern": "^2.0.0"
   }
 }

@@ -59,7 +59,7 @@ define({
 		packages: [
 			{ name: 'bootstrap', location: '.' },
 			{ name: 'tests', location: './tests' },
-			{ name: 'dojo', location: './node_modules/dojo' }
+			{ name: 'dojo', location: './vendor/dojo/dojo' }
 		]
 	},
 
