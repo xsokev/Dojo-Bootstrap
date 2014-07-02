@@ -68,16 +68,102 @@ To run the intern tests, you will need to first install the Intern by running th
 
 **NOTE**: The Intern looks for Dojo to be installed under the `vendor` (see above).
 
-#### Running the Intern Unit Test Suites
+#### Running the Intern Unit Test Suites in a Browser
 
-To run the Intern tests in a browser:
+To run the Intern unit test suites in a browser:
 
 1. open your browser *and* the browser's console window
 2. load `http://host/path/to/Dojo-bootstrap/node_modules/intern/client.html?config=tests/intern`
 
-You should see something like: 
+You should see something like:
 
 ![screen shot 2014-06-27 at 7 47 55 pm](https://cloud.githubusercontent.com/assets/662944/3419594/b8ed8aa4-fe6e-11e3-9f53-d2e94b378aad.png)
+
+#### Running the Intern Unit Test Suites via Grunt/Selenium
+
+Using the Intern's test runnner against a local Selenium install offers many advantages including:
+
+* running your tests in multiple browsers from the command line
+* code coverage reporting
+* automate running your tests with Grunt
+* running functional test suites
+
+You will need to download [Selenium Server](http://docs.seleniumhq.org/download/) and
+[chromedriver](https://code.google.com/p/chromedriver/downloads/list). See this issue for several suggestions on how to accomplish this:
+
+https://github.com/theintern/intern-tutorial/issues/5
+
+Once you've downloaded selenium, the Grunt `selenium-launch` task is confgiured to look for the .jar file under `vendor/selenium`, so either create that folder and copy the file there or create a symbolic link from `vendor/selenium` to the folder in which your selenium .jar file was downloaded. The vendor folder should now look like this:
+
+```
+└── vendor
+    └── dojo
+        ├── dojo
+        └── util
+    └── selenium
+        └──selenium-server-standalone-2.42.2.jar
+```
+
+You will also need to make sure the path to the chromedriver is in your system's PATH variable.
+
+Finally, you should double check the intern and Grunt configuration files to make sure that they match your environment. Make sure they reference the same version of Selenium that you installed and add/remove any browsers to match the ones that you have installed.
+
+**intern.js**
+```
+  capabilities: {
+    'selenium-version': '2.42.2'
+  },
+```
+....
+```
+  environments: [
+    { browserName: 'firefox' },
+    { browserName: 'safari' },
+    { browserName: 'chrome' }
+  ],
+```
+
+**Gruntfile.js**
+```
+    'selenium-launch': {
+      options: {
+        port: 4444,
+        jarDir: 'vendor/selenium/',
+        jar: 'selenium-server-standalone-2.42.2.jar'
+      }
+    }
+```
+Once you've got everything configured, the easisest way to run your tests is via Grunt by entering the following at the command line:
+
+```
+grunt test
+```
+
+You should see something like the following:
+
+![screen shot 2014-06-29 at 7 58 21 am](https://cloud.githubusercontent.com/assets/662944/3423607/8c3f30de-ff9f-11e3-9cc5-8391c90845eb.png)
+
+You can also run the tests without Grunt by starting Selenium and the Intern runner manually at the commaind line with:
+
+
+```
+java -jar vendor/selenium/selenium-server-standalone-2.42.2.jar -p 4444
+
+```
+
+Then in a seperate terminal window:
+
+```
+./node_modules/.bin/intern-runner config=tests/intern
+```
+
+This can be useful if you only want to run specific suites, for example:
+
+```
+./node_modules/.bin/intern-runner config=tests/intern suites=tests/popover
+```
+
+See the [Intern documentation](https://github.com/theintern/intern/wiki/Running-Intern) for the complete list of parameters that you can use when running the Intern.
 
 #### Writing Intern Unit Test Suites
 
@@ -101,6 +187,7 @@ The easiest way to run the DOH test suites is to link to the DOH test runner fro
 + [Bootstrap](http://getbootstrap.com/)
 + [The Intern](http://theintern.io/)
 + [The Intern Wiki](https://github.com/theintern/intern/wiki)
++ [Intern Grunt Example](https://github.com/theintern/intern-examples/tree/master/grunt-example)
 
 ## License
 
