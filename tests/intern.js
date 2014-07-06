@@ -14,28 +14,24 @@ define({
 	// https://saucelabs.com/docs/additional-config#desired-capabilities for Sauce Labs capabilities.
 	// Note that the `build` capability will be filled in with the current commit ID from the Travis CI environment
 	// automatically
-	capabilities: {
-		'selenium-version': '2.39.0'
-	},
+  capabilities: {
+    'selenium-version': '2.42.2'
+  },
 
-	// Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
-	// OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
-	// capabilities options specified for an environment will be copied as-is
-	environments: [
-		{ browserName: 'internet explorer', version: '11', platform: 'Windows 8.1' },
-		{ browserName: 'internet explorer', version: '10', platform: 'Windows 8' },
-		{ browserName: 'internet explorer', version: '9', platform: 'Windows 7' },
-		{ browserName: 'firefox', version: '27', platform: [ 'OS X 10.6', 'Windows 7', 'Linux' ] },
-		{ browserName: 'chrome', version: '32', platform: [ 'OS X 10.6', 'Windows 7', 'Linux' ] },
-		{ browserName: 'safari', version: '6', platform: 'OS X 10.8' },
-		{ browserName: 'safari', version: '7', platform: 'OS X 10.9' }
-	],
+  // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
+  // OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
+  // capabilities options specified for an environment will be copied as-is
+  environments: [
+    { browserName: 'firefox' },
+    { browserName: 'safari' },
+    { browserName: 'chrome' }
+  ],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
 	maxConcurrency: 3,
 
 	// Whether or not to start Sauce Connect before running tests
-	useSauceConnect: true,
+	useSauceConnect: false,
 
 	// Connection information for the remote WebDriver service. If using Sauce Labs, keep your username and password
 	// in the SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables unless you are sure you will NEVER be
@@ -71,5 +67,5 @@ define({
 	functionalSuites: [ /* 'myPackage/tests/functional' */ ],
 
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
-	excludeInstrumentation: /^tests\//
+	excludeInstrumentation: /^(?:tests|node_modules|vendor)\//
 });
