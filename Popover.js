@@ -60,11 +60,15 @@ define([
         tip:function () {
             return this.tipNode = (this.tipNode) ? this.tipNode : domConstruct.toDom(this.options.template);
         },
+        arrow:function () {
+            this.arrowNode = this.arrowNode ? this.arrowNode : query('.arrow', this.tip())[0];
+            return this.arrowNode;
+        },
         destroy: function() {
             this.hide();
             if (this.eventActivate) { this.eventActivate.remove(); }
             if (this.eventDeactivate) { this.eventDeactivate.remove(); }
-            support.removeData(this.domNode, 'popover');
+            support.removeData(this.domNode, 'bs.popover');
         }
     });
 
@@ -72,9 +76,9 @@ define([
         popover:function (option) {
             var options = (lang.isObject(option)) ? option : {};
             return this.forEach(function (node) {
-                var data = support.getData(node, 'popover');
+                var data = support.getData(node, 'bs.popover');
                 if (!data) {
-                    support.setData(node, 'popover', (data = new Popover(node, options)));
+                    support.setData(node, 'bs.popover', (data = new Popover(node, options)));
                 }
                 if (lang.isString(option)) {
                     data[option].call(data);
