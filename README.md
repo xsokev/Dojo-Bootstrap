@@ -60,7 +60,7 @@ See examples in test/test_*.html
 
 Currently this project is in the process of transitioning from using DOH to using [the Intern](http://theintern.io/) to run the test suites. As test suites are converted to use the Intern, the DOH suites will be phased out.
 
-### Intern Tests
+### Running the Intern Tests
 
 To run the intern tests, you will need to first install the Intern by running the following at the command line:
 
@@ -79,16 +79,16 @@ You should see something like:
 
 ![screen shot 2014-06-27 at 7 47 55 pm](https://cloud.githubusercontent.com/assets/662944/3419594/b8ed8aa4-fe6e-11e3-9f53-d2e94b378aad.png)
 
-#### Running the Intern Unit Test Suites via Grunt/Selenium
+#### Running the Intern Unit and Functional Test Suites via Grunt/Selenium
 
 Using the Intern's test runnner against a local Selenium install offers many advantages including:
 
 * running your tests in multiple browsers from the command line
 * code coverage reporting
-* automate running your tests with Grunt
 * running functional test suites
+* automate running your tests with Grunt
 
-You will need to download [Selenium Server](http://docs.seleniumhq.org/download/) and
+You will need to first download [Selenium Server](http://docs.seleniumhq.org/download/) and
 [chromedriver](https://code.google.com/p/chromedriver/downloads/list). See this issue for several suggestions on how to accomplish this:
 
 https://github.com/theintern/intern-tutorial/issues/5
@@ -139,7 +139,7 @@ Once you've got everything configured, the easisest way to run your tests is via
 grunt test
 ```
 
-You should see something like the following:
+The Intern will launch your target browsers and run the unit and functional tests. You should see something like the following:
 
 ![screen shot 2014-06-29 at 7 58 21 am](https://cloud.githubusercontent.com/assets/662944/3423607/8c3f30de-ff9f-11e3-9cc5-8391c90845eb.png)
 
@@ -165,19 +165,29 @@ This can be useful if you only want to run specific suites, for example:
 
 See the [Intern documentation](https://github.com/theintern/intern/wiki/Running-Intern) for the complete list of parameters that you can use when running the Intern.
 
-#### Writing Intern Unit Test Suites
-
-If you would like to help convert the remaining DOH unit test suites to the Intern, please note that [we are trying to simultaneously update the test suites so that their test data and conditions match the Bootsrap v3 test suites](https://github.com/xsokev/Dojo-Bootstrap/issues/97). We would appreciate help with this effort.
-
-For more on writing tests with the Intern, see [the guide on the Intern wiki](https://github.com/theintern/intern/wiki/Writing-Tests-with-Intern). The current unit test suites use the [object style syntax](https://github.com/theintern/intern/wiki/Writing-Tests-with-Intern#object). For a step by step tutorial on getting started with the Intern, see [the Intern tutorial](https://github.com/theintern/intern-tutorial).
-
-### DOH Tests
+### Running the DOH Tests
 
 **NOTE**: The DOH tests expect the Dojo util package to be installed along with Dojo under the `vendor` (see above).
 
 The easiest way to run the DOH test suites is to link to the DOH test runner from `tests/index.html` clicking the "Complete" link. You can also open it directly in a browser with:
 
 `http://host/path/to/Dojo-bootstrap/vendor/dojo/util/doh/runner.html?test=../../../../tests/complete.js`
+
+### Writing New Intern Test Suites
+
+#### Unit Tests
+
+If you would like to help convert the remaining DOH unit test suites to the Intern, please note that [we are trying to simultaneously update the test suites so that their test data and conditions match the Bootsrap v3 test suites](https://github.com/xsokev/Dojo-Bootstrap/issues/97). We would appreciate help with this effort.
+
+#### Functional Tests
+
+We are also in the process of adding functional test suites to automate running tests against the existing test pages for each module. See the test suites under `tests/functional` for examples.
+
+#### Intern Testing Resources
+
+For more on writing tests with the Intern, see [the guide on the Intern wiki](https://github.com/theintern/intern/wiki/Writing-Tests-with-Intern). The current unit test suites use the [object style syntax](https://github.com/theintern/intern/wiki/Writing-Tests-with-Intern#object). See the [Leadfoot documentation](https://theintern.github.io/leadfoot/) for the commands that area available when writing functional tests.
+
+For a step by step tutorial on getting started with the Intern, see [the Intern tutorial](https://github.com/theintern/intern-tutorial).
 
 ## Useful resources
 
@@ -188,6 +198,7 @@ The easiest way to run the DOH test suites is to link to the DOH test runner fro
 + [The Intern](http://theintern.io/)
 + [The Intern Wiki](https://github.com/theintern/intern/wiki)
 + [Intern Grunt Example](https://github.com/theintern/intern-examples/tree/master/grunt-example)
++ [Leadfoot documentation](https://theintern.github.io/leadfoot/)
 
 ## License
 

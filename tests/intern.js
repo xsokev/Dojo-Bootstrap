@@ -60,11 +60,10 @@ define({
 	},
 
 	// Non-functional test suite(s) to run in each browser
-	// TODO: use 'tests/unit' to define list instead
 	suites: [ 'tests/tab', 'tests/collapse', 'tests/popover' ],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
-	functionalSuites: [ /* 'myPackage/tests/functional' */ ],
+	functionalSuites: [ 'tests/functional/collapse' ],
 
 	// A regular expression matching URLs to files that should not be included in code coverage analysis
 	excludeInstrumentation: /^(?:tests|node_modules|vendor)\//
