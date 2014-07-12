@@ -2,9 +2,15 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     intern: {
-      runner: {
+      complete: {
         options: {
           config: 'tests/intern',
+          runType: 'runner'
+        }
+      },
+      fast: {
+        options: {
+          config: 'tests/intern-watch',
           runType: 'runner'
         }
       }
@@ -15,16 +21,21 @@ module.exports = function (grunt) {
         jarDir: 'vendor/selenium/',
         jar: 'selenium-server-standalone-2.42.2.jar'
       }
+    },
+    watch: {
+      dev: {
+        files: ['*.js', 'tests/**'],
+        tasks: ['selenium-launch', 'intern:fast']
+      }
     }
   });
 
   // Loading using a local git copy
   grunt.loadNpmTasks('intern');
   grunt.loadNpmTasks('grunt-se-launch');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
-  // Register a test task
-  grunt.registerTask('test', ['selenium-launch', 'intern:runner']);
-
-  // By default we just test
-  grunt.registerTask('default', ['test']);
+  // Register tasks
+  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('test', ['selenium-launch', 'intern:complete']);
 };

@@ -143,6 +143,12 @@ The Intern will launch your target browsers and run the unit and functional test
 
 ![screen shot 2014-06-29 at 7 58 21 am](https://cloud.githubusercontent.com/assets/662944/3423607/8c3f30de-ff9f-11e3-9cc5-8391c90845eb.png)
 
+Grunt is also configured to use the [grunt-contrib-watch](https://github.com/gruntjs/grunt-contrib-watch) plugin to run all tests as you make changes to the source code or test suites in FireFox (only). To initiate this, just type the following at the command line:
+
+```bash
+grunt watch
+```
+
 You can also run the tests without Grunt by starting Selenium and the Intern runner manually at the commaind line with:
 
 
