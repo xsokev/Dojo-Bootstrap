@@ -12,6 +12,6 @@ var dojoConfig = {
     isDebug: true,
     packages: [
         { name: "app", location: "../../js" },
-        { name: "bootstrap", location: "https://raw.githubusercontent.com/xsokev/Dojo-Bootstrap/master" }
+        { name: "bootstrap", location: "https://rawgit.com/xsokev/Dojo-Bootstrap/master" }
     ]
 };
