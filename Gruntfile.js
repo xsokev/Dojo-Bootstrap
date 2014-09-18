@@ -20,6 +20,8 @@ module.exports = function (grunt) {
         port: 4444,
         jarDir: 'vendor/selenium/',
         jar: 'selenium-server-standalone-2.42.2.jar'
+        // TODO:
+        // jar: 'selenium-server-standalone-2.43.1.jar'
       }
     },
     watch: {
