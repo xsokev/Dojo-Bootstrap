@@ -15,14 +15,14 @@ module.exports = function (grunt) {
         }
       }
     },
-    'selenium-launch': {
+    selenium: {
       options: {
-        port: 4444,
-        jarDir: 'vendor/selenium/',
-        jar: 'selenium-server-standalone-2.42.2.jar'
-        // TODO:
-        // jar: 'selenium-server-standalone-2.43.1.jar'
-      }
+        jar: 'vendor/selenium/selenium-server-standalone-2.43.0.jar',
+        port: 4444
+      },
+      main: {
+        // Target-specific file lists and/or options go here.
+      },
     },
     watch: {
       dev: {
@@ -34,10 +34,10 @@ module.exports = function (grunt) {
 
   // Loading using a local git copy
   grunt.loadNpmTasks('intern');
-  grunt.loadNpmTasks('grunt-se-launch');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-selenium-simple');
 
   // Register tasks
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('test', ['selenium-launch', 'intern:complete']);
+  grunt.registerTask('test', ['selenium', 'intern:complete']);
 };

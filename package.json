@@ -19,9 +19,10 @@
   "homepage": "https://github.com/xsokev/Dojo-Bootstrap",
   "dojoBuild": "bootstrap.profile.js",
   "devDependencies": {
-    "intern": "^2.0.0",
     "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
     "grunt-se-launch": "^0.1.0",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-selenium-simple": "^0.1.1",
+    "intern": "^2.1.0"
   }
 }

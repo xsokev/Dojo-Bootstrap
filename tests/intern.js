@@ -15,20 +15,18 @@ define({
 	// Note that the `build` capability will be filled in with the current commit ID from the Travis CI environment
 	// automatically
   capabilities: {
-    'selenium-version': '2.42.2'
-    // TODO:
-    // 'selenium-version': '2.43.1'
+    'selenium-version': '2.43.0'
   },
 
   // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
   // OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
   // capabilities options specified for an environment will be copied as-is
   environments: [
-    // NOTE: there's an issue w/ FireFox 32 and Selenium 2.42.2
-    // see: https://code.google.com/p/selenium/issues/detail?id=7642
-    // so don't run tests in FF until 2.43 is in stable release
-    // { browserName: 'firefox' },
-    { browserName: 'safari' },
+    // NOTE: install drivers for browsers installed on your system
+    // and uncomment the following lines to test
+    // { browserName: 'internet explorer' },
+    // { browserName: 'safari' },
+    { browserName: 'firefox' },
     { browserName: 'chrome' }
   ],
 
