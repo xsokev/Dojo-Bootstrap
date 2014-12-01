@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     },
     selenium: {
       options: {
-        jar: 'vendor/selenium/selenium-server-standalone-2.43.0.jar',
+        jar: 'vendor/selenium/selenium-server-standalone-2.44.0.jar',
         port: 4444
       },
       main: {
