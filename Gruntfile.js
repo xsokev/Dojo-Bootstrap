@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     },
     selenium: {
       options: {
-        jar: 'vendor/selenium/selenium-server-standalone-2.44.0.jar',
+        jar: 'vendor/selenium/selenium-server-standalone-2.45.0.jar',
         port: 4444
       },
       main: {
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
     watch: {
       dev: {
         files: ['*.js', 'tests/**'],
-        tasks: ['selenium-launch', 'intern:fast']
+        tasks: ['intern:fast']
       }
     }
   });
@@ -38,6 +38,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-selenium-simple');
 
   // Register tasks
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['selenium', 'watch']);
   grunt.registerTask('test', ['selenium', 'intern:complete']);
 };
