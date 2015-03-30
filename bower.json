@@ -24,5 +24,9 @@
     "tests",
     "composer.json",
     "Gruntfile.js"
-  ]
+  ],
+  "devDependencies": {
+    "dojo": "^1.10",
+    "util": "dojo-util#^1.10"
+  }
 }

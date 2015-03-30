@@ -5,13 +5,7 @@ An implementation of the excellent [Bootstrap](http://getbootstrap.com) framewor
 ## Quick Start
 
 + `git clone git://github.com/xsokev/Dojo-Bootstrap.git`
-+ Add [dojo sdk](https://github.com/dojo) (or a symbolic link to the dojo sdk) under the vendor folder as follows:
-```
-└── vendor
-    └── dojo
-        ├── dojo
-        └── util
-```
++ Add the [dojo sdk](https://github.com/dojo) to `vendor/dojo` by running `bower install`.
 + Point your browser to `http://host/path/to/Dojo-bootstrap/tests/index.html`
 
 ## Integration
