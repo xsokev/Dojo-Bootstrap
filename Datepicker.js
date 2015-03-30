@@ -110,9 +110,9 @@ define([
     var _headTemplate = (function(){
         return '<thead>'+
             '<tr>'+
-            '<th class="prev"><i class="icon-arrow-left"/></th>'+
+            '<th class="prev"><i class="glyphicon glyphicon-chevron-left"/></th>'+
             '<th colspan="5" class="switch"></th>'+
-            '<th class="next"><i class="icon-arrow-right"/></th>'+
+            '<th class="next"><i class="glyphicon glyphicon-chevron-right"/></th>'+
             '</tr>'+
             '</thead>';
     })();
