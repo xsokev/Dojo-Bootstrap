@@ -21,10 +21,22 @@
             <div class="row">
                 <section class="sidebar col-md-3"></section>
                 <section id="main" class="main col-md-8">
-                    <a href="#" rel="tooltip" data-placement="top" title="Tooltip on top">Top</a> -
-                    <a href="#" rel="tooltip" data-placement="right" title="Tooltip on right">Right</a> -
-                    <a href="#" rel="tooltip" data-placement="bottom" title="Tooltip on bottom">Bottom</a> -
-                    <a href="#" rel="tooltip" data-placement="left" title="Tooltip on left">Left</a>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" 
+                        data-placement="left" title="Tooltip on left">Tooltip on left</button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" 
+                        data-placement="top" title="Tooltip on top">Tooltip on top</button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" 
+                        data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</button>
+                    <button type="button" class="btn btn-default" data-toggle="tooltip" 
+                        data-placement="right" title="Tooltip on right">Tooltip on right</button>
+                    <br>
+                    <br>
+                    <div class="btn-group">
+                        <button class="btn btn-default" data-toggle="tooltip" 
+                            data-container='body' data-placement='bottom' title='test'>group button</button>
+                        <button class="btn btn-default" data-toggle="tooltip" 
+                            data-container='body' data-placement='top' title='test2'>group button 2</button>
+                    </div>
                 </section>
             </div>
         </div>
@@ -35,9 +47,7 @@
         <script>
             require(["dojo/query", "dojo/on", "bootstrap/Tooltip", "./assets/tests.js"],
                 function (query, on) {
-                    query('section').tooltip({
-                        selector: "a[rel=tooltip]"
-                    });
+                    query('[data-toggle="tooltip"]').tooltip();
                 }
             );
         </script>
