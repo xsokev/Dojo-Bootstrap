@@ -18,10 +18,10 @@ define([
             node = domConstruct.place(tooltipHtml, document.body);
         },
         "should be defined on NodeList object":function () {
-            assert.ok(q(document.body).tooltip);
+            assert.ok(q(node).tooltip);
         },
         "should return element":function () {
-            assert.equal(document.body, q(document.body).tooltip()[0]);
+            assert.equal(node, q(node).tooltip()[0]);
         },
         "should remove title attribute": function () {
             q(node).tooltip();
