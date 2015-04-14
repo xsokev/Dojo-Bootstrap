@@ -13,10 +13,16 @@ define([
 
   var target;
   var contentNode;
+  var originalTrans;
 
   registerSuite({
     name: 'collapse',
-
+    setup: function () {
+      originalTrans = support.trans;
+    },
+    teardown: function () {
+      support.trans = originalTrans;
+    },
     'should be defined on NodeList object':function () {
         assert.ok(query(document.body).popover);
     },
