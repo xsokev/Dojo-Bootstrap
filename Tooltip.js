@@ -182,8 +182,14 @@ define([
                 domStyle.set(tip, {top:0, left:0, display:'block'});
 //                domClass.add(tip, placement);
                 support.setData(tip, 'bs.' + this.type, this);
-                this.options.container ? domConstruct.place(tip, this.options.container) :
-                    domConstruct.place(tip, this.domNode, "after");
+                if (this.options.container) {
+                    if (this.options.container === 'body') {
+                        this.options.container = window.document.body;
+                    }
+                    domConstruct.place(tip, this.options.container);
+                } else {
+                    domConstruct.place(tip, this.domNode, 'after');
+                }
 
                 pos = this.getPosition();
                 actualWidth = tip.offsetWidth;
