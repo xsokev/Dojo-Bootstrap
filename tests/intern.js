@@ -52,7 +52,7 @@ define({
 	},
 
 	// Non-functional test suite(s) to run in each browser
-	suites: [ 'tests/tab', 'tests/collapse', 'tests/popover', 'tests/datepicker' ],
+	suites: [ 'tests/tab', 'tests/collapse', 'tests/popover', 'tests/datepicker', 'tests/tooltip' ],
 
 	// Functional test suite(s) to run in each browser once non-functional tests are completed
 	functionalSuites: [ 'tests/functional/collapse', 'tests/functional/datepicker' ],

@@ -11,7 +11,7 @@ require({
     'bootstrap/tests/modal',
     // 'bootstrap/tests/popover',
     // 'bootstrap/tests/tab',
-    'bootstrap/tests/tooltip',
+    // 'bootstrap/tests/tooltip',
     'bootstrap/tests/scrollspy',
     // 'bootstrap/tests/collapse',
     'bootstrap/tests/carousel'
