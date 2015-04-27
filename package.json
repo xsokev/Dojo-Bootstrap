@@ -23,6 +23,9 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-se-launch": "^0.1.0",
     "grunt-selenium-simple": "^0.1.1",
-    "intern": "^2.1.0"
+    "intern": "^2.2.2"
+  },
+  "scripts": {
+    "test": "grunt travis --verbose"
   }
 }

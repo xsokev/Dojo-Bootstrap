@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - "0.12"
+before_install:
+  - npm install -g grunt-cli
+  - npm install -g bower
+  - bower install
+  - npm update
+  - bower update
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+sudo: false
+cache:
+  directories:
+    - node_modules
+    - vendor/dojo

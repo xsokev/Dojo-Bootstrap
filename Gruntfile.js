@@ -1,17 +1,33 @@
 /*jshint node:true */
 module.exports = function (grunt) {
+  var secrets;
+  try {
+    secrets = grunt.file.readJSON('secrets.json');
+  } catch (e) {
+    // swallow for travis where environment variables are
+    // set in .travis.yml
+    secrets = {};
+  }
   grunt.initConfig({
     intern: {
+      options: {
+        runType: 'runner'
+      },
       complete: {
         options: {
-          config: 'tests/intern',
-          runType: 'runner'
+          config: 'tests/intern'
         }
       },
       fast: {
         options: {
-          config: 'tests/intern-watch',
-          runType: 'runner'
+          config: 'tests/intern-watch'
+        }
+      },
+      sauce: {
+        options: {
+          sauceUsername: secrets.sauceUsername,
+          sauceAccessKey: secrets.sauceAccessKey,
+          config: 'tests/intern-sauce'
         }
       }
     },
@@ -40,4 +56,5 @@ module.exports = function (grunt) {
   // Register tasks
   grunt.registerTask('default', ['selenium', 'watch']);
   grunt.registerTask('test', ['selenium', 'intern:complete']);
+  grunt.registerTask('travis', ['intern:sauce']);
 };
