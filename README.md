@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/xsokev/Dojo-Bootstrap.svg?branch=master)](https://travis-ci.org/xsokev/Dojo-Bootstrap)
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/<username>.svg)](https://saucelabs.com/u/<username>)
 # Dojo-Bootstrap
 
 An implementation of the excellent [Bootstrap](http://getbootstrap.com) framework using the [Dojo Toolkit](http://dojotoolkit.org). This project replaces the Bootstrap JavaScript components with AMD-compatible Dojo modules. Tested with Dojo 1.9.3 and Bootstrap 3.1.1.
