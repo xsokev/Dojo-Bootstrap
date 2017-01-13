@@ -33,7 +33,7 @@ define([
     "dojo/NodeList-traverse",
     "dojo/NodeList-dom",
     "dojo/domReady!"
-], function (declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, mouse, domGeom, domStyle, array, support) {
+], function(declare, sniff, query, lang, win, on, domClass, domAttr, domConstruct, mouse, domGeom, domStyle, array, support) {
     "use strict";
 
     var slideSelector = '[data-slide]';
@@ -42,32 +42,50 @@ define([
             interval: 3000,
             pause: 'hover'
         },
-        constructor: function (element, options) {
+        constructor: function(element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             this.domNode = element;
-            this.indicators = query('.carousel-indicators', this.domNode)
-            if (this.options.slide) { this.slide(this.options.slide); }
+            this.indicators = query('.carousel-indicators', this.domNode);
+            var _this = this;
+            query('li', this.domNode).on('click', function(evt) {
+                var pos = domAttr.get(this, "data-slide-to");
+                if (lang.isString(pos)) {
+                    pos = parseInt(pos, 10);
+                }
+                clearInterval(this.interval);
+                this.interval = null;
+                _this.to(pos);
+            });
+            if (this.options.slide) {
+                this.slide(this.options.slide);
+            }
             if (this.options.pause === 'hover') {
                 on(this.domNode, mouse.enter, lang.hitch(this, 'pause'));
                 on(this.domNode, mouse.leave, lang.hitch(this, 'cycle'));
             }
-            if (this.options.interval) { this.cycle(); }
+            if (this.options.interval) {
+                this.cycle();
+            }
         },
-        cycle: function (e) {
-            if (!e) { this.paused = false; }
+        cycle: function(e) {
+            if (!e) {
+                this.paused = false;
+            }
             if (this.options.interval && !this.paused) {
                 this.interval = setInterval(lang.hitch(this, 'next'), this.options.interval);
             }
             return this;
         },
-        to: function (pos) {
+        to: function(pos) {
             var active = query('.item.active', this.domNode),
                 children = active.parent().children(),
                 activePos = children.indexOf(active[0]),
                 _this = this;
-            if (pos > (children.length - 1) || pos < 0) { return; }
+            if (pos > (children.length - 1) || pos < 0) {
+                return;
+            }
             if (this.sliding) {
-                return on.once(_this.domNode, 'slid', function () {
+                return on.once(_this.domNode, 'slid', function() {
                     _this.to(pos);
                 });
             }
@@ -76,30 +94,39 @@ define([
             }
             return this.slide((pos > activePos ? 'next' : 'prev'), query(children[pos]));
         },
-        pause: function (e) {
-            if (!e) { this.paused = true; }
+        pause: function(e) {
+            if (!e) {
+                this.paused = true;
+            }
             if (query('.next, .prev', this.domNode).length && support.trans.end) {
-                on.emit(this.domNode, support.trans.end, { bubbles:true, cancelable:true });
+                on.emit(this.domNode, support.trans.end, {
+                    bubbles: true,
+                    cancelable: true
+                });
                 this.cycle();
             }
             clearInterval(this.interval);
             this.interval = null;
             return this;
         },
-        next: function () {
-            if (this.sliding) { return; }
+        next: function() {
+            if (this.sliding) {
+                return;
+            }
             return this.slide('next');
         },
-        prev: function () {
-            if (this.sliding) { return; }
+        prev: function() {
+            if (this.sliding) {
+                return;
+            }
             return this.slide('prev');
         },
-        getActiveIndex: function () {
+        getActiveIndex: function() {
             this.active = query('.item.active', this.domNode);
-            this.items  = this.active.parent().children('.item');
+            this.items = this.active.parent().children('.item');
             return this.items.indexOf(this.active[0]);
         },
-        slide: function (type, next) {
+        slide: function(type, next) {
             var active = query('.item.active', this.domNode),
                 isCycling = this.interval,
                 direction = type === 'next' ? 'left' : 'right',
@@ -108,7 +135,9 @@ define([
             next = next || active[type]();
 
             this.sliding = true;
-            if (isCycling) { this.pause(); }
+            if (isCycling) {
+                this.pause();
+            }
 
             if (this.indicators.length) {
                 query('.active', this.indicators[0]).removeClass('active');
@@ -120,54 +149,77 @@ define([
 
             next = next.length ? next : query('.item', this.domNode)[fallback]();
 
-            if (domClass.contains(next[0], 'active')) { return; }
+            if (domClass.contains(next[0], 'active')) {
+                return;
+            }
 
             if (support.trans && domClass.contains(this.domNode, 'slide')) {
-                on.emit(this.domNode, 'slide.bs.carousel', { bubbles:false, cancelable:false, relatedTarget: next[0] });
+                on.emit(this.domNode, 'slide.bs.carousel', {
+                    bubbles: false,
+                    cancelable: false,
+                    relatedTarget: next[0]
+                });
                 //if (e && e.defaultPrevented) { return; }
                 domClass.add(next[0], type);
                 next[0].offsetWidth;
 
                 domClass.add(active[0], direction);
                 domClass.add(next[0], direction);
-                on.once(this.domNode, support.trans.end, function () {
+                on.once(this.domNode, support.trans.end, function() {
                     domClass.remove(next[0], [type, direction].join(' '));
                     domClass.add(next[0], 'active');
                     domClass.remove(active[0], ['active', direction].join(' '));
                     _this.sliding = false;
-                    setTimeout(function () {
-                        on.emit(_this.domNode, 'slid.bs.carousel', { bubbles:false, cancelable:false });
+                    setTimeout(function() {
+                        on.emit(_this.domNode, 'slid.bs.carousel', {
+                            bubbles: false,
+                            cancelable: false
+                        });
                     }, 0);
                 });
             } else {
-                on.emit(this.domNode, 'slide.bs.carousel', { bubbles:false, cancelable:false, relatedTarget: next[0] });
+                on.emit(this.domNode, 'slide.bs.carousel', {
+                    bubbles: false,
+                    cancelable: false,
+                    relatedTarget: next[0]
+                });
                 domClass.remove(active[0], 'active');
                 domClass.add(next[0], 'active');
                 this.sliding = false;
-                on.emit(_this.domNode, 'slid.bs.carousel', { bubbles:false, cancelable:false });
+                on.emit(_this.domNode, 'slid.bs.carousel', {
+                    bubbles: false,
+                    cancelable: false
+                });
             }
 
-            if (isCycling) { this.cycle(); }
+            if (isCycling) {
+                this.cycle();
+            }
             return this;
         }
     });
 
     lang.extend(query.NodeList, {
-        carousel:function (option) {
+        carousel: function(option) {
             var options = (lang.isObject(option)) ? option : {};
-            return this.forEach(function (node) {
+            return this.forEach(function(node) {
                 var data = support.getData(node, 'carousel');
                 var action = typeof option === 'string' ? option : options.slide;
-                if (!data) { support.setData(node, 'carousel', (data = new Carousel(node, options))); }
-                if (typeof option === 'number') { data.to(option); }
-                else if (action) { data[action].call(data); }
+                if (!data) {
+                    support.setData(node, 'carousel', (data = new Carousel(node, options)));
+                }
+                if (typeof option === 'number') {
+                    data.to(option);
+                } else if (action) {
+                    data[action].call(data);
+                }
             });
         }
     });
-    on(win.body(), on.selector(slideSelector, 'click'), function (e) {
+    on(win.body(), on.selector(slideSelector, 'click'), function(e) {
         var target = domAttr.get(this, 'data-target') || support.hrefValue(this);
         var options = {};
-        if(!support.getData(target, 'collapse')){
+        if (!support.getData(target, 'collapse')) {
             options = lang.mixin({}, lang.mixin(support.getData(target), support.getData(this)));
         }
         query(target).carousel(options);
