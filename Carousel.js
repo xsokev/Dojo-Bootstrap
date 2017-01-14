@@ -37,6 +37,7 @@ define([
     "use strict";
 
     var slideSelector = '[data-slide]';
+    var dataOptions = ['interval', 'pause'];
     var Carousel = declare([], {
         defaultOptions: {
             interval: 3000,
@@ -206,7 +207,17 @@ define([
                 var data = support.getData(node, 'carousel');
                 var action = typeof option === 'string' ? option : options.slide;
                 if (!data) {
-                    support.setData(node, 'carousel', (data = new Carousel(node, options)));
+                    var nodeOptions = {};
+                    dataOptions.forEach(function(o) {
+                        var v = domAttr.get(node, 'data-' + o);
+                        if (v != undefined) {
+                            if (!isNaN(v)) {
+                                v = +v;
+                            }
+                            nodeOptions[o] = v;
+                        }
+                    });
+                    support.setData(node, 'carousel', (data = new Carousel(node, lang.mixin(nodeOptions, options))));
                 }
                 if (typeof option === 'number') {
                     data.to(option);
