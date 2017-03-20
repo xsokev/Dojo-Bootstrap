@@ -30,14 +30,15 @@ define([
     'dojo/NodeList-traverse',
     'dojo/NodeList-manipulate',
     "dojo/domReady!"
-], function (support, event, declare, query, lang, win, on, domClass, domAttr, domConstruct) {
+], function(support, event, declare, query, lang, win, on, domClass, domAttr, domConstruct) {
     "use strict";
 
-    var toggleSelector = '[data-toggle=dropdown]';
+    // var toggleSelector = '[data-toggle=dropdown]';
+    var toggleSelector = '.dropdown-toggle';
     var backDropSelector = '.dropdown-backdrop';
     var Dropdown = declare([], {
-        defaultOptions:{},
-        constructor:function (element, options) {
+        defaultOptions: {},
+        constructor: function(element, options) {
             this.options = lang.mixin(lang.clone(this.defaultOptions), (options || {}));
             var el = query(element).closest(toggleSelector);
             if (!el[0]) {
@@ -48,14 +49,18 @@ define([
                 domAttr.set(el[0], "data-toggle", "dropdown");
             }
         },
-        select: function(e){
+        select: function(e) {
             var parentNode = _getParent(this)[0];
             if (parentNode) {
                 var target = query(toggleSelector, parentNode);
-                on.emit(target[0], 'select', { bubbles:true, cancelable:true, selectedItem: query(e.target).closest('li') });
+                on.emit(target[0], 'select', {
+                    bubbles: true,
+                    cancelable: true,
+                    selectedItem: query(e.target).closest('li')
+                });
             }
         },
-        toggle: function(e){
+        toggle: function(e) {
             if (domClass.contains(this, "disabled") || domAttr.get(this, "disabled")) {
                 return false;
             }
@@ -65,25 +70,35 @@ define([
                     inNav = query(targetNode).closest('.navbar-nav').length > 0;
                 clearMenus();
                 if (!isActive) {
-                    if('ontouchstart' in document.documentElement && !inNav){
+                    if ('ontouchstart' in document.documentElement && !inNav) {
                         var backdrop = domConstruct.toDom('<div class="dropdown-backdrop" />');
                         domConstruct.place(backdrop, this, "after");
                         on(query(backDropSelector), 'click', clearMenus);
                     }
-                    on.emit(targetNode, 'show.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: this });
+                    on.emit(targetNode, 'show.bs.dropdown', {
+                        bubbles: true,
+                        cancelable: true,
+                        relatedTarget: this
+                    });
                     domClass.toggle(targetNode, 'open');
-                    on.emit(targetNode, 'shown.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: this });
+                    on.emit(targetNode, 'shown.bs.dropdown', {
+                        bubbles: true,
+                        cancelable: true,
+                        relatedTarget: this
+                    });
                 }
                 this.focus();
             }
 
-            if(e){
+            if (e) {
                 event.stop(e);
             }
             return false;
         },
         keydown: function(e) {
-            if (!/(38|40|27)/.test(e.keyCode)) { return; }
+            if (!/(38|40|27)/.test(e.keyCode)) {
+                return;
+            }
 
             event.stop(e);
 
@@ -94,37 +109,60 @@ define([
             if (targetNode) {
                 var isActive = domClass.contains(targetNode, 'open');
                 if (!isActive || (isActive && e.keyCode === 27)) {
-                    if(e.keyCode === 27){ targetNode.children(toggleSelector)[0].focus(); }
-                    return on.emit(targetNode, 'click', { bubbles:true, cancelable:true });
+                    if (e.keyCode === 27) {
+                        targetNode.children(toggleSelector)[0].focus();
+                    }
+                    return on.emit(targetNode, 'click', {
+                        bubbles: true,
+                        cancelable: true
+                    });
                 }
 
                 var desc = " li:not(.divider) a",
-                    items = query('[role=menu] '+desc+', [role=listbox] '+desc, targetNode);
-                if (!items.length) { return; }
+                    items = query('[role=menu] ' + desc + ', [role=listbox] ' + desc, targetNode);
+                if (!items.length) {
+                    return;
+                }
                 var index = items.indexOf(document.activeElement);
 
-                if (e.keyCode === 38 && index > 0)                  { index--; }
-                if (e.keyCode === 40 && index < items.length - 1)   { index++; }
-                if (index < 0)                                      { index = 0; }
+                if (e.keyCode === 38 && index > 0) {
+                    index--;
+                }
+                if (e.keyCode === 40 && index < items.length - 1) {
+                    index++;
+                }
+                if (index < 0) {
+                    index = 0;
+                }
 
-                if (items[index]) { items[index].focus(); }
+                if (items[index]) {
+                    items[index].focus();
+                }
             }
         }
     });
 
     function clearMenus() {
         query(backDropSelector).remove();
-        query(toggleSelector).forEach(function(menu){
+        query(toggleSelector).forEach(function(menu) {
             var targetNode = _getParent(menu)[0];
-            if(targetNode){
-                on.emit(targetNode, 'hide.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: menu });
+            if (targetNode) {
+                on.emit(targetNode, 'hide.bs.dropdown', {
+                    bubbles: true,
+                    cancelable: true,
+                    relatedTarget: menu
+                });
                 domClass.remove(targetNode, 'open');
-                on.emit(targetNode, 'hidden.bs.dropdown', { bubbles:true, cancelable:true, relatedTarget: menu });
+                on.emit(targetNode, 'hidden.bs.dropdown', {
+                    bubbles: true,
+                    cancelable: true,
+                    relatedTarget: menu
+                });
             }
         });
     }
 
-    function _getParent(node){
+    function _getParent(node) {
         var selector = domAttr.get(node, 'data-target');
         if (!selector) {
             selector = support.hrefValue(node);
@@ -137,9 +175,9 @@ define([
     }
 
     lang.extend(query.NodeList, {
-        dropdown:function (option) {
+        dropdown: function(option) {
             var options = (lang.isObject(option)) ? option : {};
-            return this.forEach(function (node) {
+            return this.forEach(function(node) {
                 var data = support.getData(node, 'dropdown');
                 if (!data) {
                     support.setData(node, 'dropdown', (data = new Dropdown(node, options)));
@@ -149,9 +187,11 @@ define([
     });
     on(win.doc, on.selector("body", 'click'), clearMenus);
     on(win.body(), on.selector(toggleSelector, 'click'), Dropdown.prototype.toggle);
-    on(win.body(), on.selector('.dropdown form', 'click'), function (e) { e.stopPropagation(); });
+    on(win.body(), on.selector('.dropdown form', 'click'), function(e) {
+        e.stopPropagation();
+    });
     on(win.body(), on.selector('.dropdown-menu', 'click'), Dropdown.prototype.select);
-    on(win.body(), on.selector(toggleSelector+', [role=menu], [role=listbox]', 'keydown'), Dropdown.prototype.keydown);
+    on(win.body(), on.selector(toggleSelector + ', [role=menu], [role=listbox]', 'keydown'), Dropdown.prototype.keydown);
 
     return Dropdown;
 });
