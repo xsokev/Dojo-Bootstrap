@@ -30,7 +30,19 @@ define([
         'updated date on keyup': function () {
             return this.remote
                 .findById('mydate')
-                    .type([keys.BACKSPACE, '1'])
+                    .type([keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.ARROW_RIGHT,
+                        keys.BACKSPACE,
+                        '1'])
                     .end()
                 .executeAsync(function (done) {
                     var query = require('dojo/query');

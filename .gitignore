@@ -7,3 +7,4 @@
 
 vendor/
 node_modules/
+secrets.json

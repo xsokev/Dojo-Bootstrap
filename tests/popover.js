@@ -14,27 +14,32 @@ define([
   var target;
   var contentNode;
   var originalTrans;
+  var containerNode;
 
   registerSuite({
     name: 'collapse',
     setup: function () {
       originalTrans = support.trans;
+      containerNode = domConstruct.create('div', null, document.body);
     },
     teardown: function () {
       support.trans = originalTrans;
     },
+    afterEach: function () {
+      domConstruct.empty(containerNode);
+    },
     'should be defined on NodeList object':function () {
-        assert.ok(query(document.body).popover);
+      assert.ok(query(containerNode).popover);
     },
 
     'should return element':function() {
-      assert.strictEqual(document.body, query(document.body).popover()[0]);
+      assert.strictEqual(containerNode, query(containerNode).popover()[0]);
     },
 
     'should render popover element': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#" title="mdo" data-content="http://twitter.com/mdo">@mdo</a>', document.body);
+        contentNode = domConstruct.place('<a href="#" title="mdo" data-content="http://twitter.com/mdo">@mdo</a>', containerNode);
       },
       runTest: function() {
         var popover = query(contentNode).popover('show');
@@ -43,7 +48,6 @@ define([
         assert.ok(!query('.popover').length, 'popover removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -51,14 +55,13 @@ define([
     'should store popover instance in popover data object': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#" title="mdo" data-content="http://twitter.com/mdo">@mdo</a>', document.body);
+        contentNode = domConstruct.place('<a href="#" title="mdo" data-content="http://twitter.com/mdo">@mdo</a>', containerNode);
       },
       runTest: function() {
         var popover = query(contentNode).popover();
         assert.ok(!!support.getData(popover, 'bs.popover'), 'popover instance exists');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -66,14 +69,13 @@ define([
     'should store popover trigger in popover instance object': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#" title="ResentedHook">@ResentedHook</a>', document.body);
+        contentNode = domConstruct.place('<a href="#" title="ResentedHook">@ResentedHook</a>', containerNode);
       },
       runTest: function() {
         /*var popover = */query(contentNode).popover('show');
         assert.ok(!!support.getData(query('.popover')[0], 'bs.popover'), 'popover trigger stored in instance data');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -81,10 +83,10 @@ define([
     'should get title and content from options': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#">@fat</a>', document.body);
+        contentNode = domConstruct.place('<a href="#">@fat</a>', containerNode);
       },
       runTest: function() {
-       var popover = query(contentNode).popover({
+        var popover = query(contentNode).popover({
           title: function () {
             return '@fat';
           },
@@ -100,7 +102,6 @@ define([
         assert.ok(!query('.popover').length, 'popover removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -108,7 +109,7 @@ define([
     'should get title and content from attributes': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>', document.body);
+        contentNode = domConstruct.place('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>', containerNode);
       },
       runTest: function() {
        var popover = query(contentNode).popover().popover('show');
@@ -119,7 +120,6 @@ define([
         assert.ok(!query('.popover').length, 'popover removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -127,7 +127,7 @@ define([
     'should get title and content from attributes #2': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>', document.body);
+        contentNode = domConstruct.place('<a href="#" title="@mdo" data-content="loves data attributes (づ｡◕‿‿◕｡)づ ︵ ┻━┻" >@mdo</a>', containerNode);
       },
       runTest: function() {
         var popover = query(contentNode).popover({
@@ -141,7 +141,6 @@ define([
         assert.ok(!query('.popover').length, 'popover removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -149,8 +148,8 @@ define([
     'should not duplicate HTML object': {
      setup: function() {
         support.trans = false;
-        target = domConstruct.place('<a href="#">@fat</a>', document.body);
-        contentNode = domConstruct.place('<div>', document.body);
+        target = domConstruct.place('<a href="#">@fat</a>', containerNode);
+        contentNode = domConstruct.place('<div>', containerNode);
       },
       runTest: function() {
         var $div = query(contentNode).html('loves writing tests （╯°□°）╯︵ ┻━┻</div>');
@@ -171,7 +170,7 @@ define([
         assert.ok(!query('.popover').length, 'popover was removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
+        domConstruct.destroy(target);
         support.trans = true;
       }
     },
@@ -179,7 +178,7 @@ define([
     'should respect custom classes': {
       setup: function() {
         support.trans = false;
-        contentNode = domConstruct.place('<a href="#">@fat</a>', document.body);
+        contentNode = domConstruct.place('<a href="#">@fat</a>', containerNode);
       },
       runTest: function() {
         var popover = query(contentNode).popover({
@@ -194,7 +193,6 @@ define([
         assert.ok(!query('.popover').length, 'popover removed');
       },
       teardown: function() {
-        document.body.innerHTML = '';
         support.trans = true;
       }
     },
@@ -202,7 +200,7 @@ define([
     'should destroy popover': {
       setup: function() {
         // support.trans = false;
-        contentNode = domConstruct.place('<div/>', document.body);
+        contentNode = domConstruct.place('<div/>', containerNode);
       },
       runTest: function() {
         var popover = query(contentNode).popover({
@@ -226,7 +224,6 @@ define([
         // ok(!$._data(popover[0], 'events').mouseover && !$._data(popover[0], 'events').mouseout, 'popover does not have any events')
       },
       teardown: function() {
-        document.body.innerHTML = '';
         //support.trans = true;
       }
     }
