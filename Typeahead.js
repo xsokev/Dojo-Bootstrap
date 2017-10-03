@@ -18,6 +18,7 @@
 define([
     "dojo/_base/declare",
     "dojo/query",
+    "dojo/json",
     "dojo/_base/lang",
     "dojo/_base/window",
     "dojo/on",
@@ -31,7 +32,7 @@ define([
     "dojo/NodeList-dom",
     "dojo/NodeList-traverse",
     "dojo/domReady!"
-], function (declare, query, lang, win, on, domClass, domAttr, domConstruct, domGeom, domStyle, array, support) {
+], function (declare, query, JSON, lang, win, on, domClass, domAttr, domConstruct, domGeom, domStyle, array, support) {
     "use strict";
 
     var provideSelector = '[data-provide="typeahead"]';
@@ -61,7 +62,7 @@ define([
         },
         select: function () {
             var li = query('.active', this.menuNode)[0];
-            this.domNode.value = this.updater(domAttr.get(li, 'data-value'));
+            this.domNode.value = this.updater(JSON.parse(domAttr.get(li, 'data-value')));
             on.emit(this.domNode, 'change', { bubbles:true, cancelable:true });
             return this.hide();
         },
@@ -128,7 +129,7 @@ define([
         render: function (items) {
             items = array.map(items, function (item, i) {
                 var li = domConstruct.toDom(this.options.item);
-                domAttr.set(li, 'data-value', item);
+                domAttr.set(li, 'data-value', JSON.stringify(item));
                 query('a', li)[0].innerHTML = this.highlighter(item);
                 if (i === 0) { domClass.add(li, 'active'); }
                 return li.outerHTML;
