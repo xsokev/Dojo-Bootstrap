@@ -1,61 +1,62 @@
-var profile = (function(){
-	var testResourceRe = /^bootstrap\/tests\//;
+var profile = (function() {
+    var testResourceRe = /^bootstrap\/tests\//;
 
-    var ignore = function(filename, mid){
+    var ignore = function(filename, mid) {
         var list = {
-            "bootstrap/.gitignore" : true
+            "bootstrap/.gitignore": true,
+            "bootstrap/Gruntfile": true
         };
         return (mid in list) ||
             /^bootstrap\/vendor\//.test(mid);
     };
 
-    var test = function(filename, mid){
+    var test = function(filename, mid) {
         var list = {
-            "bootstrap/tests"     : true
+            "bootstrap/tests": true
         };
         return (mid in list) ||
             testResourceRe.test(mid);
     };
 
-    var copyOnly = function(filename, mid){
+    var copyOnly = function(filename, mid) {
         var list = {
-			"bootstrap/bootstrap.profile" : true,
-            "bootstrap/package.json"      : true,
-            "bootstrap/LICENSE"           : true,
-            "bootstrap/README.md"         : true
+            "bootstrap/bootstrap.profile": true,
+            "bootstrap/package.json": true,
+            "bootstrap/LICENSE": true,
+            "bootstrap/README.md": true
         };
         return (mid in list) ||
             /(png|jpg|jpeg|gif|tiff)$/.test(filename);
     };
 
-    var miniExclude = function(filename, mid){
+    var miniExclude = function(filename, mid) {
         var list = {
-            "bootstrap/LICENCE"   : true,
-            "bootstrap/README.md" : true
+            "bootstrap/LICENCE": true,
+            "bootstrap/README.md": true
         };
         return (mid in list);
     };
 
     return {
-        resourceTags:{
+        resourceTags: {
 
-            ignore: function(filename, mid){
-				return ignore(filename, mid);
+            ignore: function(filename, mid) {
+                return ignore(filename, mid);
             },
 
-            test: function(filename, mid){
-				return test(filename, mid);
+            test: function(filename, mid) {
+                return test(filename, mid);
             },
 
-            copyOnly: function(filename, mid){
+            copyOnly: function(filename, mid) {
                 return copyOnly(filename, mid);
             },
 
-            miniExclude: function(filename, mid){
+            miniExclude: function(filename, mid) {
                 return miniExclude(filename, mid);
             },
 
-            amd: function(filename, mid){
+            amd: function(filename, mid) {
                 return !test(filename, mid) &&
                     !copyOnly(filename, mid) &&
                     !ignore(filename, mid) &&
