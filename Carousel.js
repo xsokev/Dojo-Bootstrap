@@ -164,19 +164,21 @@ define([
                 domClass.add(next[0], type);
                 next[0].offsetWidth;
 
-                domClass.add(active[0], direction);
-                domClass.add(next[0], direction);
-                on.once(this.domNode, support.trans.end, function() {
-                    domClass.remove(next[0], [type, direction].join(' '));
+                on.once(this.domNode, support.trans.end, function () {
                     domClass.add(next[0], 'active');
+                    domClass.remove(next[0], [type, direction].join(' '));
                     domClass.remove(active[0], ['active', direction].join(' '));
                     _this.sliding = false;
-                    setTimeout(function() {
-                        on.emit(_this.domNode, 'slid.bs.carousel', {
-                            bubbles: false,
-                            cancelable: false
-                        });
+                    setTimeout(function () {
+                        on.emit(_this.domNode, 'slid.bs.carousel', { bubbles:false, cancelable:false });
                     }, 0);
+                });
+
+                requestAnimationFrame(function(){
+                  setTimeout(function(){
+                    domClass.add(active[0], direction);
+                    domClass.add(next[0], direction);
+                  }, 1);
                 });
             } else {
                 on.emit(this.domNode, 'slide.bs.carousel', {
