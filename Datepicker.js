@@ -393,7 +393,6 @@ define([
         },
         destroy: function (e) {
             support.removeData(this.domNode, "datepicker");
-            this.nodeEvent.remove();
             domConstruct.destroy(this.picker);
         }
     });
